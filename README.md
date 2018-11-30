@@ -1,2 +1,2 @@
 # tgmt
-tgmt
+init readme
