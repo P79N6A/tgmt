@@ -10,17 +10,17 @@
     </div>
 
     <hr>
-    <form class="am-form">
+    <form class="am-form" action="#(CPATH)/fthistory/search">
         
       <div class="am-g">
           
         <div class="am-u-sm-12 am-u-md-3">
           <div class="am-form-group">
             <label for="type">数据类别</label>
-            <select id="type" data-am-selected="{btnSize: 'sm'}">
-              <option value="option1">所有类别</option>
-              <option value="option2">ATP</option>
-              <option value="option3">CDV</option>
+            <select id="type"  name="type">
+              <option value="ALL"  #(dataType=="ALL"? "selected='selected'":"")>所有类别</option>
+              <option value="ATP" #(dataType=="ATP"? "selected='selected'":"")>ATP</option>
+              <option value="CDV" #(dataType=="CDV"? "selected='selected'":"")>CDV</option>
             </select>
             <span class="am-form-caret"></span>
           </div>
@@ -28,9 +28,9 @@
 
         <div class="am-u-sm-12 am-u-md-3">
           <div class="am-form-group">
-            <label for="my-start">起始时间</label>
-            <div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'dd-mm-yyyy'}">
-              <input  id="my-start" type="text" class="am-form-field" placeholder="起始时间" readonly>
+            <label for="startdate">起始时间</label>
+            <div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
+              <input  id="startdate" name="startdate"  value="#(startDate)" type="text" class="am-form-field" placeholder="起始时间" readonly>
               <span class="am-input-group-btn am-datepicker-add-on">
                 <button class="am-btn am-btn-default" type="button"><span class="am-icon-calendar"></span> </button>
               </span>
@@ -40,9 +40,9 @@
           
         <div class="am-u-sm-12 am-u-md-3">
           <div class="am-form-group">
-            <label for="my-end">结束时间</label>
-            <div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'dd-mm-yyyy'}">
-              <input  id="my-end" type="text" class="am-form-field" placeholder="结束时间" readonly>
+            <label for="enddate">结束时间</label>
+            <div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
+              <input  id="enddate" name="enddate" value="#(endDate)" type="text" class="am-form-field" placeholder="结束时间" readonly>
               <span class="am-input-group-btn am-datepicker-add-on">
                 <button class="am-btn am-btn-default" type="button"><span class="am-icon-calendar"></span> </button>
               </span>
@@ -52,8 +52,9 @@
           
           
         <div class="am-u-sm-12 am-u-md-3">
+          <label for="searchBtn">&nbsp</label>
           <span class="am-input-group-btn">
-            <button id="searchBtn" class="am-btn am-btn-default" type="button">搜索</button>
+            <input id="searchBtn" class="am-btn am-btn-default" type="submit" value="搜索">搜索</input>
           </span>
         </div>
       </div>
@@ -83,7 +84,7 @@
               
               </tbody>
             </table>
-              #@paginate(files.pageNumber, files.totalPage, CPATH+"/fthistory/")
+              #@paginate(files.pageNumber, files.totalPage, CPATH+"/fthistory/",files.totalRow)
              
           </form>
         </div>

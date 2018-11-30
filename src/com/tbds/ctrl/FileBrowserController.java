@@ -10,11 +10,11 @@ import com.tbds.service.JobSchedulerService;
 
 /**
  *
- * @author jq
+ * @author JQIAO
  */
-public class FileTransferHistoryController extends Controller  {
+public class FileBrowserController  extends Controller {
     
-    public void index()
+   public void index()
     {
         setAttr("files", JobSchedulerService.searchHistory("","","",getParaToInt(0, 1), 5));
         render("index.html");
@@ -33,4 +33,5 @@ public class FileTransferHistoryController extends Controller  {
         render("index.html");
         
     }
+    
 }
