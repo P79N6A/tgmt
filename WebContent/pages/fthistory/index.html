@@ -1,0 +1,95 @@
+#@layout(title="文件传输历史")
+
+#define content()
+
+
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">数据收集</strong> / <small>文件传输历史</small></div>
+    </div>
+
+    <hr>
+    <form class="am-form">
+        
+      <div class="am-g">
+          
+        <div class="am-u-sm-12 am-u-md-3">
+          <div class="am-form-group">
+            <label for="type">数据类别</label>
+            <select id="type" data-am-selected="{btnSize: 'sm'}">
+              <option value="option1">所有类别</option>
+              <option value="option2">ATP</option>
+              <option value="option3">CDV</option>
+            </select>
+            <span class="am-form-caret"></span>
+          </div>
+        </div>
+
+        <div class="am-u-sm-12 am-u-md-3">
+          <div class="am-form-group">
+            <label for="my-start">起始时间</label>
+            <div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'dd-mm-yyyy'}">
+              <input  id="my-start" type="text" class="am-form-field" placeholder="起始时间" readonly>
+              <span class="am-input-group-btn am-datepicker-add-on">
+                <button class="am-btn am-btn-default" type="button"><span class="am-icon-calendar"></span> </button>
+              </span>
+            </div>            
+          </div>
+        </div>
+          
+        <div class="am-u-sm-12 am-u-md-3">
+          <div class="am-form-group">
+            <label for="my-end">结束时间</label>
+            <div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'dd-mm-yyyy'}">
+              <input  id="my-end" type="text" class="am-form-field" placeholder="结束时间" readonly>
+              <span class="am-input-group-btn am-datepicker-add-on">
+                <button class="am-btn am-btn-default" type="button"><span class="am-icon-calendar"></span> </button>
+              </span>
+            </div>            
+          </div>
+        </div>
+          
+          
+        <div class="am-u-sm-12 am-u-md-3">
+          <span class="am-input-group-btn">
+            <button id="searchBtn" class="am-btn am-btn-default" type="button">搜索</button>
+          </span>
+        </div>
+      </div>
+    </form>
+    
+    <div class="am-g">
+        <div class="am-u-sm-12">
+          <form class="am-form">
+            <table class="am-table am-table-striped am-table-hover table-main">
+              <thead>
+              <tr>
+                <th class="table-id">ID</th><th class="table-title">开始时间</th><th class="table-title">结束时间</th><th class="table-type">源MPS</th><th class="table-author am-hide-sm-only">文件名</th><th class="table-date am-hide-sm-only">大小</th>
+              </tr>
+              </thead>
+              <tbody>
+                  #for(x : files.getList())
+              <tr>
+                <td>#(x.id)</td>
+                <td>#(x.getTransfer().START)</td>
+                <td>#(x.getTransfer().END)</td>
+                <td>#(x.SOURCE_PATH.substring(x.SOURCE_PATH.length()-35,x.SOURCE_PATH.length()-27))</td>
+                <td>#(x.SOURCE_PATH.substring(x.SOURCE_PATH.length()-35))</td>
+                <td>#(x.SIZE)</td>
+                
+              </tr>
+              #end
+              
+              </tbody>
+            </table>
+              #@paginate(files.pageNumber, files.totalPage, CPATH+"/fthistory/")
+             
+          </form>
+        </div>
+
+      </div>
+
+</div>
+
+#end

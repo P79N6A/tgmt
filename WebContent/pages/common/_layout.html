@@ -1,0 +1,41 @@
+#define layout(title)
+<!doctype html>
+<html lang="zh_CN" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>#(title) | TBDS管理平台</title>
+  <meta name="description" content="TBDS管理平台"/>
+  <meta name="keywords" content="index"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <meta name="renderer" content="webkit"/>
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta id="baseUrl" content="#(CPATH)"/>
+  <link rel="icon" type="image/png" href="#(CPATH)/assets/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="#(CPATH)/assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="#(CPATH)/assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="#(CPATH)/assets/css/admin.css">
+  <link rel="stylesheet" href="#(CPATH)/assets/cust/style.css">
+</head>
+<body>
+
+#include("_header.html")
+
+
+<div class="am-cf admin-main">
+  <!-- sidebar start -->
+  #include("_sidebar.html")
+  <!-- sidebar end -->
+
+  <!-- content start -->
+  #@content()
+  <!-- content end -->
+
+</div>
+
+  #include("_footer.html")
+
+</body>
+</html>
+#end

@@ -1,0 +1,38 @@
+<fieldset>
+    <legend>标识标识：#(mps.train_type)_#(mps.train_num)#(mps.ab_marker)</legend>
+    <input type="hidden" name="mps.id" value="#(mps.id??)" />
+    <div class="am-form-group">
+        <label for="doc-ipt-host-1">主机IP</label>
+        <input type="text" class="" id="doc-ipt-host-1" name="mps.host_ip" placeholder="主机IP地址" value="#(mps.host_ip??)">
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-port-1">端口</label>
+        <input type="text" class="" id="doc-ipt-port-1" name="mps.host_port" placeholder="主机连接端口" value="#(mps.host_port)">
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-type-1">类型</label>
+        <select id="doc-type-1" name="mps.train_type">
+            <option value="ATP">ATP</option>
+            <option value="CDV">CDV</option>
+        </select>
+        <span class="am-form-caret"></span>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-num-1">列车号</label>
+        <input type="text" class="" id="doc-ipt-num-1" name="mps.train_num" placeholder="主机连接端口" value="#(mps.train_num)">
+    </div>
+
+    <div class="am-form-group">
+        <label class="am-radio-inline">
+            <input type="radio"  value="A" name="mps.ab_marker" #(mps.ab_marker=='A'?'checked':'')>A端
+        </label>
+        <label class="am-radio-inline">
+            <input type="radio" value="B" name="mps.ab_marker" #(mps.ab_marker=='B'?'checked':'')>B端
+        </label>
+    </div>
+
+    <p><button type="submit" class="am-btn am-btn-default">提交</button></p>
+</fieldset>

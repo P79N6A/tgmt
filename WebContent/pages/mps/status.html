@@ -1,0 +1,29 @@
+#@layout(title="设备状态信息")
+
+#define content()
+
+
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">设备监控</strong> / <small>设备状态</small></div>
+    </div>
+
+    <div class="am-g am-g-collapse">
+        #for(x : mpsPage)
+        <div class="am-u-sm-4 am-u-end">
+            <ul class="am-list am-list-static">
+                <li class="am-text-center">#(x.trainName)</li>
+                <li class="am-text-center">
+                    <button type="button" class="am-btn #(x.aPointStatus==1 ? 'am-btn am-btn-success' : 'am-btn-danger') am-radius">A端</button>
+                    <button type="button" class="am-btn #(x.bPointStatus==1 ? 'am-btn am-btn-success' : 'am-btn-danger') am-radius">B端</button>
+                </li>
+            </ul>
+        </div>
+        #end
+    </div>
+
+
+</div>
+
+#end
