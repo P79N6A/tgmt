@@ -16,7 +16,6 @@ import com.jfinal.ext.handler.ContextPathHandler;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
-import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.render.ViewType;
 import com.jfinal.template.Engine;
@@ -77,7 +76,9 @@ public class WebConfig extends JFinalConfig {
         
         me.add("/mps", MpsController.class);
         
-         me.add("/fthistory", FileTransferHistoryController.class);
+        me.add("/fthistory", FileTransferHistoryController.class);
+        
+        me.add("/filebrowser", FileBrowserController.class);
 
         //me.add("/test", TestController.class);
 
@@ -102,14 +103,6 @@ public class WebConfig extends JFinalConfig {
         // 配置ActiveRecord插件
         ActiveRecordPlugin arp = DbManager.initActiveRecordPlugin(c3p0Plugin);
         plugin.add(arp);
-        
-        
-//        DruidPlugin dp = new DruidPlugin(url, uid, pwd);
-//        plugin.add(dp);
-//        
-//        ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
-//        plugin.add(arp);
-        
         
         arp.addMapping("YADE_FILES", "ID", TransferedFile.class);
         arp.addMapping("YADE_TRANSFERS", "ID", Transfer.class);
