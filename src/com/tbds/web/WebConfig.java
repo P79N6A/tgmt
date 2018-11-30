@@ -13,6 +13,7 @@ import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.core.JFinal;
 import com.jfinal.ext.handler.ContextPathHandler;
+import com.jfinal.ext.interceptor.SessionInViewInterceptor;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
@@ -117,7 +118,7 @@ public class WebConfig extends JFinalConfig {
     @Override
     public void configInterceptor(Interceptors me) {
         me.add(new WebInterceptor());//添加全局拦截器，用于判断用户是否已正常登录
-
+        me.add(new SessionInViewInterceptor());//
     }
 
     @Override
