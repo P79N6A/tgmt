@@ -118,7 +118,7 @@ public class WebConfig extends JFinalConfig {
     @Override
     public void configInterceptor(Interceptors me) {
         me.add(new WebInterceptor());//添加全局拦截器，用于判断用户是否已正常登录
-        me.add(new SessionInViewInterceptor());//
+        me.add(new SessionInViewInterceptor());//for session
     }
 
     @Override
@@ -143,5 +143,6 @@ public class WebConfig extends JFinalConfig {
         
         //如果是用的jfinal template（也就是html[freemark]），只需要配置一句
         me.addSharedObject("CPATH", JFinal.me().getContextPath());
+        //
     }
 }
