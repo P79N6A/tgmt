@@ -38,6 +38,20 @@ public class MpsService {
         return dao.paginate(pageNumber, pageSize);
     }
     
+    
+    /**
+     * 获取MPS设备信息，后台分页查询(根据关键字进行查询)
+     * @param pageNumber
+     * @param pageSize
+     * @param trainType
+     * @param keyword
+     * @return
+     */
+    public Page<Mps> search(int pageNumber, int pageSize, String trainType, String keyword) {
+    	return dao.search(pageNumber, pageSize, trainType, keyword);
+    }
+    
+    
     /**
      * 通过id来获取设备信息
      * @param id
