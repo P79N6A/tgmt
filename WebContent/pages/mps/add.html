@@ -1,0 +1,24 @@
+#@layout(title="添加设备")
+
+#define content()
+
+
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg"><a href="#(CPATH)/mps">设备监控</a></strong> / <small>设备信息</small></div>
+    </div>
+
+    <hr>
+
+    <div class="am-g">
+        <div class="am-u-sm-10">
+            <form class="am-form  am-form-horizontal" action="#(CPATH)/mps/save" method="post">
+                #include("_form.html")
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+#end

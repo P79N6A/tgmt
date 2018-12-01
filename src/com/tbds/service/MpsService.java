@@ -27,19 +27,39 @@ public class MpsService {
      * 模板，用模板引擎管理： http://www.jfinal.com/doc/5-13
      */
     private Mps dao = new Mps().dao();
-
+    
+    /**
+     * 获取MPS设备信息，后台分页查询
+     * @param pageNumber
+     * @param pageSize
+     * @return
+     */
     public Page<Mps> paginate(int pageNumber, int pageSize) {
         return dao.paginate(pageNumber, pageSize);
     }
-
+    
+    /**
+     * 通过id来获取设备信息
+     * @param id
+     * @return
+     */
     public Mps findById(int id) {
         return dao.findById(id);
     }
-
-    public void deleteById(int id) {
-        dao.deleteById(id);
+    
+    /**
+     * 通过id来删除设备
+     * @param id
+     * @return boolean
+     */
+    public boolean deleteById(int id) {
+        return dao.deleteById(id);
     }
-
+    
+    /**
+     * 获取MPS设备的状态信息，先查询数据库，然后再读取文件（状态信息）
+     *  
+     **/
     public List<MpsExt> getMpsListStatus() {
         List<Mps> listMps = dao.findAllMps();
         List<MpsExt> mpsList = new ArrayList<MpsExt>();
@@ -113,5 +133,11 @@ public class MpsService {
         
         return mpsList;
     }
+    
+    
+    
+    
+    
+    
 
 }
