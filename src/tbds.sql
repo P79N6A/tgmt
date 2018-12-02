@@ -49,3 +49,41 @@ INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type
 INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (17,'ATP_0231','ATP_0231A','192.168.0.111','2222','ATP','0231','A',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
 INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (18,'ATP_0231','ATP_0231B','192.168.0.112','2222','ATP','0231','B',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
 
+CREATE TABLE `joc`.`tbds_role` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NULL, --
+  `description` VARCHAR(500) NULL,
+  `flag` VARCHAR(1) NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  PRIMARY KEY (`id`));
+  
+  CREATE TABLE `joc`.`tbds_permission` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `action_key` VARCHAR(500) NULL,
+  `node` VARCHAR(500) NULL,
+  `type` VARCHAR(45) NULL,
+  `text` VARCHAR(500) NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  PRIMARY KEY (`id`));
+
+  
+  CREATE TABLE `joc`.`tbds_user` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(100) NULL, --用户名
+  `nickname` VARCHAR(255) NULL, --昵称
+  `realname` VARCHAR(255) NULL, --真实名称
+  `password` VARCHAR(500) NULL, --密码
+  `salt` VARCHAR(500) NULL, -- 加密盐
+  `email` VARCHAR(500) NULL, -- 邮箱
+  `mobile` VARCHAR(20) NULL, -- 手机
+  `gender` VARCHAR(1) NULL, -- 性别
+  `signature` VARCHAR(255) NULL, -- 签名
+  `birthday` DATE NULL, -- 生日
+  `company` VARCHAR(1000) NULL, -- 公司
+  `status` VARCHAR(1) NULL, -- 用户账号状态
+  `logged` DATETIME NULL, -- 用户最近的登录时间
+  `activated` DATETIME NULL, -- 用户激活时间
+  `created` DATETIME NULL, -- 用户创建时间
+  PRIMARY KEY (`id`));

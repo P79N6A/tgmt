@@ -25,8 +25,11 @@ import com.tbds.ctrl.FileTransferHistoryController;
 import com.tbds.model.util.DbManager;
 import com.tbds.model.util.ModelCacheManager;
 import com.tbds.ctrl.*;
+import com.tbds.model.eo.Permission;
+import com.tbds.model.eo.Role;
 import com.tbds.model.eo.Transfer;
 import com.tbds.model.eo.TransferedFile;
+import com.tbds.model.eo.User;
 
 /**
  *
@@ -80,6 +83,13 @@ public class WebConfig extends JFinalConfig {
         me.add("/fthistory", FileTransferHistoryController.class);
         
         me.add("/filebrowser", FileBrowserController.class);
+        
+        /**
+         * 用户账号，角色，权限设置路由
+         */
+        me.add("/auth/user", UserController.class);
+        me.add("/auth/role", RoleController.class);
+        me.add("/auth/permission", PermissionController.class);
 
         //me.add("/test", TestController.class);
 
@@ -107,6 +117,14 @@ public class WebConfig extends JFinalConfig {
         
         arp.addMapping("YADE_FILES", "ID", TransferedFile.class);
         arp.addMapping("YADE_TRANSFERS", "ID", Transfer.class);
+        
+        /**
+         * 用户，角色，权限
+         */
+        arp.addMapping("tbds_user", "id", User.class);
+        arp.addMapping("tbds_role", "id", Role.class);
+        arp.addMapping("tbds_permission", "id", Permission.class);
+        
 
         //构建表与Model的关系，具体请参考Model工程中DbManager类
         DbManager.initModelMapping(arp);

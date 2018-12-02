@@ -1,0 +1,138 @@
+#@layout(title="管理") 
+
+
+#define content()
+
+#--
+#set(append = "")
+#if(qTrainType??)
+  #set(append = append + "-" + qTrainType)
+#end
+#if(qKeyword??)
+  #set(append = append + "-" + qKeyword)
+#end
+--#
+
+<div class="admin-content">
+
+	<div class="am-cf am-padding">
+		<div class="am-fl am-cf">
+			<strong class="am-text-primary am-text-lg">权限管理</strong> / <small>权限配置</small>
+		</div>
+	</div>
+
+	<hr id="mps-hr">
+	
+	<div class="am-g">
+		
+		<div class="am-u-sm-12 am-u-md-6">
+			<div class="am-btn-toolbar">
+				<div class="am-btn-group">
+					<button type="button" class="am-btn am-btn-default"
+					onclick="javascript:window.location.href='#(CPATH)/auth/permission/sync';return false;">
+						<span class="am-icon-plus"></span> 同步
+					</button>
+				</div>
+			</div>
+		</div>
+		
+		<form class="am-form" action="#(CPATH)/auth/permission" method="post">
+			
+			<div class="am-u-sm-12 am-u-md-6">
+				<div class="am-input-group">
+					<input type="text" class="am-form-field" name="qKeyword" value="#(qKeyword??)"> <span
+						class="am-input-group-btn">
+						<button class="am-btn am-btn-default" type="submit">搜索</button>
+					</span>
+				</div>
+			</div>
+
+		</form>
+	</div>
+	
+	<div class="am-g">
+		
+		<div class="am-u-sm-12">
+			<form class="am-form">
+				<table class="am-table am-table-striped am-table-hover table-main">
+					<thead>
+						<tr>
+							<th class="table-check"><input type="checkbox" /></th>
+							<th class="table-id">ID</th>
+							<th class="table-title">ActionKey</th>
+							<th class="table-type">Controller</th>
+							<th class="table-type">类型</th>
+							<th class="table-author am-hide-sm-only">备注</th>
+							<th class="table-date am-hide-sm-only">创建时间</th>
+							<th class="table-date am-hide-sm-only">修改时间</th>
+							<th class="table-set">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					#if(permissionPage??)
+						#for(x : permissionPage.getList())
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>#(x.id)</td>
+							<td><a href="#">#(x.action_key)</a></td>
+							<td>#(x.node)</td>
+							<td class="am-hide-sm-only">#(x.type)</td>
+							<td class="am-hide-sm-only">#(x.text)</td>
+							<td class="am-hide-sm-only">#date(x.created, "yyyy-MM-dd HH:mm:ss")</td>
+							<td class="am-hide-sm-only">#date(x.modified, "yyyy-MM-dd HH:mm:ss")</td>
+							<td>
+								<div class="am-btn-toolbar">
+									<div class="am-btn-group am-btn-group-xs">
+										<button
+											class="am-btn am-btn-default am-btn-xs am-text-secondary"
+											onclick="javascript:window.location.href='#(CPATH)/auth/permission/edit/#(x.id)';return false;">
+											<span class="am-icon-pencil-square-o"></span> 编辑
+										</button>
+									
+										<button
+											class="am-btn am-btn-default am-btn-xs am-hide-sm-only">
+											<span class="am-icon-copy"></span> Lock/Unlock
+										</button>
+										
+										<button
+											class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"
+											onclick="javascript:del()">
+											<span class="am-icon-trash-o"></span> 删除
+										</button>
+									</div>
+
+
+								</div>
+							</td>
+						</tr>
+						#end
+					#end
+
+
+					</tbody>
+				</table>
+				#if(permissionPage??)
+				#@paginate(permissionPage.pageNumber, permissionPage.totalPage, CPATH+"/auth/permission/", permissionPage.totalRow)
+				#end
+				<hr />
+				<p>注：权限列表</p>
+
+			</form>
+		</div>
+		
+	</div>
+
+</div>
+
+<script type="text/javascript">
+
+
+</script>
+
+#end
+
+
+
+
+
+

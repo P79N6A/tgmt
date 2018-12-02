@@ -85,6 +85,7 @@
 						</tr>
 					</thead>
 					<tbody>
+					#if(mpsPage??)
 						#for(x : mpsPage.getList())
 						<tr>
 							<!--  <td><input type="checkbox" /></td> -->
@@ -119,13 +120,15 @@
 							</td>
 						</tr>
 						#end
-
+					#end
 
 
 					</tbody>
 				</table>
+				#if(mpsPage??)
 				#@paginate(mpsPage.pageNumber, mpsPage.totalPage, CPATH+"/mps/",
 				mpsPage.totalRow)
+				#end
 				<hr />
 				<p>注：设备信息请勿随便删除，否则将无法监控设备状态信息</p>
 
