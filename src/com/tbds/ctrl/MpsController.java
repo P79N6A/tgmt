@@ -10,9 +10,11 @@ import java.net.URLDecoder;
 
 import org.apache.log4j.Logger;
 
+import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.PropKit;
+import com.tbds.ctrl.validator.MpsValidator;
 import com.tbds.model.eo.Mps;
 import com.tbds.service.MpsService;
 import com.tbds.util.StrUtil;
@@ -78,7 +80,8 @@ public class MpsController extends Controller {
 	public void add() {
 		render("add.html");
 	}
-
+	
+	@Before(MpsValidator.class)
 	public void save() {
 		Mps mps = getModel(Mps.class, "mps");
 
@@ -112,6 +115,7 @@ public class MpsController extends Controller {
 	/**
 	 * 更新操作
 	 */
+	@Before(MpsValidator.class)
 	public void update() {
 		Mps mps = getModel(Mps.class, "mps");
 

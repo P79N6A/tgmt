@@ -17,6 +17,7 @@
 	<div class="am-form-group">
 		<label for="train-type-1">类型</label> <select id="train-type-1"
 			name="mps.train_type" required>
+			<option value="">请选择设备类型</option>
 			<option value="ATP" #(mps !=null && mps.train_type==
 				'ATP'?'selected':'')>ATP</option>
 			<option value="CDV" #(mps !=null && mps.train_type==
@@ -30,14 +31,19 @@
 			value="#(mps.train_num??)" required>
 	</div>
 
-	<div class="am-form-group">
-		<label class="am-radio-inline"> <input type="radio" value="A"
-			name="mps.ab_marker" #(mps !=null && mps.ab_marker==
-			'A'?'checked':'')>A端
-		</label> <label class="am-radio-inline"> <input type="radio" value="B"
-			name="mps.ab_marker" #(mps !=null && mps.ab_marker==
-			'B'?'checked':'')>B端
-		</label>
+	<div class="am-form-group #(abMarkerMsg != null? 'am-form-warning':'')">
+		<div class="am-u-sm-3">
+			<label class="am-radio-inline"> <input type="radio" value="A"
+				name="mps.ab_marker" #(mps !=null && mps.ab_marker==
+				'A'?'checked':'')>A端
+			</label> <label class="am-radio-inline"> <input type="radio"
+				value="B" name="mps.ab_marker" #(mps !=null && mps.ab_marker==
+				'B'?'checked':'')>B端
+			</label>
+			#if(abMarkerMsg??)
+			<span class="am-icon-warning">#(abMarkerMsg??)</span>
+			#end
+		</div>
 	</div>
 
 	<div class="am-form-group">
