@@ -1,2 +1,24 @@
-激活用户操作
+<link rel="stylesheet" href="#(CPATH)/assets/css/amazeui.switch.css"/>
+<script type="text/javascript" src="#(CPATH)/assets/js/amazeui.switch.min.js"></script>
+
 <input type="hidden" name="user.id" value="#(user.id??)" />
+
+<div class="am-form-group">
+	<label for="switch-state">激活用户</label>
+	<input id="switch-state" #(user.status=='1'?'checked':'') type="checkbox" data-am-switch />
+	<span>&nbsp;<small>(ON: 代表激活用户; OFF: 代表用户未激活)</small></span>
+</div>
+<div class="am-form-group">
+	<button type="button" class="am-btn am-btn-default" onclick="activateUser()">保存</button>
+</div>
+
+<script type="text/javascript">
+<!--
+	
+function activateUser() {
+	var status = $("#switch-state").prop("checked");
+	alert(status);
+}
+	
+//-->
+</script>
