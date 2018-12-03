@@ -65,7 +65,7 @@ public class LogonController extends Controller {
         
         String inputPasssword = HashKit.sha256(password + salt);
         
-        if(saltPassword.equalsIgnoreCase(inputPasssword)) {
+        if(saltPassword.equals(inputPasssword)) {
         	
             System.out.println("****UserName = " + userName + " login successfully!");
             

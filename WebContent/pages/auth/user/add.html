@@ -6,7 +6,7 @@
 <div class="admin-content">
 
     <div class="am-cf am-padding">
-        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg"><a href="#(CPATH)/mps">权限管理/用户管理</a></strong> / <small>添加用户</small></div>
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg"><a href="#(CPATH)/auth/user">权限管理/用户管理</a></strong> / <small>添加用户</small></div>
     </div>
 
     <hr>
@@ -14,7 +14,28 @@
     <div class="am-g">
         <div class="am-u-sm-10">
             <form class="am-form  am-form-horizontal" action="#(CPATH)/auth/user/save" method="post">
-                #include("_basic_form.html")
+                <fieldset>
+	                #include("_basic_form.html")
+	                <!--begin 提交保存按钮 -->
+					<div class="am-form-group">
+							<div class="am-u-sm-3">
+								<div class="am-input-group am-input-group-sm">
+									<button class="am-btn am-btn-primary am-btn-lg am-fl am-radius"
+										type="submit">保存</button>
+								</div>
+							</div>
+							<div class="am-u-sm-9">
+								<div class="am-btn-group am-btn-group-xs">
+									<a href="#(CPATH)/auth/user">
+										<button type="button"
+											class="am-btn am-btn-primary am-btn-lg am-fl am-radius">
+											返回</button>
+									</a>
+								</div>
+							</div>
+					</div>
+					<!--end 提交保存按钮 -->
+				</fieldset>
             </form>
         </div>
     </div>

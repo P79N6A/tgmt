@@ -14,7 +14,7 @@ public class UserService {
 	}
 	
 	public static User findByLoginUserName(String userName) {
-		return User.dao.findFirst("select username, password, salt from tbds_user where username = ?", userName);
+		return User.dao.findFirst("select username, password, salt from tbds_user where status='1' and username = ?", userName);
 	}
 	
 }

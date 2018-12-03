@@ -24,6 +24,18 @@ public class UserController extends Controller {
 		render("edit.html");
 	}
 	
+	public void update() {
+		User user = getModel(User.class, "user");
+		boolean flag = user.update();
+		String msg = "";
+		if(flag) {
+			msg = "1";
+		} else {
+			msg = "0";
+		}
+		renderText(msg);
+	}
+	
 	
 	public void chgpswd() {
 		
