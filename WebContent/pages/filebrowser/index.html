@@ -16,19 +16,7 @@
           
         <div class="am-u-sm-12 am-u-md-3">
           <div class="am-form-group">
-            <label for="type">数据类别</label>
-            <select id="type"  name="type">
-              <option value="ALL"  #(dataType=="ALL"? "selected='selected'":"")>所有类别</option>
-              <option value="ATP" #(dataType=="ATP"? "selected='selected'":"")>ATP</option>
-              <option value="CDV" #(dataType=="CDV"? "selected='selected'":"")>CDV</option>
-            </select>
-            <span class="am-form-caret"></span>
-          </div>
-        </div>
-
-        <div class="am-u-sm-12 am-u-md-3">
-          <div class="am-form-group">
-            <label for="startdate">起始时间</label>
+            <label for="startdate">起始日期</label>
             <div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
               <input  id="startdate" name="startdate"  value="#(startDate)" type="text" class="am-form-field" placeholder="起始时间" readonly>
               <span class="am-input-group-btn am-datepicker-add-on">
@@ -40,7 +28,7 @@
           
         <div class="am-u-sm-12 am-u-md-3">
           <div class="am-form-group">
-            <label for="enddate">结束时间</label>
+            <label for="enddate">结束日期</label>
             <div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
               <input  id="enddate" name="enddate" value="#(endDate)" type="text" class="am-form-field" placeholder="结束时间" readonly>
               <span class="am-input-group-btn am-datepicker-add-on">
@@ -49,9 +37,28 @@
             </div>            
           </div>
         </div>
+
+        <div class="am-u-sm-12 am-u-md-2">
+          <div class="am-form-group">
+            <label for="train">车次</label>
+            <input id="train"  name="trainno" class="am-form-field" value="#(trainNo)"/>
+          </div>
+        </div>
           
+        <div class="am-u-sm-12 am-u-md-2">
+          <div class="am-form-group">
+            <label for="type">数据类别</label>
+            <select id="type"  name="type">
+              <option value="ALL"  #(dataType=="ALL"? "selected='selected'":"")>所有类别</option>
+              <option value="ATP" #(dataType=="ATP"? "selected='selected'":"")>ATP</option>
+              <option value="CDV" #(dataType=="CDV"? "selected='selected'":"")>CDV</option>
+            </select>
+            <span class="am-form-caret"></span>
+          </div>
+        </div>
+
           
-        <div class="am-u-sm-12 am-u-md-3">
+        <div class="am-u-sm-12 am-u-md-2">
           <label for="searchBtn">&nbsp</label>
           <span class="am-input-group-btn">
             <input id="searchBtn" class="am-btn am-btn-default" type="submit" value="搜索">搜索</input>
@@ -66,19 +73,16 @@
             <table class="am-table am-table-striped am-table-hover table-main">
               <thead>
               <tr>
-                <th class="table-id">ID</th><th class="table-title">开始时间</th><th class="table-title">结束时间</th><th class="table-type">源MPS</th><th class="table-author am-hide-sm-only">文件名</th><th class="table-date am-hide-sm-only">大小</th>
+                <th class="table-title">日期</th><th class="table-title">文件名</th><th class="table-title">下载</th><th class="table-title">已处理</th>
               </tr>
               </thead>
               <tbody>
                   #for(x : files.getList())
               <tr>
-                <td>#(x.id)</td>
-                <td>#(x.getTransfer().START)</td>
-                <td>#(x.getTransfer().END)</td>
-                <td>#(x.SOURCE_PATH.substring(x.SOURCE_PATH.length()-35,x.SOURCE_PATH.length()-27))</td>
-                <td>#(x.SOURCE_PATH.substring(x.SOURCE_PATH.length()-35))</td>
-                <td>#(x.SIZE)</td>
-                
+                <td>#(x.TARGET_PATH.substring(x.TARGET_PATH.length()-26,x.TARGET_PATH.length()-18))</td>
+                <td>#(x.TARGET_PATH.substring(x.TARGET_PATH.length()-35))</td>
+                <td><a href="filebrowser/download?fn=#(x.TARGET_PATH.substring(x.TARGET_PATH.length()-35))">下载</a></td>
+                <td><a href="#">Yes</a></td>
               </tr>
               #end
               
