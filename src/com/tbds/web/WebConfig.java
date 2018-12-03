@@ -62,6 +62,9 @@ public class WebConfig extends JFinalConfig {
         me.setUrlParaSeparator("-");
         //下面不再使用FreeMarker，改用Enjoy模板，具体查看下面configEngine方法
         //me.setViewType(ViewType.FREE_MARKER);
+        
+        //文件download根路径
+        me.setBaseDownloadPath("/filebrowser/download");
 
     }
 
