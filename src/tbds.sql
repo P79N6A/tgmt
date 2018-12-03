@@ -85,3 +85,15 @@ CREATE TABLE `joc`.`tbds_role` (
   `activated` DATETIME NULL, -- 用户激活时间
   `created` DATETIME NULL, -- 用户创建时间
   PRIMARY KEY (`id`));
+  
+  
+/*
+-- Query: SELECT * FROM joc.tbds_user
+LIMIT 0, 1000
+
+-- Date: 2018-12-03 17:45
+*/
+INSERT INTO `tbds_user` (`id`,`username`,`nickname`,`password`,`salt`,`email`,`mobile`,`gender`,`birthday`,`company`,`status`,`logged`,`activated`,`created`,`modified`) VALUES (1,'admin','admin','ae6f78da52c3f7e7b8afa7bbcaabd351b49895b8ac4fa4a8860ea4ce9bfe286c','Gtp_z4YYzaR69TUXEOlXzjCFV6wAeHAC','admin@tbds.com',NULL,'1','2018-12-01','智铁科技','1',NULL,'2018-12-03 10:54:35','2018-12-03 10:54:35','2018-12-03 16:36:56');
+INSERT INTO `tbds_user` (`id`,`username`,`nickname`,`password`,`salt`,`email`,`mobile`,`gender`,`birthday`,`company`,`status`,`logged`,`activated`,`created`,`modified`) VALUES (3,'joe','红波','c50df3e3a2b8f92cd8ff0919a4a558e4639ba5bfa7c0e173b113656aaa8c67ef','5fa6jgDBKqTvXMwm9fh4HL8G7FdCiJw2','joe@tbds.com',NULL,'1','2018-12-01','智铁科技','1',NULL,'2018-12-03 11:44:33','2018-12-03 11:44:33','2018-12-03 17:34:32');
+INSERT INTO `tbds_user` (`id`,`username`,`nickname`,`password`,`salt`,`email`,`mobile`,`gender`,`birthday`,`company`,`status`,`logged`,`activated`,`created`,`modified`) VALUES (4,'tommy','tommy',NULL,NULL,'tommy@tbds.com',NULL,'1','2018-12-02',NULL,'0',NULL,NULL,'2018-12-03 16:53:04','2018-12-03 16:53:04');
+
