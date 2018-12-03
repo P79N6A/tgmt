@@ -140,6 +140,7 @@ function changepswd() {
 	
   $('.am-alert').remove();
   var vOldPwd = '';
+  //注意，这里混合两种代码
   #if(user.password??) 
 	vOldPwd = $("#old-password").val();
 	if(vOldPwd=="") {
@@ -174,11 +175,17 @@ function changepswd() {
 			'newdualpassword':vNewDualPwd
 		},
 		success: function(data){
+			/*
 			if(data=="1"){
 				alert("成功修改密码！");
 				location.href = "#(CPATH)/auth/user/edit/" + #(user.id);
 				return true;
-          	}else if(data=="2"){
+          	}else
+          	*/ 
+          	if(data=="1"){
+          		$("#old-password").val('');
+          		$("#new-one-password").val('');
+          		$("#new-dual-password").val('');
           		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>成功修改密码！</p></div>');
           		return true;
           	} else {

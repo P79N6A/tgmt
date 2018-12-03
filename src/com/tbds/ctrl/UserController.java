@@ -64,7 +64,7 @@ public class UserController extends Controller {
 				user.set("salt", salt);
 				user.set("password", password);
 				user.set("modified", new java.util.Date());
-				user.set("status", "1");//一并激活用户
+				//user.set("status", "1");//默认修改密码不进行激活用户
 				
 				boolean flag = user.update();
 				
@@ -95,7 +95,7 @@ public class UserController extends Controller {
 						boolean flag = user.update();
 						
 						if(flag) {//更改密码成功
-							renderText("2");
+							renderText("1");//renderText("2");
 						} else {//更改密码失败
 							renderText("0");
 						}
