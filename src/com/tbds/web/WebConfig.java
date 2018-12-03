@@ -62,7 +62,7 @@ public class WebConfig extends JFinalConfig {
         //me.setI18nDefaultBaseName("");
 
         //设置URL参数分隔符,e.g. 1-3代表id=1&pages=3
-        me.setUrlParaSeparator("-");
+        //me.setUrlParaSeparator("-");
         //下面不再使用FreeMarker，改用Enjoy模板，具体查看下面configEngine方法
         //me.setViewType(ViewType.FREE_MARKER);
 

@@ -5,10 +5,10 @@
 
 #set(append = "")
 #if(qTrainType??)
-  #set(append = append + "-" + qTrainType)
+  #set(append = append + "?qTrainType=" + qTrainType)
 #end
 #if(qKeyword??)
-  #set(append = append + "-" + qKeyword)
+  #set(append = append + "&qKeyword=" + qKeyword)
 #end
 
 <div class="admin-content">

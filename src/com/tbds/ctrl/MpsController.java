@@ -35,16 +35,19 @@ public class MpsController extends Controller {
 	public void index() {
 
 		int currentPageIndex = getParaToInt(0, 1);
-		String trainType = getPara(1);
-		String keyword = getPara(2);
+//		String trainType = getPara(1);
+//		String keyword = getPara(2);
+//
+//		if (StrUtil.isBlank(trainType)) {
+//			trainType = getPara("qTrainType");
+//		}
+//		if (StrUtil.isBlank(keyword)) {
+//			keyword = getPara("qKeyword");
+//		}
+		
+		String trainType = getPara("qTrainType");
+		String keyword = getPara("qKeyword");
 
-		if (StrUtil.isBlank(trainType)) {
-			trainType = getPara("qTrainType");
-		}
-
-		if (StrUtil.isBlank(keyword)) {
-			keyword = getPara("qKeyword");
-		}
 
 		if (StrUtil.notBlank(keyword) || StrUtil.notBlank(trainType)) {
 			// 处理keyword传入：解码处理（中文keyword）
