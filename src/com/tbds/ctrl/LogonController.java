@@ -9,6 +9,9 @@ import com.jfinal.aop.Clear;
 import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;
+import com.jfinal.kit.StrKit;
+import com.tbds.model.eo.User;
+import com.tbds.service.UserService;
 import com.tbds.util.Constants;
 import com.tbds.util.StrUtil;
 import org.apache.log4j.Logger;
@@ -48,16 +51,35 @@ public class LogonController extends Controller {
             return;
         }
         
-        String encryptPasssword = HashKit.md5(password);
-        String testPassword = HashKit.md5("123456");
-        String testUser = "admin";
-        System.out.println(testPassword);
-        System.out.println(encryptPasssword);
-        if(testPassword.equalsIgnoreCase(encryptPasssword) && testUser.equalsIgnoreCase(userName)) {
-            setSessionAttr(Constants.LOGINER, userName);
+        
+        User loginUser = UserService.findByLoginUserName(userName.trim());
+        
+        if(loginUser == null) {
+        	setAttr("LoginFailed", "请输入用户名与密码错误！");
+            renderText("0");
+            return;
+        }
+        
+        String salt = loginUser.getStr("salt");
+        String saltPassword = loginUser.getStr("password");
+        
+        String inputPasssword = HashKit.sha256(password + salt);
+        
+        if(saltPassword.equalsIgnoreCase(inputPasssword)) {
+        	
+            System.out.println("****UserName = " + userName + " login successfully!");
+            
+        	String showName = loginUser.getStr("nickname");
+            if(StrKit.isBlank(showName)) {
+            	showName = userName;
+            }
+        	
+            setSessionAttr(Constants.LOGINER, showName);
             renderText("1");
             return;
         } else {
+        	System.out.println("****UserName = " + userName + " login failed!");
+        	setAttr("LoginFailed", "请输入用户名与密码错误！");
             renderText("0");
             return;
         }

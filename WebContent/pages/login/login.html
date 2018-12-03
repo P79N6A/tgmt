@@ -45,6 +45,7 @@
 				<label id="remeLabel" for="remember-me"> <input
 					id="remember-me" type="checkbox">记住密码</label>
 				-->
+				<div id="tips" class="clear"></div>
 				<p></p>
 				<div class="am-cf">
 					<input id="btnSubmit" type="submit" name="" value=" 登  录 "
@@ -115,7 +116,7 @@
 					location.href = "#(CPATH)/home";
 					return true;
                 }else{
-                	$("#remeLabel").before('<div id="err_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>用户名或密码错误</p></div>');
+                	$("#tips").before('<div id="err_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>用户名或密码错误</p></div>');
                     return false;
 				}
 			}
