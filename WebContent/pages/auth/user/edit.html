@@ -1,0 +1,24 @@
+#@layout(title="用户信息编辑")
+
+#define content()
+
+
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg"><a href="#(CPATH)/mps">权限管理/用户管理</a></strong> / <small>用户信息编辑</small></div>
+    </div>
+
+    <hr>
+
+    <div class="am-g">
+        <div class="am-u-sm-10">
+            <form class="am-form  am-form-horizontal" action="#(CPATH)/auth/user/update" method="post">
+                #include("_form.html")
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+#end

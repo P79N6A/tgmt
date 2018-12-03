@@ -73,13 +73,11 @@ CREATE TABLE `joc`.`tbds_role` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(100) NULL, --用户名
   `nickname` VARCHAR(255) NULL, --昵称
-  `realname` VARCHAR(255) NULL, --真实名称
   `password` VARCHAR(500) NULL, --密码
   `salt` VARCHAR(500) NULL, -- 加密盐
   `email` VARCHAR(500) NULL, -- 邮箱
   `mobile` VARCHAR(20) NULL, -- 手机
   `gender` VARCHAR(1) NULL, -- 性别
-  `signature` VARCHAR(255) NULL, -- 签名
   `birthday` DATE NULL, -- 生日
   `company` VARCHAR(1000) NULL, -- 公司
   `status` VARCHAR(1) NULL, -- 用户账号状态

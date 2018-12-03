@@ -29,7 +29,7 @@ public class WebInterceptor implements Interceptor {
         String actionKey = ai.getActionKey();
         String action = ai.getMethodName();
         
-        System.out.println("**************Current Action + Method: " + actionKey + "/" + action);
+        System.out.println("**************Current ActionKey: " + actionKey);
         
         Object loginer = ctrl.getSession().getAttribute(Constants.LOGINER);
         

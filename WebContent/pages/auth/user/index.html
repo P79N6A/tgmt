@@ -70,7 +70,7 @@
 							<td><a href="#">#(x.username)</a></td>
 							<td>#(x.nickname)</td>
 							<td class="am-hide-sm-only">#(x.email)</td>
-							<td class="am-hide-sm-only">#(x.status)</td>
+							<td class="am-hide-sm-only">#(x.status == '1' ? "激活":"未激活")</td>
 							<td class="am-hide-sm-only">#date(x.logged, "yyyy-MM-dd HH:mm:ss")</td>
 							<td>
 								<div class="am-btn-toolbar">
