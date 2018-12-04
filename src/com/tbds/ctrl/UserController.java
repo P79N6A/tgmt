@@ -1,17 +1,42 @@
 package com.tbds.ctrl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
+import org.apache.log4j.Logger;
+
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.StrKit;
 import com.tbds.model.eo.User;
 import com.tbds.service.UserService;
+import com.tbds.util.StrUtil;
 
 public class UserController extends Controller {
-	
+	private static final Logger log = Logger.getLogger(MpsController.class);
 	public void index() {
+		int currentPageIndex = getParaToInt(0, 1);
 		
-		setAttr("userPage", UserService.paginate(getParaToInt(0, 1), 5));
+		String keyword = getPara("qKeyword");
+		
+		if (StrUtil.notBlank(keyword)) {
+			// 处理keyword传入：解码处理（中文keyword）
+			if (StrUtil.notBlank(keyword)) {
+				try {
+					keyword = URLDecoder.decode(keyword, "UTF-8");
+				} catch (UnsupportedEncodingException ex) {
+					log.error(ex.getMessage());
+				}
+			}
+			// 通过keyword进一步搜索查询
+			setAttr("userPage", UserService.search(currentPageIndex, 5, keyword));
+			
+			setAttr("qKeyword", keyword);
+
+		} else {
+			setAttr("userPage", UserService.paginate(currentPageIndex, 5));
+		}
 		
 		render("index.html");
 	}
@@ -26,19 +51,23 @@ public class UserController extends Controller {
 	}
 	
 	public void update() {
+		JSONObject resp = new JSONObject();
 		User user = getModel(User.class, "user");
 		boolean flag = user.update();
-		String msg = "";
+		int code = 0;
 		if(flag) {
-			msg = "1";
+			code = 1;
+			resp.put("msg", "成功更新用户!");
 		} else {
-			msg = "0";
+			resp.put("msg", "更新用户失败，请检查!");
 		}
-		renderText(msg);
+		resp.put("code", code);
+		renderJson(resp);
 	}
 	
 	
 	public void chgpswd() {
+		JSONObject resp = new JSONObject();
 		
 		String oldPassword = getPara("oldpassword");
 		String newOnePassword = getPara("newonepassword");
@@ -46,7 +75,9 @@ public class UserController extends Controller {
 		
 		//新密码为空，或确认密码不正确，均报错！
 		if(StrKit.isBlank(newOnePassword) || StrKit.isBlank(newDualPassword) || !newOnePassword.equals(newDualPassword)) {
-			renderText("新密码与确认密码为空或不匹配！");
+			resp.put("msg", "新密码与确认密码为空或不匹配！");
+			resp.put("code", -1);
+			renderJson(resp);
 			return;
 		}
 		
@@ -70,9 +101,14 @@ public class UserController extends Controller {
 				boolean flag = user.update();
 				
 				if(flag) {//更改密码成功
-					renderText("1");
+					resp.put("msg", "成功添加新密码！");
+					resp.put("code", 1);
+					renderJson(resp);
+					
 				} else {//更改密码失败
-					renderText("0");
+					resp.put("msg", "添加新密码失败，请检查！");
+					resp.put("code", 0);
+					renderJson(resp);
 				}
 				
 			} else {//不能忽略旧密码
@@ -96,9 +132,16 @@ public class UserController extends Controller {
 						boolean flag = user.update();
 						
 						if(flag) {//更改密码成功
-							renderText("1");//renderText("2");
+							//renderText("1");//renderText("2");
+							resp.put("msg", "成功修改密码！");
+							resp.put("code", 1);
+							renderJson(resp);
+							
 						} else {//更改密码失败
-							renderText("0");
+							//renderText("0");
+							resp.put("msg", "修改密码失败，请检查！");
+							resp.put("code", 1);
+							renderJson(resp);
 						}
 					}
 				}
@@ -107,28 +150,50 @@ public class UserController extends Controller {
 		}
 	}
 	
+	/**
+	 * 检查用户名是否可用
+	 */
+	public void checkexistuname() {
+		JSONObject jo = new JSONObject();
+		String username = getPara("username");
+		User existUser = UserService.filterByUserName(username);
+		
+		if(existUser != null) {
+			jo.put("msg", "用户名已存在！");
+			jo.put("code", 0);
+		} else {
+			jo.put("msg", "新用户名可用！");
+			jo.put("code", 1);
+		}
+		renderJson(jo);
+		
+	}
+	
 	/*
 	 * 需要判断用户名是否已存在
 	 */
 	public void save() {
+		JSONObject resp = new JSONObject();
 		User user = getModel(User.class, "user");
 		
-		/*
-		 * TODO: 保存之前，判断账号是否已存在
-		 */
-		
+		/* 保存之前，判断账号是否已存在 */
 		String userName = user.getStr("username");
 		String nickName = user.getStr("nickname");
 		String email = user.getStr("email");
 		
 		if(StrKit.isBlank(userName) || StrKit.isBlank(nickName) || StrKit.isBlank(email)) {
-			renderText("-2");//提交的信息有误
+			resp.put("msg", "用户名或昵称或邮箱为空，请检查！");
+			resp.put("code", -1);
+			renderJson(resp);
 			return;
 		}
 		
 		User existUser = UserService.filterByUserName(userName);
+		
 		if(existUser != null) {
-			renderText("-1");//已存在此用户！
+			resp.put("msg", "用户名已存在，请重新输入新用户名！");
+			resp.put("code", -1);
+			renderJson(resp);
 			return;
 		}
 		
@@ -141,11 +206,15 @@ public class UserController extends Controller {
 		
 		if(flag) {
 			int id = user.get("id");
-			
-			renderText(""+id);//
+			resp.put("msg", "用户保存成功！");
+			resp.put("code", 1);
+			resp.put("id", id);
+			renderJson(resp);
 		} else {
 			System.err.println("Save User failed, please check it.");
-			renderText("0");//保存新用户存在错误
+			resp.put("msg", "用户保存失败！");
+			resp.put("code", 0);
+			renderJson(resp);
 		}
 		
 	}

@@ -1,4 +1,6 @@
-#@layout(title="用户信息编辑") #define content()
+#@layout(title="用户信息编辑") 
+
+#define content()
 
 <div class="admin-content">
 
@@ -18,7 +20,9 @@
 					<ul class="am-tabs-nav am-nav am-nav-tabs">
 						<li class="am-active"><a href="#basic-tab">基本信息</a></li>
 						<li><a href="#chgpasswd-tab">修改密码</a></li>
+						#if(user!=null && user.flag!='s')
 						<li><a href="#activation-tab">激活操作</a></li>
+						#end
 					</ul>
 					<div class="am-tabs-bd">
 						<div class="am-tab-panel am-fade am-in am-active" id="basic-tab">
@@ -77,11 +81,13 @@
 								</fieldset>
 							</form>
 						</div>
+						#if(user!=null && user.flag!='s')
 						<div class="am-tab-panel am-fade" id="activation-tab">
 							<form class="am-form  am-form-horizontal">
 								#include("_activate_user.html")
 							</form>
 						</div>
+						#end
 					</div>
 				</div>
 				<!-- end tab -->
@@ -112,7 +118,7 @@ function updateuser() {
 	
 	$.ajax({
 		type: "POST",
-		dataType: "text",
+		dataType: "json",
 		url: "#(CPATH)/auth/user/update",
 		data: {
 			'user.id':#(user.id),
@@ -123,12 +129,12 @@ function updateuser() {
 			'user.birthday':$("#user-birthday").val(),
 			'user.company':$("#user-company").val()
 		},
-		success: function(data){
-			if(data=="1"){
-          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>成功修改用户信息！</p></div>');
+		success: function(resp){
+			if(resp['code']==1){
+          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>' + resp['msg'] + '</p></div>');
           		return true;
           	} else {
-          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>修改用户信息失败，请检查！</p></div>');
+          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + resp['msg'] + '</p></div>');
               	return false;
 			}
 		}
@@ -165,7 +171,7 @@ function changepswd() {
   
   $.ajax({
 		type: "POST",
-		dataType: "text",
+		dataType: "json",
 		url: "#(CPATH)/auth/user/chgpswd",
 		data: {
 			'userid':#(user.id),
@@ -173,22 +179,22 @@ function changepswd() {
 			'newonepassword': vNewOnePwd,
 			'newdualpassword':vNewDualPwd
 		},
-		success: function(data){
+		success: function(resp){
 			/*
-			if(data=="1"){
+			if(resp['code']==1){
 				alert("成功修改密码！");
 				location.href = "#(CPATH)/auth/user/edit/" + #(user.id);
 				return true;
           	}else
           	*/ 
-          	if(data=="1"){
+          	if(resp['code']==1){
           		$("#old-password").val('');
           		$("#new-one-password").val('');
           		$("#new-dual-password").val('');
-          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>成功修改密码！</p></div>');
+          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>' + resp['msg'] + '</p></div>');
           		return true;
           	} else {
-          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + data + '</p></div>');
+          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + resp['msg'] + '</p></div>');
               	return false;
 			}
 		}

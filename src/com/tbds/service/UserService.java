@@ -21,4 +21,10 @@ public class UserService {
 		return User.dao.findFirst("select id, username from tbds_user where username = ?", userName);
 	}
 	
+	public static Page<User> search(int pageNumber, int pageSize, String keyword) {
+		//username, nickname, email, mobile, company
+		String likeSql = " username like '%" + keyword + "%' or nickname like '%" + keyword + "%' or email like '%" + keyword + "%' or mobile like '%" + keyword + "%' or company like '%" + keyword + "%' ";
+        return User.dao.paginate(pageNumber, pageSize, "select *", " from tbds_user where " + likeSql + " order by id asc");
+    }
+	
 }

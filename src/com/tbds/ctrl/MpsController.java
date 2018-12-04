@@ -59,12 +59,12 @@ public class MpsController extends Controller {
 				}
 			}
 			// 通过keyword进一步搜索查询
-			setAttr("mpsPage", service.search(getParaToInt(0, 1), 10, trainType, keyword));
+			setAttr("mpsPage", service.search(currentPageIndex, 10, trainType, keyword));
 			setAttr("qTrainType", trainType);
 			setAttr("qKeyword", keyword);
 
 		} else {
-			setAttr("mpsPage", service.paginate(getParaToInt(0, 1), 10));
+			setAttr("mpsPage", service.paginate(currentPageIndex, 10));
 		}
 		render("index.html");
 	}

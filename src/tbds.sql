@@ -90,6 +90,7 @@ CREATE TABLE `tbds_role` (
   `activated` DATETIME NULL,
   `created` DATETIME NULL, 
   `modified` DATETIME NULL,
+  `flag` VARCHAR(1) NULL,
   PRIMARY KEY (`id`));
   
   
