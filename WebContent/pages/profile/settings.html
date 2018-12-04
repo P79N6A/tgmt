@@ -1,0 +1,114 @@
+#@layout(title="个人设置") 
+
+#define content()
+
+<div class="admin-content">
+
+	<div class="am-panel am-panel-default">
+		<div class="am-panel-hd">
+			<h3 class="am-panel-title">个人密码设置</h3>
+		</div>
+		<div class="am-panel-bd">
+			<div id="tips-msg"></div>
+			<form class="am-form  am-form-horizontal">
+				<fieldset>
+					<div class="am-form-group">
+						<label for="old-password">(*)旧密码: </label> <input type="password"
+							class="" id="old-password" name="oldpassword" placeholder="输入旧密码">
+					</div>
+
+
+					<div class="am-form-group">
+						<label for="new-one-password">(*)新密码（至少6位）: </label> <input
+							type="password" minlength="6" class="" id="new-one-password"
+							name="newonepassword" placeholder="输入新密码（至少6位）">
+					</div>
+
+					<div class="am-form-group">
+						<label for="new-dual-password">(*)确认新密码: </label> <input
+							type="password" minlength="6" class="" id="new-dual-password"
+							name="newdualpassword" placeholder="请重复输入与上面一致的新密码">
+					</div>
+
+					<!--begin 提交保存按钮 -->
+					<div class="am-form-group">
+						<div class="am-u-sm-3">
+							<div class="am-input-group am-input-group-sm">
+								<button class="am-btn am-btn-primary am-btn-lg am-fl am-radius"
+									type="button" onclick="changepswd()">更改密码</button>
+							</div>
+						</div>
+						<div class="am-u-sm-9">
+							<div class="am-btn-group am-btn-group-xs">
+								<a href="#(CPATH)/home">
+									<button type="button"
+										class="am-btn am-btn-primary am-btn-lg am-fl am-radius">
+										返回</button>
+								</a>
+							</div>
+						</div>
+					</div>
+					<!--end 提交保存按钮 -->
+
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+<!--
+function changepswd() {
+	
+	  $('.am-alert').remove();
+	  var vOldPwd = $("#old-password").val();
+	  if(vOldPwd=="") {
+		  $("#old-password").after('<div id="oldPasswordErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入旧密码！</p></div>');
+		  return;
+	  }
+	  
+	  var vNewOnePwd = $("#new-one-password").val();
+	  if(vNewOnePwd=="") {
+		$("#new-one-password").after('<div id="newOnePasswordErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入新密码！</p></div>');
+		return;
+	  } else if(vNewOnePwd.length<6) {
+		$("#new-one-password").after('<div id="newOnePasswordErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入6位以上新密码！</p></div>');
+		return;
+	  }
+	  
+	  var vNewDualPwd = $("#new-dual-password").val();
+	  if(vNewDualPwd != vNewOnePwd) {
+		$("#new-dual-password").after('<div id="newDualPasswordErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请重复输入与上面一致的新密码！</p></div>');
+		return;
+	  }
+	  
+	  $.ajax({
+			type: "POST",
+			dataType: "json",
+			url: "#(CPATH)/profile/chgpswd",
+			data: {
+				'oldpassword': vOldPwd,
+				'newonepassword': vNewOnePwd,
+				'newdualpassword':vNewDualPwd
+			},
+			success: function(resp){
+	          	if(resp['code']==1){
+	          		$("#old-password").val('');
+	          		$("#new-one-password").val('');
+	          		$("#new-dual-password").val('');
+	          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>' + resp['msg'] + '</p></div>');
+	          		return true;
+	          	} else {
+	          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + resp['msg'] + '</p></div>');
+	              	return false;
+				}
+			}
+		});
+	  
+	  return false;
+	  
+	}
+-->
+</script>
+
+#end

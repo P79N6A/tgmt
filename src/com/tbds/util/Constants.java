@@ -68,6 +68,8 @@ public class Constants {
      * Login user session attribute
      */
     public static final String LOGINER = "_tbds_logon_user_";
+    public static final String LOGINER_UNI_ID = "_tbds_logon_user_id_";
+    public static final String LOGINER_UNI_NAME = "_tbds_logon_user_name_";
     
     /**
      * 标准日期格式：yyyy-MM-dd

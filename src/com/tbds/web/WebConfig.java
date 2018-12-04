@@ -90,6 +90,11 @@ public class WebConfig extends JFinalConfig {
         me.add("/auth/user", UserController.class);
         me.add("/auth/role", RoleController.class);
         me.add("/auth/permission", PermissionController.class);
+        
+        /**
+         * 个人信息修改（包括基本信息以及密码重置）
+         */
+        me.add("/profile", UserProfileController.class);
 
         //me.add("/test", TestController.class);
 
