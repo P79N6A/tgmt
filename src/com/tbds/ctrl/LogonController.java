@@ -72,9 +72,17 @@ public class LogonController extends Controller {
         	
             log.info("****UserName = " + userName + " login successfully!");
             
+            java.util.Date now = new java.util.Date();
+            log.info("last login time: " + DateUtil.date2str(logged));
+            log.info("now login time: " + DateUtil.date2str(now));
+                        
+            long duration = DateUtil.compare2now(logged);
+            log.info("Calc duration minutes: " + duration);
+            
+            
             //若在间隔一个小时多进行登录，则需要记录用户的登录时间
-            if(logged == null || DateUtil.compare2now(logged) >= 60) {
-            	loginUser.set("logged", new java.util.Date());
+            if(logged == null || duration >= 60) {
+            	loginUser.set("logged", now);
             	boolean flag = loginUser.update();
             	if(flag) {
             		log.info("Update login user logged time successfully.");

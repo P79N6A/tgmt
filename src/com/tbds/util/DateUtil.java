@@ -80,10 +80,8 @@ public class DateUtil {
 		long diff = 0;
 		
 		if(now >= ltime1) {
-			System.out.println("+++");
 			diff = now - ltime1;
 		} else {
-			System.out.println("---");
 			diff = ltime1 - now;
 		}
 		
@@ -91,10 +89,20 @@ public class DateUtil {
 	    long hours = (diff - days*(1000 * 60 * 60 * 24))/(1000* 60 * 60);
 	    long minutes = (diff-days*(1000 * 60 * 60 * 24)-hours*(1000* 60 * 60))/(1000* 60);
 		
-	    //System.out.println("" + days + "天" + hours + "小时" + minutes + "分");
+	    System.out.println("" + days + "天" + hours + "小时" + minutes + "分");
 	    
-	    return (days - 365) * 24 * 60 + hours * 60 + minutes;
+	    return days * 24 * 60 + hours * 60 + minutes;
 	    
+	}
+	
+	/**
+	 * 格式化时间并输出成字符串
+	 * @param date
+	 * @return 格式化后的时间字符串
+	 */
+	public static String date2str(Date date) {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return df.format(date);
 	}
 	
 	
@@ -104,7 +112,7 @@ public class DateUtil {
 		String date1 = "2018-12-03 19:00:35";
 		String date2 = "2018-12-03 21:00:35";
 		
-		DateFormat df = new SimpleDateFormat("yyyy-mm-dd HH:MM:SS");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		try {
 			Date dt1 = df.parse(date1);

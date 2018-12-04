@@ -1,5 +1,6 @@
 package com.tbds.ctrl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.StrKit;
@@ -113,23 +114,74 @@ public class UserController extends Controller {
 		User user = getModel(User.class, "user");
 		
 		/*
-		 * TODO: 保存之前，随机生成密码加密盐;账号是否已存在
+		 * TODO: 保存之前，判断账号是否已存在
 		 */
 		
+		String userName = user.getStr("username");
+		String nickName = user.getStr("nickname");
+		String email = user.getStr("email");
+		
+		if(StrKit.isBlank(userName) || StrKit.isBlank(nickName) || StrKit.isBlank(email)) {
+			renderText("-2");//提交的信息有误
+			return;
+		}
+		
+		User existUser = UserService.filterByUserName(userName);
+		if(existUser != null) {
+			renderText("-1");//已存在此用户！
+			return;
+		}
+		
+		//更新相关时间字段和状态
 		user.set("created", new java.util.Date());
 		user.set("modified", new java.util.Date());
-		//user.set("activated", new java.util.Date());
-		user.set("status", "0");
+		user.set("status", "0");//默认创建用户不激活
 		
 		boolean flag = user.save();
 		
 		if(flag) {
 			int id = user.get("id");
-			redirect("/auth/user/edit/" + id);
+			
+			renderText(""+id);//
 		} else {
 			System.err.println("Save User failed, please check it.");
-			this.renderError(500);
+			renderText("0");//保存新用户存在错误
 		}
+		
+	}
+	
+	/**
+	 * 激活用户
+	 */
+	public void activate() {
+		User user = getModel(User.class, "user");
+		
+		JSONObject jo = new JSONObject();
+		
+		if(null != user) {
+		
+			user.set("modified", new java.util.Date());
+			user.set("activated", new java.util.Date());
+			
+			boolean flag = user.update();
+			
+			if(flag) {
+				String status = user.getStr("status");
+				if("1".equals(status)) {
+					jo.put("msg", "成功激活用户！");
+				} else {
+					jo.put("msg", "成功禁用用户！");
+				}
+				
+				jo.put("code", 1);
+				renderJson(jo);
+				return;
+			}
+		}
+		
+		jo.put("msg", "激活用户失败！");
+		jo.put("code", 0);
+		renderJson(jo);
 		
 	}
 	
