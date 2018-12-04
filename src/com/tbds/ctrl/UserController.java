@@ -14,7 +14,7 @@ import com.tbds.service.UserService;
 import com.tbds.util.StrUtil;
 
 public class UserController extends Controller {
-	private static final Logger log = Logger.getLogger(MpsController.class);
+	private static final Logger log = Logger.getLogger(UserController.class);
 	public void index() {
 		int currentPageIndex = getParaToInt(0, 1);
 		
@@ -113,13 +113,17 @@ public class UserController extends Controller {
 				
 			} else {//不能忽略旧密码
 				if(StrKit.isBlank(oldPassword)) {
-					renderText("旧密码为空！");
+					resp.put("msg", "旧密码为空！");
+					resp.put("code", 0);
+					renderJson(resp);
 					return;
 				} else {
 					String oldEncPassword = HashKit.sha256(oldPassword + salt);	
 					
 					if(!password.equals(oldEncPassword)) {
-						renderText("旧密码不正确！");
+						resp.put("msg", "旧密码不正确！");
+						resp.put("code", 0);
+						renderJson(resp);
 						return;
 					} else {
 						salt = HashKit.generateSalt(32);
@@ -147,6 +151,11 @@ public class UserController extends Controller {
 				}
 				
 			}
+		} else {
+			log.error("用户试图在撞库攻击！请检查~");
+			resp.put("msg", "您试图修改的用户不成功，请联系管理员！");
+			resp.put("code", -1);
+			renderJson(resp);
 		}
 	}
 	

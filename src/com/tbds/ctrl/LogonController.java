@@ -31,6 +31,8 @@ public class LogonController extends Controller {
     
     public void quit() {
         setSessionAttr(Constants.LOGINER, null);
+        setSessionAttr(Constants.LOGINER_UNI_ID, null);
+        setSessionAttr(Constants.LOGINER_UNI_NAME, null);
         redirect("/");
     }
     
@@ -65,6 +67,7 @@ public class LogonController extends Controller {
         String salt = loginUser.getStr("salt");
         String saltPassword = loginUser.getStr("password");
         java.util.Date logged = loginUser.getDate("logged");
+        int loginUniID = loginUser.getInt("id");
         
         String inputPasssword = HashKit.sha256(password + salt);
         
@@ -94,7 +97,10 @@ public class LogonController extends Controller {
             	showName = userName;
             }
         	
-            setSessionAttr(Constants.LOGINER, showName);
+            setSessionAttr(Constants.LOGINER, showName);//设置显示名
+            setSessionAttr(Constants.LOGINER_UNI_ID, loginUniID);//设置唯一ID
+            setSessionAttr(Constants.LOGINER_UNI_NAME, userName);//设置唯一用户名
+            
             renderText("1");
             return;
         } else {

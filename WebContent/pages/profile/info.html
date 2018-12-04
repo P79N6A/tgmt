@@ -1,0 +1,130 @@
+#@layout(title="个人资料") 
+
+#define content()
+
+<div class="admin-content">
+
+	<div class="am-panel am-panel-default">
+		<div class="am-panel-hd">
+			<h3 class="am-panel-title">个人资料</h3>
+		</div>
+		<div class="am-panel-bd">
+			<div id="tips-msg"></div>
+			<form class="am-form  am-form-horizontal">
+				<fieldset>
+					
+					<div class="am-form-group">
+						<label for="user-nickname">账号名称：<span class="am-badge am-badge-success am-round">#(session['_tbds_logon_user_name_']??"******")</span></label>
+					</div>
+					
+					<div class="am-form-group">
+						<label for="user-nickname">昵称(*)</label> <input type="text"
+							class="" id="user-nickname" name="user.nickname"
+							placeholder="昵称" value="#(user.nickname??)" required>
+					</div>
+				
+					<div class="am-form-group">
+						<label for="user-email">邮箱(*)</label> <input type="email" class=""
+							id="user-email" name="user.email" placeholder="邮箱地址"
+							value="#(user.email??)" required>
+					</div>
+				
+					<div class="am-form-group">
+						<label for="user-mobile">手机</label> <input type="text" class=""
+							id="user-mobile" name="user.mobile" placeholder="手机"
+							value="#(user.mobile??)">
+					</div>
+				
+					<div class="am-form-group">
+						<label for="user-gender">性别</label> <select id="user-gender"
+							name="user.gender">
+							<option value="0">请选择性别</option>
+							<option value="1" #(user !=null && user.gender== '1'?'selected':'')>男</option>
+							<option value="2" #(user !=null && user.gender== '2'?'selected':'')>女</option>
+						</select> <span class="am-form-caret"></span>
+					</div>
+				
+					<div class="am-form-group">
+						<label for="user-birthday">出生日期</label> <input id="user-birthday"
+							name="user.birthday" type="text"
+							value="#date(user.birthday??, 'yyyy-MM-dd')" class="am-form-field"
+							placeholder="出生日期" data-am-datepicker readonly />
+					</div>
+				
+				
+				
+					<div class="am-form-group">
+						<label for="user-company">公司名称</label> <input type="text"
+							class="" id="user-company" name="user.company"
+							placeholder="公司名称" value="#(user.company??)">
+					</div>
+
+					<!--begin 提交保存按钮 -->
+					<div class="am-form-group">
+						<div class="am-u-sm-3">
+							<div class="am-input-group am-input-group-sm">
+								<button class="am-btn am-btn-primary am-btn-lg am-fl am-radius"
+									type="button" onclick="updateuser()">保存</button>
+							</div>
+						</div>
+						<div class="am-u-sm-9">
+							<div class="am-btn-group am-btn-group-xs">
+								<a href="#(CPATH)/home">
+									<button type="button"
+										class="am-btn am-btn-primary am-btn-lg am-fl am-radius">
+										返回</button>
+								</a>
+							</div>
+						</div>
+					</div>
+					<!--end 提交保存按钮 -->
+
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+<!--
+function updateuser() {
+	$('.am-alert').remove();
+	
+	var nickname = $("#user-nickname").val();
+	
+	if(nickname=="") {
+		$("#user-nickname").after('<div id="nicknameNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入昵称！</p></div>');
+	}
+	
+	var email = $("#user-email").val();
+	if(email=="") {
+		$("#user-email").after('<div id="emailNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入邮箱信息！</p></div>');
+	}
+	
+	$.ajax({
+		type: "POST",
+		dataType: "json",
+		url: "#(CPATH)/profile/update",
+		data: {
+			'user.nickname': nickname,
+			'user.email': email,
+			'user.mobile':$("#user-mobile").val(),
+			'user.gender':$("#user-gender").val(),
+			'user.birthday':$("#user-birthday").val(),
+			'user.company':$("#user-company").val()
+		},
+		success: function(resp){
+			if(resp['code']==1){
+          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>' + resp['msg'] + '</p></div>');
+          		return true;
+          	} else {
+          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + resp['msg'] + '</p></div>');
+              	return false;
+			}
+		}
+	});
+}
+-->
+</script>
+
+#end
