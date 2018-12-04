@@ -101,8 +101,11 @@ public class DateUtil {
 	 * @return 格式化后的时间字符串
 	 */
 	public static String date2str(Date date) {
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return df.format(date);
+		if(null != date) {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			return df.format(date);
+		} 
+		return "2012-12-12 12:12:12";
 	}
 	
 	
