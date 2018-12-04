@@ -49,3 +49,51 @@ INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type
 INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (17,'ATP_0231','ATP_0231A','192.168.0.111','2222','ATP','0231','A',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
 INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (18,'ATP_0231','ATP_0231B','192.168.0.112','2222','ATP','0231','B',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
 
+CREATE TABLE `joc`.`tbds_role` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NULL, --
+  `description` VARCHAR(500) NULL,
+  `flag` VARCHAR(1) NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  PRIMARY KEY (`id`));
+  
+  CREATE TABLE `joc`.`tbds_permission` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `action_key` VARCHAR(500) NULL,
+  `node` VARCHAR(500) NULL,
+  `type` VARCHAR(45) NULL,
+  `text` VARCHAR(500) NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  PRIMARY KEY (`id`));
+
+  
+  CREATE TABLE `joc`.`tbds_user` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(100) NULL, --用户名
+  `nickname` VARCHAR(255) NULL, --昵称
+  `password` VARCHAR(500) NULL, --密码
+  `salt` VARCHAR(500) NULL, -- 加密盐
+  `email` VARCHAR(500) NULL, -- 邮箱
+  `mobile` VARCHAR(20) NULL, -- 手机
+  `gender` VARCHAR(1) NULL, -- 性别
+  `birthday` DATE NULL, -- 生日
+  `company` VARCHAR(1000) NULL, -- 公司
+  `status` VARCHAR(1) NULL, -- 用户账号状态
+  `logged` DATETIME NULL, -- 用户最近的登录时间
+  `activated` DATETIME NULL, -- 用户激活时间
+  `created` DATETIME NULL, -- 用户创建时间
+  PRIMARY KEY (`id`));
+  
+  
+/*
+-- Query: SELECT * FROM joc.tbds_user
+LIMIT 0, 1000
+
+-- Date: 2018-12-03 17:45
+*/
+INSERT INTO `tbds_user` (`id`,`username`,`nickname`,`password`,`salt`,`email`,`mobile`,`gender`,`birthday`,`company`,`status`,`logged`,`activated`,`created`,`modified`) VALUES (1,'admin','admin','ae6f78da52c3f7e7b8afa7bbcaabd351b49895b8ac4fa4a8860ea4ce9bfe286c','Gtp_z4YYzaR69TUXEOlXzjCFV6wAeHAC','admin@tbds.com',NULL,'1','2018-12-01','智铁科技','1',NULL,'2018-12-03 10:54:35','2018-12-03 10:54:35','2018-12-03 16:36:56');
+INSERT INTO `tbds_user` (`id`,`username`,`nickname`,`password`,`salt`,`email`,`mobile`,`gender`,`birthday`,`company`,`status`,`logged`,`activated`,`created`,`modified`) VALUES (3,'joe','红波','c50df3e3a2b8f92cd8ff0919a4a558e4639ba5bfa7c0e173b113656aaa8c67ef','5fa6jgDBKqTvXMwm9fh4HL8G7FdCiJw2','joe@tbds.com',NULL,'1','2018-12-01','智铁科技','1',NULL,'2018-12-03 11:44:33','2018-12-03 11:44:33','2018-12-03 17:34:32');
+INSERT INTO `tbds_user` (`id`,`username`,`nickname`,`password`,`salt`,`email`,`mobile`,`gender`,`birthday`,`company`,`status`,`logged`,`activated`,`created`,`modified`) VALUES (4,'tommy','tommy',NULL,NULL,'tommy@tbds.com',NULL,'1','2018-12-02',NULL,'0',NULL,NULL,'2018-12-03 16:53:04','2018-12-03 16:53:04');
+

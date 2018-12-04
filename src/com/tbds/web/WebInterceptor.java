@@ -5,6 +5,8 @@
  */
 package com.tbds.web;
 
+import java.lang.reflect.Method;
+
 import org.apache.log4j.Logger;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
@@ -25,12 +27,16 @@ public class WebInterceptor implements Interceptor {
         Controller ctrl = ai.getController();
 
         String actionKey = ai.getActionKey();
+        String action = ai.getMethodName();
+        
+        System.out.println("**************Current ActionKey: " + actionKey);
+        
         Object loginer = ctrl.getSession().getAttribute(Constants.LOGINER);
         
         if(null != loginer && !"".equals((String)loginer)) {
             System.out.println(">>>loginer = " + loginer);
             System.out.println("User access login action.");
-            String action = ai.getMethodName();
+            
             if(ctrl instanceof LogonController && !"quit".equalsIgnoreCase(action)) {//若用户直接访问登录
                 ctrl.redirect("/");//用户不做退出时，直接访问登陆页直接跳转至首页
             } else {
@@ -39,8 +45,8 @@ public class WebInterceptor implements Interceptor {
         } else if(ctrl instanceof LogonController) {
             ai.invoke();
         } else {
-            System.out.println("Visit " + ai.getActionKey() + " refused, Need login first!");
-            log.info("Visit " + ai.getActionKey() + " refused, Need login first!");
+            System.out.println("Visit " + actionKey + " refused, Need login first!");
+            log.info("Visit " + actionKey + " refused, Need login first!");
             ctrl.redirect("/login");//跳转至登录页
         }
         System.out.println("after GlobalActionInterceptor");

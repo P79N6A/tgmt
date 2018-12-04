@@ -5,6 +5,7 @@
  */
 package com.tbds.model.eo;
 
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
@@ -22,6 +23,40 @@ public class Mps extends Model<Mps> {
 
     public Page<Mps> paginate(int pageNumber, int pageSize) {
         return paginate(pageNumber, pageSize, "select * ", "from " + TABLE_NAME + " order by " + PRIMARY_KEY + " asc");
+    }
+    
+    public Page<Mps> search(int pageNumber, int pageSize, String trainType, String keyword) {
+    	String selectSql = "select *";
+    	StringBuffer fromSql = new StringBuffer("from " + TABLE_NAME) ;
+    	StringBuffer whereSql = new StringBuffer("");
+    	String exactSql = "";
+    	StringBuffer likeSql = new StringBuffer("");
+    	String orderSql = " order by " + PRIMARY_KEY + " asc";
+    	
+    	if(StrKit.notBlank(trainType) && !"all".equals(trainType)) {
+    		exactSql = " train_type = '" + trainType + "'";
+    	}
+    	
+    	if(StrKit.notBlank(keyword)) {
+    		likeSql.append(" host_ip like '%" + keyword + "%' or host_port like '%" + keyword + "%' or train_num like '%" + keyword + "%' or ab_marker like '%" + keyword + "%'");
+    	}
+    	
+    	if(StrKit.notBlank(exactSql) || StrKit.notBlank(likeSql.toString())) {
+    		whereSql.append(" where ");
+    		
+    		whereSql.append(exactSql);
+    		
+    		if(StrKit.notBlank(exactSql) && StrKit.notBlank(likeSql.toString())) {
+    			whereSql.append(" and " + " ( " + likeSql + ") ");
+    		} else {
+    			whereSql.append(likeSql);
+    		}
+    	}
+    	
+    	
+    	String suffixSql = fromSql.append(whereSql).append(orderSql).toString();
+    	
+        return paginate(pageNumber, pageSize, selectSql, suffixSql);
     }
     
     public List<Mps> findAllMps() {

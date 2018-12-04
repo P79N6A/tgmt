@@ -43,6 +43,11 @@ public class Constants {
      * 手动刷新数据库字典值: ON-true, OFF-false
      */
     public static final String MANNUAL_REFRESH_DB = "manualRefreshDB";
+    
+    /**
+     * MPS设备日志路径
+     */
+    public static final String MPS_STATUS_LOG_PATH = "mpsStatusPath";
 
     /**
      * 终端mps在线状态

@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="#(CPATH)/assets/css/amazeui.switch.css"/>
+<script type="text/javascript" src="#(CPATH)/assets/js/amazeui.switch.min.js"></script>
+
+<div class="am-form-group"></div>
+<div class="am-form-group">
+	<label for="switch-state">激活用户</label>
+	<input id="switch-state" #(user.status=='1'?'checked':'') type="checkbox" data-am-switch />
+	<span>&nbsp;<small>(ON: 代表激活用户; OFF: 代表用户未激活)</small></span>
+</div>
+
+
+<script type="text/javascript">
+<!--
+
+$('#switch-state').on('switchChange.bootstrapSwitch', function(event, state) {
+	 //console.log(this); // DOM element
+	 //console.log(event); // jQuery event
+	 //console.log(state); // true | false
+	 
+	$(".am-alert").remove(); 
+	var status = '0';
+	if(state) {
+		status = '1';
+	}
+	 
+	$.ajax({
+		type: "POST",
+		dataType: "json",//返回数据是json格式
+		url: "#(CPATH)/auth/user/activate",
+		data: {
+			'user.id':#(user.id),
+			'user.status': status 
+		},
+		success: function(rsp){
+          	if(rsp['code']==1){
+          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>'+rsp['msg']+'</p></div>');
+          		return true;
+          	} else {
+          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>'+rsp['msg']+'</p></div>');
+              	return false;
+			}
+		}
+	});
+	 
+	 
+});
+	
+//-->
+</script>

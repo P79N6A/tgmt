@@ -36,6 +36,7 @@
 				<p></p>
 				<label for="loginPswd">密码:</label> <input type="password"
 					name="loginPswd" id="loginPswd" required>
+				<!-- 
 				<p></p>
 				<label class="lblVerification">验证码:</label> <br /> <span
 					id="idcode"></span>
@@ -43,6 +44,8 @@
 				<p></p>
 				<label id="remeLabel" for="remember-me"> <input
 					id="remember-me" type="checkbox">记住密码</label>
+				-->
+				<div id="tips" class="clear"></div>
 				<p></p>
 				<div class="am-cf">
 					<input id="btnSubmit" type="submit" name="" value=" 登  录 "
@@ -57,7 +60,7 @@
 				</div>
 			</form>
 			<hr>
-			<p>© 2013-2015.</p>
+			<p>© 2018-2019.</p>
 		</div>
 	</div>
 	<script>
@@ -77,6 +80,7 @@
 	
 	function checkAll(){
 		$(".am-alert").remove();
+		/*
 		var vInputIdcode = $("#inputIdcode").val();
 		if(vInputIdcode!=""){
 			if(!$.idcode.validateCode("inputIdcode")){
@@ -88,29 +92,37 @@
 				$.idcode.setCode("idcode");
 				return false;
 			} else {
-				$.ajax({
-					type: "POST",
-					dataType: "text",
-					url: "#(CPATH)/login/land",
-					data: {
-						'loginName': $("#loginName").val(),
-						'loginPswd': $("#loginPswd").val()
-					},
-					success: function(data){
-						if(data=="1"){
-							location.href = "#(CPATH)/home";
-							return true;
-                        }else{
-                        	$("#remeLabel").before('<div id="err_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>用户名或密码错误</p></div>');
-                            return false;
-						}
-					}
-				});
+				loginLogic();
 			}
 		}
+		*/
+		loginLogic();
 		
 		return true;
 	}
+	
+	
+	function loginLogic() {
+		$.ajax({
+			type: "POST",
+			dataType: "text",
+			url: "#(CPATH)/login/land",
+			data: {
+				'loginName': $("#loginName").val(),
+				'loginPswd': $("#loginPswd").val()
+			},
+			success: function(data){
+				if(data=="1"){
+					location.href = "#(CPATH)/home";
+					return true;
+                }else{
+                	$("#tips").before('<div id="err_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>用户名或密码错误</p></div>');
+                    return false;
+				}
+			}
+		});
+	}
+	
 	</script>
 </body>
 </html>

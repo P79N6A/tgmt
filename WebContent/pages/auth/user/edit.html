@@ -1,0 +1,205 @@
+#@layout(title="用户信息编辑") #define content()
+
+<div class="admin-content">
+
+	<div class="am-cf am-padding">
+		<div class="am-fl am-cf">
+			<strong class="am-text-primary am-text-lg"><a
+				href="#(CPATH)/auth/user">权限管理/用户管理</a></strong> / <small>用户信息编辑</small>
+		</div>
+	</div>
+
+	<div class="am-u-sm-12">
+		<div class="am-panel am-panel-default">
+			<div class="am-panel-hd">用户名：#(user.username??)</div>
+			<div class="am-panel-bd">
+				<div id="tips-msg"></div>
+				<div class="am-tabs" data-am-tabs>
+					<ul class="am-tabs-nav am-nav am-nav-tabs">
+						<li class="am-active"><a href="#basic-tab">基本信息</a></li>
+						<li><a href="#chgpasswd-tab">修改密码</a></li>
+						<li><a href="#activation-tab">激活操作</a></li>
+					</ul>
+					<div class="am-tabs-bd">
+						<div class="am-tab-panel am-fade am-in am-active" id="basic-tab">
+							<form class="am-form  am-form-horizontal">
+								<fieldset>
+									#include("_basic_form.html")
+								
+									<!--begin 提交保存按钮 -->
+									<div class="am-form-group">
+											<div class="am-u-sm-3">
+												<div class="am-input-group am-input-group-sm">
+													<button class="am-btn am-btn-primary am-btn-lg am-fl am-radius"
+														type="button"
+														onclick="updateuser()">保存</button>
+												</div>
+											</div>
+											<div class="am-u-sm-9">
+												<div class="am-btn-group am-btn-group-xs">
+													<a href="#(CPATH)/auth/user">
+														<button type="button"
+															class="am-btn am-btn-primary am-btn-lg am-fl am-radius">
+															返回</button>
+													</a>
+												</div>
+											</div>
+									</div>
+								<!--end 提交保存按钮 -->
+									
+								</fieldset>
+								</form>
+						</div>
+						<div class="am-tab-panel am-fade" id="chgpasswd-tab">
+							<form class="am-form  am-form-horizontal" id="chgpasswd-form-with-tooltip">
+								<fieldset>
+								#include("_change_password.html")
+								
+								<!--begin 提交保存按钮 -->
+								<div class="am-form-group">
+									<div class="am-u-sm-3">
+										<div class="am-input-group am-input-group-sm">
+											<button class="am-btn am-btn-primary am-btn-lg am-fl am-radius"
+												type="button" onclick="changepswd()">更改密码</button>
+										</div>
+									</div>
+									<div class="am-u-sm-9">
+										<div class="am-btn-group am-btn-group-xs">
+											<a href="#(CPATH)/auth/user">
+												<button type="button"
+													class="am-btn am-btn-primary am-btn-lg am-fl am-radius">
+													返回</button>
+											</a>
+										</div>
+									</div>
+								</div>
+								<!--end 提交保存按钮 -->
+								</fieldset>
+							</form>
+						</div>
+						<div class="am-tab-panel am-fade" id="activation-tab">
+							<form class="am-form  am-form-horizontal">
+								#include("_activate_user.html")
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- end tab -->
+			</div>
+			<!-- end panel content -->
+		</div>
+		<!-- end panel total -->
+	</div>
+
+</div>
+
+<script type="text/javascript">
+<!--
+
+function updateuser() {
+	$('.am-alert').remove();
+	
+	var nickname = $("#user-nickname").val();
+	
+	if(nickname=="") {
+		$("#user-nickname").after('<div id="nicknameNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入昵称！</p></div>');
+	}
+	
+	var email = $("#user-email").val();
+	if(email=="") {
+		$("#user-email").after('<div id="emailNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入邮箱信息！</p></div>');
+	}
+	
+	$.ajax({
+		type: "POST",
+		dataType: "text",
+		url: "#(CPATH)/auth/user/update",
+		data: {
+			'user.id':#(user.id),
+			'user.nickname': nickname,
+			'user.email': email,
+			'user.mobile':$("#user-mobile").val(),
+			'user.gender':$("#user-gender").val(),
+			'user.birthday':$("#user-birthday").val(),
+			'user.company':$("#user-company").val()
+		},
+		success: function(data){
+			if(data=="1"){
+          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>成功修改用户信息！</p></div>');
+          		return true;
+          	} else {
+          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>修改用户信息失败，请检查！</p></div>');
+              	return false;
+			}
+		}
+	});
+}
+
+function changepswd() {
+	
+  $('.am-alert').remove();
+  var vOldPwd = '';
+  //注意，这里混合两种代码
+  #if(user.password??) 
+	vOldPwd = $("#old-password").val();
+	if(vOldPwd=="") {
+		$("#old-password").after('<div id="oldPasswordErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入旧密码！</p></div>');
+		return;
+	}
+  #end
+  
+  var vNewOnePwd = $("#new-one-password").val();
+  if(vNewOnePwd=="") {
+	$("#new-one-password").after('<div id="newOnePasswordErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入新密码！</p></div>');
+	return;
+  } else if(vNewOnePwd.length<6) {
+	$("#new-one-password").after('<div id="newOnePasswordErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入6位以上新密码！</p></div>');
+	return;
+  }
+  
+  var vNewDualPwd = $("#new-dual-password").val();
+  if(vNewDualPwd != vNewOnePwd) {
+	$("#new-dual-password").after('<div id="newDualPasswordErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请重复输入与上面一致的新密码！</p></div>');
+	return;
+  }
+  
+  $.ajax({
+		type: "POST",
+		dataType: "text",
+		url: "#(CPATH)/auth/user/chgpswd",
+		data: {
+			'userid':#(user.id),
+			'oldpassword': vOldPwd,
+			'newonepassword': vNewOnePwd,
+			'newdualpassword':vNewDualPwd
+		},
+		success: function(data){
+			/*
+			if(data=="1"){
+				alert("成功修改密码！");
+				location.href = "#(CPATH)/auth/user/edit/" + #(user.id);
+				return true;
+          	}else
+          	*/ 
+          	if(data=="1"){
+          		$("#old-password").val('');
+          		$("#new-one-password").val('');
+          		$("#new-dual-password").val('');
+          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>成功修改密码！</p></div>');
+          		return true;
+          	} else {
+          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + data + '</p></div>');
+              	return false;
+			}
+		}
+	});
+  
+  return false;
+  
+}
+
+//-->
+</script>
+
+
+#end

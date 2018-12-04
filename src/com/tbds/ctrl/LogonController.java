@@ -6,11 +6,16 @@
 package com.tbds.ctrl;
 
 import com.jfinal.aop.Clear;
-import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;
+import com.jfinal.kit.StrKit;
+
+import com.tbds.model.eo.User;
+import com.tbds.service.UserService;
 import com.tbds.util.Constants;
+import com.tbds.util.DateUtil;
 import com.tbds.util.StrUtil;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -48,16 +53,53 @@ public class LogonController extends Controller {
             return;
         }
         
-        String encryptPasssword = HashKit.md5(password);
-        String testPassword = HashKit.md5("123456");
-        String testUser = "admin";
-        System.out.println(testPassword);
-        System.out.println(encryptPasssword);
-        if(testPassword.equalsIgnoreCase(encryptPasssword) && testUser.equalsIgnoreCase(userName)) {
-            setSessionAttr(Constants.LOGINER, userName);
+        
+        User loginUser = UserService.findByLoginUserName(userName.trim());
+        
+        if(loginUser == null) {
+        	setAttr("LoginFailed", "请输入用户名与密码错误！");
+            renderText("0");
+            return;
+        }
+        
+        String salt = loginUser.getStr("salt");
+        String saltPassword = loginUser.getStr("password");
+        java.util.Date logged = loginUser.getDate("logged");
+        
+        String inputPasssword = HashKit.sha256(password + salt);
+        
+        if(saltPassword.equals(inputPasssword)) {
+        	
+            log.info("****UserName = " + userName + " login successfully!");
+            
+            java.util.Date now = new java.util.Date();
+            log.info("last login time: " + DateUtil.date2str(logged));
+            log.info("now login time: " + DateUtil.date2str(now));
+                        
+            long duration = DateUtil.compare2now(logged);
+            log.info("Calc duration minutes: " + duration);
+            
+            
+            //若在间隔一个小时多进行登录，则需要记录用户的登录时间
+            if(logged == null || duration >= 60) {
+            	loginUser.set("logged", now);
+            	boolean flag = loginUser.update();
+            	if(flag) {
+            		log.info("Update login user logged time successfully.");
+            	}
+            }
+            
+        	String showName = loginUser.getStr("nickname");
+            if(StrKit.isBlank(showName)) {
+            	showName = userName;
+            }
+        	
+            setSessionAttr(Constants.LOGINER, showName);
             renderText("1");
             return;
         } else {
+        	System.out.println("****UserName = " + userName + " login failed!");
+        	setAttr("LoginFailed", "请输入用户名与密码错误！");
             renderText("0");
             return;
         }

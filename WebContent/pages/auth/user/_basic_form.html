@@ -1,0 +1,57 @@
+
+	#if(user==null) 
+	<legend>新建用户 </legend>
+	#end
+	<input type="hidden" name="user.id" value="#(user.id??)" />
+	
+	#if(user==null)
+	<div class="am-form-group">
+		<label for="doc-ipt-username-1">用户名/登录账号(*)</label> <input type="text"
+			class="" id="doc-ipt-username-1" name="user.username"
+			placeholder="登录账号" value="#(user.username??)" required>
+	</div>
+	#end
+	<div class="am-form-group">
+		<label for="user-nickname">昵称(*)</label> <input type="text"
+			class="" id="user-nickname" name="user.nickname"
+			placeholder="昵称" value="#(user.nickname??)" required>
+	</div>
+
+	<div class="am-form-group">
+		<label for="user-email">邮箱(*)</label> <input type="email" class=""
+			id="user-email" name="user.email" placeholder="邮箱地址"
+			value="#(user.email??)" required>
+	</div>
+
+	<div class="am-form-group">
+		<label for="user-mobile">手机</label> <input type="text" class=""
+			id="user-mobile" name="user.mobile" placeholder="手机"
+			value="#(user.mobile??)">
+	</div>
+
+	<div class="am-form-group">
+		<label for="user-gender">性别</label> <select id="user-gender"
+			name="user.gender">
+			<option value="0">请选择性别</option>
+			<option value="1" #(user !=null && user.gender== '1'?'selected':'')>男</option>
+			<option value="2" #(user !=null && user.gender== '2'?'selected':'')>女</option>
+		</select> <span class="am-form-caret"></span>
+	</div>
+
+	<div class="am-form-group">
+		<label for="user-birthday">出生日期</label> <input id="user.birthday"
+			name="user.birthday" type="text"
+			value="#date(user.birthday??, 'yyyy-MM-dd')" class="am-form-field"
+			placeholder="出生日期" data-am-datepicker readonly />
+	</div>
+
+
+
+	<div class="am-form-group">
+		<label for="user-company">公司名称</label> <input type="text"
+			class="" id="user-company" name="user.company"
+			placeholder="公司名称" value="#(user.company??)">
+	</div>
+
+
+	
