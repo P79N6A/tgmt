@@ -3,15 +3,10 @@
 
 #define content()
 
-#--
 #set(append = "")
-#if(qTrainType??)
-  #set(append = append + "-" + qTrainType)
-#end
 #if(qKeyword??)
-  #set(append = append + "-" + qKeyword)
+  #set(append = append + "?qKeyword=" + qKeyword)
 #end
---#
 
 <div class="admin-content">
 
