@@ -1,0 +1,34 @@
+	#if(role==null) 
+	<legend>新建角色 </legend><span id="save-newrole-msg"></span>
+	#end
+	<input type="hidden" name="role.id" value="#(role.id??)" />
+	
+	#if(role.id??)
+		<div class="am-form-group">
+			<label for="role-name">角色名称: <span class="am-badge am-badge-success am-round am-text-default">#(role.name??)</span></label> 
+		</div>
+	#else 
+		<div class="am-form-group">
+			<label for="role-name">角色名称</label> 
+			<input type="text" class="" id="role-name" name="role.name" placeholder="角色名称" value="#(role.name??)" required>
+		</div>
+	#end
+	<div class="am-form-group">
+		<label for="role-description">角色描述</label> 
+		<textarea class="" rows="5" id="role-description">#(role.description??)</textarea>
+	</div>
+	
+	
+	#if(role.id??)
+	<div class="am-form-group">
+		<label for="role-flag">角色类别: #(role !=null && role.flag== '0'?'系统默认角色':'用户扩展角色')</label> 
+	</div>
+	#else
+	<div class="am-form-group">
+		<label for="role-flag">角色类别（默认将选择“用户扩展角色类别”）</label> 
+		<select id="role-flag" name="role.flag">
+			<option value="1" #(role !=null && role.flag== '1'?'selected':'')>用户扩展角色</option>
+			<option value="0" #(role !=null && role.flag== '0'?'selected':'')>系统默认角色</option>
+		</select>
+	</div>	
+	#end

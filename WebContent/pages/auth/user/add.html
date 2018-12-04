@@ -143,7 +143,7 @@ function doSaveAction(username, nickname, email, mobile, gender, birthday, compa
           		location.href = "#(CPATH)/auth/user/edit/" + rsp["id"];
           		return true;
           	} else {
-          		$("#save-newuser-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>修改用户信息失败，请检查！</p></div>');
+          		$("#save-newuser-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '！</p></div>');
               	return false;
 			}
 		}

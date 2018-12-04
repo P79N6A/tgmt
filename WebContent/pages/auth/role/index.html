@@ -4,8 +4,11 @@
 #define content()
 
 #set(append = "")
+#if(qRoleType??)
+  #set(append = append + "?qRoleType=" + qRoleType)
+#end
 #if(qKeyword??)
-  #set(append = append + "?qKeyword=" + qKeyword)
+  #set(append = append + "&qKeyword=" + qKeyword)
 #end
 
 
@@ -33,10 +36,20 @@
 		</div>
 		
 		<form class="am-form" action="#(CPATH)/auth/role" method="post">
-			
-			<div class="am-u-sm-12 am-u-md-6">
+			<div class="am-u-sm-12 am-u-md-3">
+				<div class="am-form-group">
+					<select id="filter-mps-type" name="qRoleType">
+						<option value="all" #(qRoleType=='0'||qRoleType=='1'?'':'selected') >所有类别</option>
+						<option value="1" #(qRoleType == '1'?'selected':'') >用户扩展角色</option>
+						<option value="0" #(qRoleType == '0'?'selected':'') >系统默认角色</option>
+						
+					</select>
+				</div>
+			</div>
+			<div class="am-u-sm-12 am-u-md-3">
 				<div class="am-input-group">
-					<input type="text" class="am-form-field" name="qKeyword" value="#(qKeyword??)"> <span
+					<input type="text" class="am-form-field" name="qKeyword" value="#(qKeyword??)"> 
+					<span
 						class="am-input-group-btn">
 						<button class="am-btn am-btn-default" type="submit">搜索</button>
 					</span>
@@ -68,13 +81,15 @@
 						#for(x : rolePage.getList())
 						<tr>
 							<!-- <td><input type="checkbox" /></td>-->
-							<td>#(x.id)</td>
-							<td><a href="#">#(x.name)</a></td>
-							<td>#(x.description)</td>
-							<td>#(x.flag=='0'?'系统默认角色':'用户扩展角色')</td>
-							<td class="am-hide-sm-only">#date(x.created, "yyyy-MM-dd HH:mm:ss")</td>
-							<td class="am-hide-sm-only">#date(x.modified, "yyyy-MM-dd HH:mm:ss")</td>
-							<td>
+							<td class="am-text-xs">#(x.id)</td>
+							<td class="am-text-xs"><a href="#">#(x.name)</a></td>
+							<td class="am-text-xs">
+								<div class="am-text-truncate" style="width:250px;" title="#(x.description??)">#(x.description??)</div>
+							</td>
+							<td class="am-text-xs">#(x.flag=='0'?'系统默认角色':'用户扩展角色')</td>
+							<td class="am-text-xs am-hide-sm-only">#date(x.created, "yyyy-MM-dd HH:mm:ss")</td>
+							<td class="am-text-xs am-hide-sm-only">#date(x.modified, "yyyy-MM-dd HH:mm:ss")</td>
+							<td class="am-text-xs">
 								<div class="am-btn-toolbar">
 									<div class="am-btn-group am-btn-group-xs">
 										<button

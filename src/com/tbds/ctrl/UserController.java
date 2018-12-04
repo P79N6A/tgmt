@@ -54,6 +54,16 @@ public class UserController extends Controller {
 	public void update() {
 		JSONObject resp = new JSONObject();
 		User user = getModel(User.class, "user");
+		
+		if(null == user) {
+			resp.put("msg", "更新用户失败，请检查!");
+			resp.put("code", -1);
+			renderJson(resp);
+			return;
+		}
+		
+		user.set("modified", new java.util.Date());
+		
 		boolean flag = user.update();
 		int code = 0;
 		if (flag) {
