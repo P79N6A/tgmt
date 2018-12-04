@@ -87,6 +87,8 @@ public class WebConfig extends JFinalConfig {
         
         me.add("/filebrowser", FileBrowserController.class);
         
+        me.add("/analytics/fault", AnalyticsController.class);
+        
         /**
          * 用户账号，角色，权限设置路由
          */
