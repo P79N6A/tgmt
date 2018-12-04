@@ -1,17 +1,42 @@
 package com.tbds.ctrl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
+import org.apache.log4j.Logger;
+
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.StrKit;
 import com.tbds.model.eo.User;
 import com.tbds.service.UserService;
+import com.tbds.util.StrUtil;
 
 public class UserController extends Controller {
-	
+	private static final Logger log = Logger.getLogger(MpsController.class);
 	public void index() {
+		int currentPageIndex = getParaToInt(0, 1);
 		
-		setAttr("userPage", UserService.paginate(getParaToInt(0, 1), 5));
+		String keyword = getPara("qKeyword");
+		
+		if (StrUtil.notBlank(keyword)) {
+			// 处理keyword传入：解码处理（中文keyword）
+			if (StrUtil.notBlank(keyword)) {
+				try {
+					keyword = URLDecoder.decode(keyword, "UTF-8");
+				} catch (UnsupportedEncodingException ex) {
+					log.error(ex.getMessage());
+				}
+			}
+			// 通过keyword进一步搜索查询
+			setAttr("userPage", UserService.search(currentPageIndex, 5, keyword));
+			
+			setAttr("qKeyword", keyword);
+
+		} else {
+			setAttr("userPage", UserService.paginate(currentPageIndex, 5));
+		}
 		
 		render("index.html");
 	}
