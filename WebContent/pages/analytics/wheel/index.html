@@ -1,0 +1,105 @@
+#@layout(title="故障分析")
+
+#define content()
+
+
+<div class="admin-content">
+
+	<script type="text/javascript" src="#(CPATH)/assets/js/echarts.min.js"></script>
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">数据分析</strong> / <small>轮径值分析</small></div>
+    </div>
+
+    <hr>
+        
+    <div class="am-g">
+          
+		<div id="report1" class="am-u-sm-12 am-u-md-12" style="width:100%;height:400px">
+			
+		</div>
+
+	<script type="text/javascript">
+		// 基于准备好的dom，初始化echarts实例
+		var myChart = echarts.init(document.getElementById('report1'));
+		
+		option = {
+			    tooltip : {
+			        trigger: 'axis'
+			    },
+			    legend: {
+			        data:['输入轮径值','估计轮径值']
+			    },
+			    toolbox: {
+			        show : true,
+			        feature : {
+			            mark : {show: true},
+			            dataZoom : {show: true},
+			            dataView : {show: true},
+			            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+			            restore : {show: true},
+			            saveAsImage : {show: true}
+			        }
+			    },
+			    calculable : true,
+			    dataZoom : {
+			        show : true,
+			        realtime : true,
+			        start : 20,
+			        end : 80
+			    },
+			    xAxis : [
+			        {
+			            type : 'category',
+			            boundaryGap : false,
+			            data : function (){
+			                var list = [];
+			                for (var i = 1; i <= 30; i++) {
+			                    list.push('2013-03-' + i);
+			                }
+			                return list;
+			            }()
+			        }
+			    ],
+			    yAxis : [
+			        {
+			            type : 'value'
+			        }
+			    ],
+			    series : [
+			        {
+			            name:'输入轮径值',
+			            type:'line',
+			            data:function (){
+			                var list = [];
+			                for (var i = 1; i <= 30; i++) {
+			                    list.push(Math.round(Math.random()* 30));
+			                }
+			                return list;
+			            }()
+			        },
+			        {
+			            name:'估计轮径值',
+			            type:'line',
+			            data:function (){
+			                var list = [];
+			                for (var i = 1; i <= 30; i++) {
+			                    list.push(Math.round(Math.random()* 10));
+			                }
+			                return list;
+			            }()
+			        }
+			    ]
+			};
+			                    
+			                    		
+		
+		myChart.setOption(option);
+		
+	</script>
+
+  </div>
+
+</div>
+
+#end
