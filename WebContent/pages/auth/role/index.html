@@ -1,23 +1,19 @@
-#@layout(title="设备管理") 
+#@layout(title="角色管理") 
 
 
 #define content()
 
-#--
 #set(append = "")
-#if(qTrainType??)
-  #set(append = append + "-" + qTrainType)
-#end
 #if(qKeyword??)
-  #set(append = append + "-" + qKeyword)
+  #set(append = append + "?qKeyword=" + qKeyword)
 #end
---#
+
 
 <div class="admin-content">
 
 	<div class="am-cf am-padding">
 		<div class="am-fl am-cf">
-			<strong class="am-text-primary am-text-lg">权限管理</strong> / <small>角色配置</small>
+			<strong class="am-text-primary am-text-lg">权限管理</strong> / <small>角色管理</small>
 		</div>
 	</div>
 
@@ -31,10 +27,6 @@
 					<button type="button" class="am-btn am-btn-default"
 					onclick="javascript:window.location.href='#(CPATH)/auth/role/add';return false;">
 						<span class="am-icon-plus"></span> 新增
-					</button>
-					
-					<button type="button" class="am-btn am-btn-default">
-						<span class="am-icon-trash-o"></span> 删除
 					</button>
 				</div>
 			</div>
@@ -61,11 +53,11 @@
 				<table class="am-table am-table-striped am-table-hover table-main">
 					<thead>
 						<tr>
-							<th class="table-check"><input type="checkbox" /></th>
+							<!-- <th class="table-check"><input type="checkbox" /></th>-->
 							<th class="table-id">ID</th>
-							<th class="table-title">角色名</th>
+							<th class="table-title">名称</th>
 							<th class="table-type">描述</th>
-							<th class="table-author am-hide-sm-only">标识</th>
+							<th class="table-author am-hide-sm-only">类别</th>
 							<th class="table-date am-hide-sm-only">创建时间</th>
 							<th class="table-date am-hide-sm-only">修改时间</th>
 							<th class="table-set">操作</th>
@@ -75,11 +67,11 @@
 					#if(rolePage??)
 						#for(x : rolePage.getList())
 						<tr>
-							<td><input type="checkbox" /></td>
+							<!-- <td><input type="checkbox" /></td>-->
 							<td>#(x.id)</td>
 							<td><a href="#">#(x.name)</a></td>
 							<td>#(x.description)</td>
-							<td class="am-hide-sm-only">#(x.flag)</td>
+							<td>#(x.flag=='0'?'系统默认角色':'用户扩展角色')</td>
 							<td class="am-hide-sm-only">#date(x.created, "yyyy-MM-dd HH:mm:ss")</td>
 							<td class="am-hide-sm-only">#date(x.modified, "yyyy-MM-dd HH:mm:ss")</td>
 							<td>
