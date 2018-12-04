@@ -2,6 +2,24 @@
 
 #define content()
 
+#set(append = "")
+
+
+#if(dataType??)
+  #set(append = append + "?type=" + dataType)
+#end
+
+#if(startDate??)
+  #set(append = append + "&startDate=" + startDate)
+#end
+#if(endDate??)
+  #set(append = append + "&endDate=" + endDate)
+#end
+
+#if(trainNo??)
+  #set(append = append + "&trainNo=" + trainNo)
+
+#end
 
 <div class="admin-content">
 
@@ -40,7 +58,7 @@
 
         <div class="am-u-sm-12 am-u-md-2">
           <div class="am-form-group">
-            <label for="train">车次</label>
+            <label for="train">列车</label>
             <input id="train"  name="trainno" class="am-form-field" value="#(trainNo)"/>
           </div>
         </div>
@@ -73,7 +91,7 @@
             <table class="am-table am-table-striped am-table-hover table-main">
               <thead>
               <tr>
-                <th class="table-title">日期</th><th class="table-title">文件名</th><th class="table-title">下载</th><th class="table-title">已处理</th>
+                <th class="table-title">日期</th><th class="table-title">文件名</th><th class="table-title">下载</th><th class="table-title">状态</th><th class="table-title">操作</th>
               </tr>
               </thead>
               <tbody>
@@ -82,7 +100,8 @@
                 <td>#(x.TARGET_PATH.substring(x.TARGET_PATH.length()-26,x.TARGET_PATH.length()-18))</td>
                 <td>#(x.TARGET_PATH.substring(x.TARGET_PATH.length()-35))</td>
                 <td><a href="filebrowser/download?fn=#(x.TARGET_PATH.substring(x.TARGET_PATH.length()-35))">下载</a></td>
-                <td><a href="#">Yes</a></td>
+                <td>已处理</td>
+                <td><a href="filebrowser/download?fn=#(x.TARGET_PATH.substring(x.TARGET_PATH.length()-35))">数据图</a></td>
               </tr>
               #end
               

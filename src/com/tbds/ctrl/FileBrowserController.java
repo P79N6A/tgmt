@@ -18,8 +18,17 @@ public class FileBrowserController  extends Controller {
     
    public void index()
     {
-        setAttr("files", JobSchedulerService.searchHistory("","","",getParaToInt(0, 1), 5));
-        render("index.html");
+       String startDate = getPara("startdate");
+       String endDate = getPara("enddate");
+       String type = getPara("type");
+       String trainNo = getPara("trainno");
+       setAttr("startDate",startDate);
+       setAttr("endDate",endDate);
+       setAttr("dataType",type);
+       setAttr("trainNo",trainNo);
+       setAttr("files", JobSchedulerService.searchFiles(startDate,endDate,type,trainNo,getParaToInt(0, 1), 5));
+       render("index.html");
+ 
     }
         
     public void  search()

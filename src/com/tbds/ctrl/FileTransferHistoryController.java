@@ -16,7 +16,14 @@ public class FileTransferHistoryController extends Controller  {
     
     public void index()
     {
-        setAttr("files", JobSchedulerService.searchHistory("","","",getParaToInt(0, 1), 5));
+        String startDate = getPara("startdate");
+        String endDate = getPara("enddate");
+        String type = getPara("type");
+        setAttr("startDate",startDate);
+        setAttr("endDate",endDate);
+        setAttr("dataType",type);
+        
+        setAttr("files", JobSchedulerService.searchHistory(startDate,endDate,type,getParaToInt(0, 1), 5));
         render("index.html");
     }
         
