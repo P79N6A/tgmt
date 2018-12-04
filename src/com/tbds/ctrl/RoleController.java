@@ -30,11 +30,11 @@ public class RoleController extends Controller {
 				}
 			}
 			// 通过keyword进一步搜索查询
-			setAttr("rolePage", RoleService.search(currentPageIndex, 2, roleType, keyword));
+			setAttr("rolePage", RoleService.search(currentPageIndex, 5, roleType, keyword));
 			setAttr("qRoleType", roleType);
 			setAttr("qKeyword", keyword);
 		} else {
-			setAttr("rolePage", RoleService.paginate(currentPageIndex, 2));
+			setAttr("rolePage", RoleService.paginate(currentPageIndex, 5));
 		}
 		render("index.html");
 	}
