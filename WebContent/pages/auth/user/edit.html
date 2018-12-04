@@ -144,14 +144,14 @@ function updateuser() {
 function changepswd() {
 	
   $('.am-alert').remove();
-  var vOldPwd = '';
+  //var vOldPwd = '';
   //注意，这里混合两种代码
   #if(user.password??) 
-	vOldPwd = $("#old-password").val();
-	if(vOldPwd=="") {
-		$("#old-password").after('<div id="oldPasswordErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入旧密码！</p></div>');
-		return;
-	}
+	//vOldPwd = $("#old-password").val();
+	//if(vOldPwd=="") {
+	//	$("#old-password").after('<div id="oldPasswordErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入旧密码！</p></div>');
+	//	return;
+	//}
   #end
   
   var vNewOnePwd = $("#new-one-password").val();
@@ -175,7 +175,6 @@ function changepswd() {
 		url: "#(CPATH)/auth/user/chgpswd",
 		data: {
 			'userid':#(user.id),
-			'oldpassword': vOldPwd,
 			'newonepassword': vNewOnePwd,
 			'newdualpassword':vNewDualPwd
 		},
