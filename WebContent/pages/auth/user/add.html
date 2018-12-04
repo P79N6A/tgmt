@@ -13,14 +13,15 @@
 
     <div class="am-g">
         <div class="am-u-sm-10">
-            <form class="am-form  am-form-horizontal">
+            <form id="add-new-user-form" class="am-form  am-form-horizontal">
                 <fieldset>
 	                #include("_basic_form.html")
 	                <!--begin 提交保存按钮 -->
 					<div class="am-form-group">
 							<div class="am-u-sm-3">
 								<div class="am-input-group am-input-group-sm">
-									<button class="am-btn am-btn-primary am-btn-lg am-fl am-radius"
+									<button id="save-user-btn"
+										class="am-btn am-btn-primary am-btn-lg am-fl am-radius"
 										onclick="saveuser()"
 										type="button">保存</button>
 								</div>
@@ -46,9 +47,107 @@
 <script type="text/javascript">
 //action="#(CPATH)/auth/user/save" method="post"
 
+$(function(){
+	$("#doc-ipt-username-1").blur(function(){
+		//$("input").css("background-color","#D6D6FF");
+		var username = $("#doc-ipt-username-1").val();
+		if(username != "") {
+			checkUsernameExist(username);
+		}
+	});
+});
+
+
+
 function saveuser() {
+	$('.am-alert').remove();
 	
+	var username = $("#doc-ipt-username-1").val();
+	if(username == "") {
+	 	$("#doc-ipt-username-1").after('<div id="usernameNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入用户名！</p></div>');
+	}
+
+	var nickname = $("#user-nickname").val();
+	if(nickname=="") {
+		$("#user-nickname").after('<div id="nicknameNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入昵称！</p></div>');
+	}
 	
+	var email = $("#user-email").val();
+	if(email=="") {
+		$("#user-email").after('<div id="emailNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入邮箱信息！</p></div>');
+	}
+	
+	var mobile = $("#user-mobile").val();
+	var gender = $("#user-gender").val();
+	var birthday = $("#user-birthday").val();
+	var company = $("#user-company").val();
+	
+	//alert("username = " + username + ", nickname = " + nickname + ", email = " + email +", mobile = " + mobile + ", gender = " + gender + ", birthday = " + birthday + ", company = " + company);
+	
+	doSaveAction(username, nickname, email, mobile, gender, birthday, company);
+	
+}
+
+function checkUsernameExist(username) {
+	$('#usernameNullErr').remove();
+	$('.am-icon-check').remove();
+	
+	$("#username-field-grp").removeClass("am-form-error").removeClass("am-form-success").removeClass("am-form-icon").removeClass("am-form-feedback");
+	
+	if(username=="") {
+		return;
+	}
+	
+	$.ajax({
+		type: "POST",
+		dataType: "json",
+		url: "#(CPATH)/auth/user/checkexistuname",
+		data: {
+			"username": username
+		},
+		success: function(rsp){
+			if(rsp["code"]==1){//新用户名可用
+				$("#save-user-btn").prop('disabled', false);
+				$("#username-field-grp").addClass("am-form-success").addClass("am-form-icon").addClass("am-form-feedback");
+				$("#doc-ipt-username-1").after('<span class="am-icon-check">该用户名可用！</span>');
+				return true;
+          	} else {
+          		$("#save-user-btn").prop('disabled', true);
+          		$("#username-field-grp").addClass("am-form-error");
+          		$("#doc-ipt-username-1").after('<div id="usernameNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>该用户名不可用，系统已存在！</p></div>');
+          		return false;
+			}
+		}
+	});
+}
+
+function doSaveAction(username, nickname, email, mobile, gender, birthday, company) {
+	$.ajax({
+		type: "POST",
+		dataType: "json",
+		url: "#(CPATH)/auth/user/save",
+		data: {
+			'user.username': username,
+			'user.nickname': nickname,
+			'user.email': email,
+			'user.mobile': mobile,
+			'user.gender': gender,
+			'user.birthday': birthday,
+			'user.company': company
+		},
+		success: function(rsp){
+			if(rsp['code']==1){
+				//$("#user-birthday").val('');
+				//$('#add-new-user-form').trigger("reset");
+          		//$("#save-newuser-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] +'！</p></div>');
+          		location.href = "#(CPATH)/auth/user/edit/" + rsp["id"];
+          		return true;
+          	} else {
+          		$("#save-newuser-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>修改用户信息失败，请检查！</p></div>');
+              	return false;
+			}
+		}
+	});
 }
 
 
