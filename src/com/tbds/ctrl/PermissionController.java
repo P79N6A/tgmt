@@ -9,7 +9,10 @@ import org.apache.log4j.Logger;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
+import com.tbds.model.eo.Permission;
+import com.tbds.model.eo.Role;
 import com.tbds.service.PermissionService;
+import com.tbds.service.RoleService;
 import com.tbds.util.StrUtil;
 
 public class PermissionController extends Controller {
@@ -58,6 +61,62 @@ public class PermissionController extends Controller {
         
 	}
 	
+	public void delete() {
+		JSONObject resp = new JSONObject();
+		
+		Permission permission = getModel(Permission.class, "permission");
+		
+		if(null == permission) {
+			resp.put("msg", "删除权限资源失败，请检查!");
+			resp.put("code", -1);
+			renderJson(resp);
+			return;
+		}
+		
+		boolean flag = permission.delete();
+		
+		int code = 0;
+		if (flag) {
+			code = 1;
+			resp.put("msg", "成功删除权限资源!");
+		} else {
+			resp.put("msg", "删除权限资源失败，请检查!");
+		}
+		resp.put("code", code);
+		renderJson(resp);
+	}
+	
+	public void edit() {
+		int permissionId = getParaToInt(0, 1);
+		setAttr("permission", PermissionService.findById(permissionId));
+		render("edit.html");
+	}
+	
+	public void update() {
+		JSONObject resp = new JSONObject();
+		
+		Permission permission = getModel(Permission.class, "permission");
+		
+		if(null == permission) {
+			resp.put("msg", "更新权限资源失败，请检查!");
+			resp.put("code", -1);
+			renderJson(resp);
+			return;
+		}
+		
+		permission.set("modified", new java.util.Date());
+		
+		boolean flag = permission.update();
+		int code = 0;
+		if (flag) {
+			code = 1;
+			resp.put("msg", "成功更新权限资源!");
+		} else {
+			resp.put("msg", "更新权限资源失败，请检查!");
+		}
+		resp.put("code", code);
+		renderJson(resp);
+	}
 	
 	
 	

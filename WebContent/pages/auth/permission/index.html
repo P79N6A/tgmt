@@ -98,9 +98,8 @@
 											<span class="am-icon-pencil-square-o"></span> 编辑
 										</button>
 										
-										<button
-											class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"
-											id="del-permission-btn">
+										<button type="button" onclick="deletePermission({'id':#(x.id), 'actionkey':'#(x.action_key)', 'type':'#(x.type)'})"
+											class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">
 											<span class="am-icon-trash-o"></span> 删除
 										</button>
 									</div>
@@ -127,6 +126,19 @@
 
 </div>
 
+<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">权限删除操作</div>
+    <div class="am-modal-bd">
+             你，确定要删除这条记录[<span id="will-be-del-permission" class="am-text-warning"></span>]吗？
+    </div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+      <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+    </div>
+  </div>
+</div>
+
 <<script type="text/javascript">
 <!--
 
@@ -146,6 +158,42 @@ function syncPermisson() {
   			}
   		}
   	});
+}
+
+function deletePermission(data) {
+	$('.am-alert').remove();
+	$("#will-be-del-permission").html(data['actionkey']);
+	$('#my-confirm').modal({
+        relatedTarget: data,
+        onConfirm: function(options) {
+          var data = this.relatedTarget;
+          $.ajax({
+      		type: "POST",
+      		dataType: "json",
+      		url: "#(CPATH)/auth/permission/delete",
+      		data: {
+      			'permission.id': data['id'],
+      			'permission.action_key': data['actionkey'],
+      			'permission.type': data['type']
+      		},
+      		success: function(rsp){
+      			if(rsp['code']==1){
+      				//location.href = "#(CPATH)/auth/permission";
+      				$("#perm-hr").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '请手工刷新页面，或<a href="#(CPATH)/auth/permission"><span class="am-badge am-badge-warning am-text-lg">点击此处进行刷新</span></a>！</p></div>');
+                	return true;
+                } else {
+                	$("#perm-hr").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '！</p></div>');
+                    return false;
+      			}
+      		}
+      	});
+          
+        },
+        // closeOnConfirm: false,
+        onCancel: function() {
+          //do nothing
+        }
+	});
 }
 
 //-->

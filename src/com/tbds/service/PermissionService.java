@@ -80,6 +80,10 @@ public class PermissionService {
 		return Permission.dao.findFirst("select * from tbds_permission where action_key = ?", ctrlKey);
 	}
 	
+	public static Permission findById(int id) {
+		return Permission.dao.findById(id);
+	}
+	
 	public static boolean refreshPermissions() {
 		boolean done = true;
 		
