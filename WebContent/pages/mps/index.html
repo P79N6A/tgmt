@@ -76,9 +76,11 @@
 					<thead>
 						<tr>
 							<!-- <th class="table-check"><input type="checkbox" /></th> -->
-							<th class="table-id">ID</th>
-							<th class="table-title">标识</th>
+							<!-- <th class="table-id">ID</th>  -->
+							<th class="table-title">唯一标识</th>
 							<th class="table-type">类别</th>
+							<th class="table-title">所属列车号</th>
+							<th class="table-type">端类别</th>
 							<th class="table-author am-hide-sm-only">主机IP</th>
 							<th class="table-date am-hide-sm-only">端口</th>
 							<th class="table-set">操作</th>
@@ -89,9 +91,11 @@
 						#for(x : mpsPage.getList())
 						<tr>
 							<!--  <td><input type="checkbox" /></td> -->
-							<td>#(x.id)</td>
+							<!--  <td>#(x.id)</td>  -->
 							<td><a href="#">#(x.desc)</a></td>
 							<td>#(x.train_type)</td>
+							<td>#(x.train_num)</td>
+							<td>#(x.ab_marker=='A'?'A端' : 'B端')</td>
 							<td class="am-hide-sm-only">#(x.host_ip)</td>
 							<td class="am-hide-sm-only">#(x.host_port)</td>
 							<td>
