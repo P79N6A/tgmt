@@ -131,7 +131,7 @@ public class RoleController extends Controller {
 		}
 		
 		if("0".equals(role.getStr("flag"))) {//属于系统默认角色，不能删除
-			resp.put("msg", "删除角色失败，系统属性不可删除！!");
+			resp.put("msg", "删除角色失败，系统默认角色不可删除！!");
 			resp.put("code", 0);
 			renderJson(resp);
 			return;
