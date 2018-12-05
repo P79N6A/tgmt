@@ -6,7 +6,7 @@
 #setLocal(endPage = currentPage + 4)
 #if (endPage > totalPage) #setLocal(endPage = totalPage) #end
 <div class="am-cf">
-    共有 #(totalRow??"0") 条记录
+    共有 #(totalRow??"0") 条记录,  #(totalPage)页
     <div class="am-fr">
         <ul class="am-pagination">
             #if (currentPage <= 8)

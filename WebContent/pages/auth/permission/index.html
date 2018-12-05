@@ -4,8 +4,12 @@
 #define content()
 
 #set(append = "")
+
+#if(qPermType??)
+  #set(append = append + "?qPermType=" + qPermType)
+#end
 #if(qKeyword??)
-  #set(append = append + "?qKeyword=" + qKeyword)
+  #set(append = append + "&qKeyword=" + qKeyword)
 #end
 
 <div class="admin-content">
@@ -16,7 +20,7 @@
 		</div>
 	</div>
 
-	<hr id="mps-hr">
+	<hr id="perm-hr">
 	
 	<div class="am-g">
 		
@@ -24,7 +28,7 @@
 			<div class="am-btn-toolbar">
 				<div class="am-btn-group">
 					<button type="button" class="am-btn am-btn-default"
-					onclick="javascript:window.location.href='#(CPATH)/auth/permission/sync';return false;">
+					onclick="javascript:syncPermisson();return false;">
 						<span class="am-icon-refresh"></span> 一键同步
 					</button>
 				</div>
@@ -32,8 +36,18 @@
 		</div>
 		
 		<form class="am-form" action="#(CPATH)/auth/permission" method="post">
+			<div class="am-u-sm-12 am-u-md-3">
+				<div class="am-form-group">
+					<select id="filter-permission-type" name="qPermType">
+						<option value="all" #(qPermType == 'all'?'selected':'') >所有类别</option>
+						<option value="menu" #(qPermType == 'menu'?'selected':'') >菜单</option>
+						<option value="oper" #(qPermType == 'oper'?'selected':'') >操作</option>
+						<option value="other" #(qPermType == 'other'?'selected':'') >其他</option>
+					</select>
+				</div>
+			</div>
 			
-			<div class="am-u-sm-12 am-u-md-6">
+			<div class="am-u-sm-12 am-u-md-3">
 				<div class="am-input-group">
 					<input type="text" class="am-form-field" name="qKeyword" value="#(qKeyword??)"> <span
 						class="am-input-group-btn">
@@ -55,7 +69,7 @@
 							<th class="table-check"><input type="checkbox" /></th>
 							<th class="table-id">ID</th>
 							<th class="table-title">ActionKey</th>
-							<th class="table-type">Controller</th>
+							<th class="table-type">方法</th>
 							<th class="table-type">类型</th>
 							<th class="table-author am-hide-sm-only">备注</th>
 							<th class="table-date am-hide-sm-only">创建时间</th>
@@ -71,7 +85,7 @@
 							<td>#(x.id)</td>
 							<td><a href="#">#(x.action_key)</a></td>
 							<td>#(x.node)</td>
-							<td class="am-hide-sm-only">#(x.type)</td>
+							<td class="am-hide-sm-only">#(x.type=='menu'?'菜单':x.type=='oper'?'操作':'其他')</td>
 							<td class="am-hide-sm-only">#(x.text)</td>
 							<td class="am-hide-sm-only">#date(x.created, "yyyy-MM-dd HH:mm:ss")</td>
 							<td class="am-hide-sm-only">#date(x.modified, "yyyy-MM-dd HH:mm:ss")</td>
@@ -90,7 +104,6 @@
 											<span class="am-icon-trash-o"></span> 删除
 										</button>
 									</div>
-
 
 								</div>
 							</td>
@@ -113,6 +126,30 @@
 	</div>
 
 </div>
+
+<<script type="text/javascript">
+<!--
+
+function syncPermisson() {
+	$('.am-alert').remove();
+	$.ajax({
+  		type: "POST",
+  		dataType: "json",
+  		url: "#(CPATH)/auth/permission/sync",
+  		success: function(rsp){
+  			if(rsp['code']==1){	
+  				$("#perm-hr").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '请手工刷新页面，或<a href="#(CPATH)/auth/permission"><span class="am-badge am-badge-warning am-text-lg">点击此处进行刷新</span></a>！</p></div>');
+            	return true;
+            } else {
+            	$("#perm-hr").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '！</p></div>');
+                return false;
+  			}
+  		}
+  	});
+}
+
+//-->
+</script>
 
 
 #end

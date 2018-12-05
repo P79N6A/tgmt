@@ -26,7 +26,13 @@ public class RoleService {
 			whereSql += likeSql;
 		}
 		
-		return Role.dao.paginate(pageNumber, pageSize, "select *", " from tbds_role where " + whereSql +" order by id asc");
+		String fromSql = "from tbds_role order by by id asc";
+		
+		if(StrKit.notBlank(whereSql)) {
+			fromSql = " from tbds_role where " + whereSql +" order by id asc";
+		}
+		
+		return Role.dao.paginate(pageNumber, pageSize, "select *", fromSql);
 	}
 	
 	public static Role filterByRoleName(String roleName) {

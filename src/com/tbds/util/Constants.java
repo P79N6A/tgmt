@@ -72,13 +72,19 @@ public class Constants {
     public static final String LOGINER_UNI_NAME = "_tbds_logon_user_name_";
     
     /**
+     * Permission Type
+     */
+    public static final String PERMISSION_MENU_TYPE = "permissionMenuType";
+    public static final String PERMISSION_OPER_TYPE = "permissionOperType";
+    
+    /**
      * 标准日期格式：yyyy-MM-dd
      */
     public static final String STANDARD_DATE = "yyyy-MM-dd";
     /**
-     * 标准时间格式：hh:mm:ss
+     * 标准时间格式：HH:mm:ss
      */
-    public static final String STANDARD_TIME = "hh:mm:ss";
+    public static final String STANDARD_TIME = "HH:mm:ss";
     /**
      * 标准日期时间格式：yyyy-MM-dd hh:mm:ss
      */
