@@ -16,7 +16,7 @@
 		</div>
 	</div>
 
-	<hr id="mps-hr">
+	<hr id="user-hr">
 	
 	<div class="am-g">
 		
@@ -98,13 +98,12 @@
 											<span class="am-icon-pencil-square-o"></span> 编辑
 										</button>
 										
-										<!--
-										<button
+										<button type="button"
 											class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"
-											onclick="javascript:del()">
+											onclick="deleteUser({'id':#(x.id), 'username':'#(x.username)', 'flag':'#(x.flag)'})">
 											<span class="am-icon-trash-o"></span> 删除
 										</button>
-										-->
+										
 									</div>
 
 
@@ -131,8 +130,54 @@
 
 </div>
 
+<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">用户删除操作</div>
+    <div class="am-modal-bd">
+             你，确定要删除这条记录 "<span id="will-be-del-user" class="am-text-warning"></span>" 吗？
+    </div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+      <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript">
 
+function deleteUser(data) {
+	$("#will-be-del-user").html(data['username']);
+	$('#my-confirm').modal({
+        relatedTarget: data,
+        onConfirm: function(options) {
+          var data = this.relatedTarget;
+          $.ajax({
+      		type: "POST",
+      		dataType: "json",
+      		url: "#(CPATH)/auth/user/delete",
+      		data: {
+      			'user.id': data['id'],
+      			'user.username': data['username'],
+      			'user.flag': data['flag']
+      		},
+      		success: function(rsp){
+      			if(rsp['code']==1){
+      				location.href = "#(CPATH)/auth/user";
+                	return true;
+                } else {
+                	$("#user-hr").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '！</p></div>');
+                    return false;
+      			}
+      		}
+      	});
+          
+        },
+        // closeOnConfirm: false,
+        onCancel: function() {
+          //do nothing
+        }
+	});
+}
 
 </script>
 

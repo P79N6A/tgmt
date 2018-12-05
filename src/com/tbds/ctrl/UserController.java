@@ -260,5 +260,36 @@ public class UserController extends Controller {
 		renderJson(jo);
 
 	}
+	
+	
+	public void delete() {
+		JSONObject resp = new JSONObject();
+		User user = getModel(User.class, "user");
+		
+		if(null == user) {
+			resp.put("msg", "删除用户失败，请检查!");
+			resp.put("code", -1);
+			renderJson(resp);
+			return;
+		}
+		
+		if("s".equalsIgnoreCase(user.getStr("flag"))) {
+			resp.put("msg", "删除用户失败，超级管理员不可删除！");
+			resp.put("code", 0);
+			renderJson(resp);
+			return;
+		}
+		
+		boolean flag = user.delete();
+		int code = 0;
+		if (flag) {
+			code = 1;
+			resp.put("msg", "成功删除用户!");
+		} else {
+			resp.put("msg", "删除用户失败，请检查!");
+		}
+		resp.put("code", code);
+		renderJson(resp);
+	}
 
 }

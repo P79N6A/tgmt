@@ -13,7 +13,12 @@
 
 	<div class="am-u-sm-12">
 		<div class="am-panel am-panel-default">
-			<div class="am-panel-hd">用户名：#(user.username??)</div>
+			<div class="am-panel-hd">
+				用户名：#(user.username??)
+				#if(user!=null&&user.flag=='s')
+				[ <span class="am-icon-street-view">超级管理员</span> ]
+				#end
+			</div>
 			<div class="am-panel-bd">
 				<div id="tips-msg"></div>
 				<div class="am-tabs" data-am-tabs>

@@ -117,4 +117,36 @@ public class RoleController extends Controller {
 		resp.put("code", code);
 		renderJson(resp);
 	}
+	
+	public void delete() {
+		JSONObject resp = new JSONObject();
+		
+		Role role = getModel(Role.class, "role");
+		
+		if(null == role) {
+			resp.put("msg", "删除角色失败，请检查!");
+			resp.put("code", -1);
+			renderJson(resp);
+			return;
+		}
+		
+		if("0".equals(role.getStr("flag"))) {//属于系统默认角色，不能删除
+			resp.put("msg", "删除角色失败，系统属性不可删除！!");
+			resp.put("code", 0);
+			renderJson(resp);
+			return;
+		}
+		
+		boolean flag = role.delete();
+		
+		int code = 0;
+		if (flag) {
+			code = 1;
+			resp.put("msg", "成功删除角色!");
+		} else {
+			resp.put("msg", "删除角色失败，请检查!");
+		}
+		resp.put("code", code);
+		renderJson(resp);
+	}
 }

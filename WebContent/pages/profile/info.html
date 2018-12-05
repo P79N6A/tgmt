@@ -15,10 +15,10 @@
 					
 					<div class="am-form-group">
 						<label for="user-nickname">
-						<span class="am-icon-street-view">账号名称：</span>
+						<span>账号名称：</span>
 						<span class="am-badge am-badge-success am-round">#(session['_tbds_logon_user_name_']??"******")</span>
-						#if(user.flag=='s')
-						[<small>超级管理员</small>]
+						#if(user!=null&&user.flag=='s')
+						[ <span class="am-icon-street-view">超级管理员</span> ]
 						#end
 						</label>
 					</div>
