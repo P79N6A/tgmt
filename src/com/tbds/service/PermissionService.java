@@ -1,7 +1,9 @@
 package com.tbds.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Action;
@@ -17,6 +19,8 @@ public class PermissionService {
 	
 	private static List<String> BELONG_PERMISSION_MENU_TYPE_LST = new ArrayList<String>();
 	private static List<String> BELONG_PERMISSION_OPER_TYPE_LST = new ArrayList<String>();
+	
+	private static Map<String, String> CTRL_KEY_MODULE_MAP = new HashMap<String, String>();
 	
 	static {
 		PropKit.use(Constants.CONFIG_FILE);
@@ -40,6 +44,15 @@ public class PermissionService {
 				BELONG_PERMISSION_OPER_TYPE_LST.add(oper);
 			}
 		}
+		
+		CTRL_KEY_MODULE_MAP.put("/", "系统主页");
+		CTRL_KEY_MODULE_MAP.put("/login", "用户登录");
+		CTRL_KEY_MODULE_MAP.put("/profile", "个人资料");
+		CTRL_KEY_MODULE_MAP.put("/mps", "MPS终端");
+		CTRL_KEY_MODULE_MAP.put("/filebrowser", "设备数据");
+		CTRL_KEY_MODULE_MAP.put("/fthistory", "传输日志");
+		CTRL_KEY_MODULE_MAP.put("/analytics", "数据分析");
+		CTRL_KEY_MODULE_MAP.put("/auth", "权限模块");
 	}
 	
 	public static Page<Permission> paginate(int pageNumber, int pageSize) {
@@ -125,11 +138,21 @@ public class PermissionService {
         	//if(ctrlKey.equals("/") || ctrlKey.equals("/profile")) {
         	//	continue;
         	//}
-        	
-        	
-        	String methodName = action.getMethodName();
+        	String moduleName = CTRL_KEY_MODULE_MAP.get(ctrlKey);
+        	if(StrKit.isBlank(moduleName)) {
+        		
+        		int nextSlash = ctrlKey.substring(1).indexOf("/");
+        		
+        		if(nextSlash != -1) {
+        			String myKey = ctrlKey.substring(0, nextSlash + 1);
+        			moduleName = CTRL_KEY_MODULE_MAP.get(myKey);
+        		} else {
+        			moduleName = ctrlKey.substring(1);
+        		}
+        	}
         	
         	String permissionType = null;
+        	String methodName = action.getMethodName();
         	if(BELONG_PERMISSION_MENU_TYPE_LST.contains(methodName)) {
         		/*
             	 * 	以下方法归类为“菜单【menu】”权限控制
@@ -155,7 +178,7 @@ public class PermissionService {
         	if(null == permission) {
         		permission = new Permission();
         		permission.set("action_key", actionKey);
-        		permission.set("node", methodName);
+        		permission.set("node", moduleName);
             	permission.set("type", permissionType);
             	permission.set("text", actionKey);
             	permission.set("modified", new java.util.Date());
@@ -164,7 +187,7 @@ public class PermissionService {
         		done = done && permission.save();
         		
         	} else {
-        		permission.set("node", methodName);
+        		permission.set("node", moduleName);
             	permission.set("type", permissionType);
             	//permission.set("text", actionKey);
             	permission.set("modified", new java.util.Date());

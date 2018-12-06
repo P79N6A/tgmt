@@ -114,11 +114,13 @@ function updateuser() {
 	
 	if(nickname=="") {
 		$("#user-nickname").after('<div id="nicknameNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入昵称！</p></div>');
+		return;
 	}
 	
 	var email = $("#user-email").val();
 	if(email=="") {
 		$("#user-email").after('<div id="emailNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入邮箱信息！</p></div>');
+		return;
 	}
 	
 	$.ajax({

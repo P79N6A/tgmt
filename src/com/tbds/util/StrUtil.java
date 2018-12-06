@@ -13,4 +13,14 @@ import com.jfinal.kit.StrKit;
  */
 public class StrUtil extends StrKit {
     
+	public static void main(String[] args) {
+		
+		String ctrlKey = "/auth/permission";
+		
+		String head = ctrlKey.substring(0, ctrlKey.substring(1).indexOf("/")+1);
+		
+		System.out.println("***" + head);
+		
+	}
+	
 }

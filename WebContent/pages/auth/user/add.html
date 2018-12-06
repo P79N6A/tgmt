@@ -65,16 +65,19 @@ function saveuser() {
 	var username = $("#doc-ipt-username-1").val();
 	if(username == "") {
 	 	$("#doc-ipt-username-1").after('<div id="usernameNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入用户名！</p></div>');
+	 	return;
 	}
 
 	var nickname = $("#user-nickname").val();
 	if(nickname=="") {
 		$("#user-nickname").after('<div id="nicknameNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入昵称！</p></div>');
+		return;
 	}
 	
 	var email = $("#user-email").val();
 	if(email=="") {
 		$("#user-email").after('<div id="emailNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入邮箱信息！</p></div>');
+		return;
 	}
 	
 	var mobile = $("#user-mobile").val();

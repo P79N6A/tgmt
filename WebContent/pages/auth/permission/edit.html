@@ -23,9 +23,10 @@
             		<div class="am-form-group">
 						<label for="permission-name">ActionKey:  <span class="am-text-lg">  #(permission.action_key??)</span></label> 
 					</div>
-					
+
 					<div class="am-form-group">
-						<label for="permission-method">Action方法: <span class="am-text-lg">  #(permission.node??)</span></label> 
+					    <label for="permission-node">所属模块</label>
+					    <input class="" type="text" id="permission-node" placeholder="输入模块名称" value="#(permission.node??)" required>
 					</div>
 					
 					<div class="am-form-group">
@@ -78,6 +79,12 @@
 function savepermission() {
 	$('.am-alert').remove();
 	
+	var permissionNode = $("#permission-node").val();
+	if(permissionNode=="") {
+		$("#permission-node").after('<div id="permissionNodeNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入模块名！</p></div>');
+		return;
+	}
+	
 	var permissionType = $("#permission-type").val();
 	var permissionText = $("#permission-description").val();
 	
@@ -87,6 +94,7 @@ function savepermission() {
 		url: "#(CPATH)/auth/permission/update",
 		data: {
 			'permission.id':#(permission.id),
+			'permission.node': permissionNode,
 			'permission.type': permissionType,
 			'permission.text': permissionText
 		},
