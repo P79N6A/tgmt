@@ -3,6 +3,7 @@ package com.tbds.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Action;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.PropKit;
@@ -84,10 +85,14 @@ public class PermissionService {
 		return Permission.dao.findById(id);
 	}
 	
-	public static boolean refreshPermissions() {
+	public static JSONObject refreshPermissions() {
+		JSONObject response = new JSONObject();
+		
 		boolean done = true;
 		
+		int counter = 0;
 		List<String> allActionKeys = JFinal.me().getAllActionKeys();
+		
 
         String[] urlPara = new String[1];
         for (String actionKey : allActionKeys) {
@@ -166,9 +171,14 @@ public class PermissionService {
             	done = done && permission.update();
         	}
         	
+        	counter++;
+        	
         }
         
-        return done;
+        response.put("counter", new Integer(counter));
+        response.put("status", new Boolean(done));
+        
+        return response;
         
 	}
 	

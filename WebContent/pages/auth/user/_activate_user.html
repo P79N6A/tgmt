@@ -4,9 +4,17 @@
 <div class="am-form-group"></div>
 <div class="am-form-group">
 	<label for="switch-state">激活用户</label>
-	<input id="switch-state" #(user.status=='1'?'checked':'') type="checkbox" data-am-switch />
+	<input id="switch-state" #(user.status!='0'?'checked':'') type="checkbox" data-am-switch />
 	<span>&nbsp;<small>(ON: 代表激活用户; OFF: 代表用户未激活)</small></span>
 </div>
+<!-- 
+<div class="am-form-group">
+	<label for="switch-lock">解锁用户</label>
+	<input id="switch-lock" #(user.status=='2'?'checked':'') type="checkbox" data-am-switch />
+	<span>&nbsp;<small>(ON: 代表用户被锁; OFF: 代表用户状态正常)</small></span>
+</div>
+-->
+
 
 
 <script type="text/javascript">
@@ -18,6 +26,7 @@ $('#switch-state').on('switchChange.bootstrapSwitch', function(event, state) {
 	 //console.log(state); // true | false
 	 
 	$(".am-alert").remove(); 
+	
 	var status = '0';
 	if(state) {
 		status = '1';
@@ -41,6 +50,8 @@ $('#switch-state').on('switchChange.bootstrapSwitch', function(event, state) {
 			}
 		}
 	});
+	
+
 	 
 	 
 });

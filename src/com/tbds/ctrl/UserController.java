@@ -261,6 +261,42 @@ public class UserController extends Controller {
 
 	}
 	
+	/**
+	 *  用户状态切换（常用于解锁或锁住用户）
+	 */
+	public void shift() {
+		User user = getModel(User.class, "user");
+
+		JSONObject jo = new JSONObject();
+
+		if (null != user) {
+
+			user.set("modified", new java.util.Date());
+			
+			boolean flag = user.update();
+
+			if (flag) {
+				String status = user.getStr("status");
+				if ("1".equals(status)) {
+					jo.put("msg", "成功激活用户！");
+				} else if("2".equals(status)) {
+					jo.put("msg", "成功lock用户！");
+				} else if("0".equals(status)) {
+					jo.put("msg", "成功禁用用户！");
+				}
+				
+				jo.put("code", 1);
+				renderJson(jo);
+				return;
+			}
+		}
+
+		jo.put("msg", "激活用户失败！");
+		jo.put("code", 0);
+		renderJson(jo);
+
+	}
+	
 	
 	public void delete() {
 		JSONObject resp = new JSONObject();

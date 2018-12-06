@@ -47,11 +47,11 @@ public class PermissionController extends Controller {
 	
 	public void sync() {
 		JSONObject resp = new JSONObject();
-		boolean flag = PermissionService.refreshPermissions();
-        if(flag) {
-        	resp.put("msg", "成功同步了权限信息！");
+		
+		JSONObject syncResult = PermissionService.refreshPermissions();		
+		if(syncResult != null && syncResult.getBooleanValue("status")) {
+        	resp.put("msg", "成功同步了(" + syncResult.getIntValue("counter")  + "条)权限信息！");
 			resp.put("code", 1);
-			
         } else {
         	resp.put("msg", "同步权限信息失败，请检查！");
 			resp.put("code", 0);
