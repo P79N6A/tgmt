@@ -10,7 +10,7 @@
 
 --CREATE SCHEMA `tbds` DEFAULT CHARACTER SET utf8 ;
 
-drop table `tbds_mps`;
+DROP TABLE IF EXISTS `tbds_mps`;
 
 CREATE TABLE `tbds_mps` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -52,7 +52,7 @@ INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type
 INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (18,'ATP_0231','ATP_0231B','192.168.0.112','2222','ATP','0231','B',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
 
 
-drop table `tbds_role`;
+DROP TABLE IF EXISTS `tbds_role`;
 CREATE TABLE `tbds_role` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NULL, --
@@ -61,6 +61,9 @@ CREATE TABLE `tbds_role` (
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
   PRIMARY KEY (`id`));
+
+INSERT INTO `tbds_role` (`id`,`name`,`description`,`flag`,`created`,`modified`) VALUES (1,'superadmin role','own all permissions.','0','2018-12-04 22:18:57','2018-12-04 22:19:47');
+  
   
   drop table `tbds_permission`;
   CREATE TABLE `tbds_permission` (
@@ -73,7 +76,7 @@ CREATE TABLE `tbds_role` (
   `modified` DATETIME NULL,
   PRIMARY KEY (`id`));
 
-  drop table `tbds_user`;
+DROP TABLE IF EXISTS `tbds_user`;
   CREATE TABLE `tbds_user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(100) NULL, 
@@ -93,15 +96,22 @@ CREATE TABLE `tbds_role` (
   `flag` VARCHAR(1) NULL,
   PRIMARY KEY (`id`));
   
-  
-/*
--- Query: SELECT * FROM joc.tbds_user
-LIMIT 0, 1000
+INSERT INTO `tbds_user` (`id`,`username`,`nickname`,`password`,`salt`,`email`,`mobile`,`gender`,`birthday`,`company`,`status`,`logged`,`activated`,`created`,`modified`,`flag`) VALUES (1,'admin','admin','761946bbe1a0b8c8e45f277b3fbeb03dceb9327b7bbc8d7cbb5967673fb21a9c','tyzQ0Gj81fo_eRwi66nmYfhiW8ttUMGV','superadmin@tbds.com',NULL,'1','2018-12-01','mycorporate','1','2018-12-05 18:23:30','2018-12-03 10:54:35','2018-12-03 10:54:35','2018-12-04 16:21:14','s');
 
--- Date: 2018-12-03 17:45
-*/
-INSERT INTO `tbds_user` (`id`,`username`,`nickname`,`password`,`salt`,`email`,`mobile`,`gender`,`birthday`,`company`,`status`,`logged`,`activated`,`created`,`modified`) VALUES (1,'admin','admin','ae6f78da52c3f7e7b8afa7bbcaabd351b49895b8ac4fa4a8860ea4ce9bfe286c','Gtp_z4YYzaR69TUXEOlXzjCFV6wAeHAC','admin@tbds.com',NULL,'1','2018-12-01','智铁科技','1',NULL,'2018-12-03 10:54:35','2018-12-03 10:54:35','2018-12-03 16:36:56');
-INSERT INTO `tbds_user` (`id`,`username`,`nickname`,`password`,`salt`,`email`,`mobile`,`gender`,`birthday`,`company`,`status`,`logged`,`activated`,`created`,`modified`) VALUES (2,'tao','hai',NULL,NULL,'tao@tbds.com',NULL,'1','2018-12-02','智铁','0',NULL,NULL,'2018-12-03 16:53:04','2018-12-03 16:53:04');
-INSERT INTO `tbds_user` (`id`,`username`,`nickname`,`password`,`salt`,`email`,`mobile`,`gender`,`birthday`,`company`,`status`,`logged`,`activated`,`created`,`modified`) VALUES (3,'joe','红波','c50df3e3a2b8f92cd8ff0919a4a558e4639ba5bfa7c0e173b113656aaa8c67ef','5fa6jgDBKqTvXMwm9fh4HL8G7FdCiJw2','joe@tbds.com',NULL,'1','2018-12-01','智铁科技','1',NULL,'2018-12-03 11:44:33','2018-12-03 11:44:33','2018-12-03 17:34:32');
-INSERT INTO `tbds_user` (`id`,`username`,`nickname`,`password`,`salt`,`email`,`mobile`,`gender`,`birthday`,`company`,`status`,`logged`,`activated`,`created`,`modified`) VALUES (4,'tommy','tommy',NULL,NULL,'tommy@tbds.com',NULL,'1','2018-12-02',NULL,'0',NULL,NULL,'2018-12-03 16:53:04','2018-12-03 16:53:04');
 
+DROP TABLE IF EXISTS `tbds_role_permission_mapping`;
+
+CREATE TABLE `tbds_role_permission_mapping` (
+  `role_id` int(11) unsigned NOT NULL COMMENT '角色ID',
+  `permission_id` int(11) unsigned NOT NULL COMMENT '权限ID',
+  PRIMARY KEY (`role_id`,`permission_id`)
+);
+
+
+DROP TABLE IF EXISTS `tbds_user_role_mapping`;
+
+CREATE TABLE `tbds_user_role_mapping` (
+  `user_id` int(11) unsigned NOT NULL COMMENT '用户ID',
+  `role_id` int(11) unsigned NOT NULL COMMENT '角色ID',
+  PRIMARY KEY (`user_id`,`role_id`)
+);
