@@ -9,12 +9,12 @@
 		</div>
 	#else 
 		<div class="am-form-group">
-			<label for="role-name">角色名称</label> 
+			<label for="role-name">角色名称: </label> 
 			<input type="text" class="" id="role-name" name="role.name" placeholder="角色名称" value="#(role.name??)" required>
 		</div>
 	#end
 	<div class="am-form-group">
-		<label for="role-description">角色描述</label> 
+		<label for="role-description">角色描述: </label> 
 		<textarea class="" rows="5" id="role-description">#(role.description??)</textarea>
 	</div>
 	
@@ -25,7 +25,7 @@
 	</div>
 	#else
 	<div class="am-form-group">
-		<label for="role-flag">角色类别（默认将选择“用户扩展角色类别”）</label> 
+		<label for="role-flag">角色类别（默认选“用户扩展角色类别”）:</label> 
 		<select id="role-flag" name="role.flag">
 			<option value="1" #(role !=null && role.flag== '1'?'selected':'')>用户扩展角色</option>
 			<option value="0" #(role !=null && role.flag== '0'?'selected':'')>系统默认角色</option>

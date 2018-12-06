@@ -24,7 +24,7 @@
 	
 	<div class="am-g">
 		
-		<div class="am-u-sm-12 am-u-md-6">
+		<div class="am-u-sm-3">
 			<div class="am-btn-toolbar">
 				<div class="am-btn-group">
 					<button type="button" class="am-btn am-btn-default"
@@ -35,28 +35,30 @@
 			</div>
 		</div>
 		
-		<form class="am-form" action="#(CPATH)/auth/role" method="post">
-			<div class="am-u-sm-12 am-u-md-3">
-				<div class="am-form-group">
-					<select id="filter-role-type" name="qRoleType">
-						<option value="all" #(qRoleType=='0'||qRoleType=='1'?'':'selected') >所有类别</option>
-						<option value="1" #(qRoleType == '1'?'selected':'') >用户扩展角色</option>
-						<option value="0" #(qRoleType == '0'?'selected':'') >系统默认角色</option>
-						
-					</select>
+		<div class="am-u-sm-9">
+			<form class="am-form" action="#(CPATH)/auth/role" method="post">
+				<div class="am-u-sm-5">
+					<div class="am-form-group">
+						<select id="filter-role-type" name="qRoleType">
+							<option value="all" #(qRoleType=='0'||qRoleType=='1'?'':'selected') >所有类别</option>
+							<option value="1" #(qRoleType == '1'?'selected':'') >用户扩展角色</option>
+							<option value="0" #(qRoleType == '0'?'selected':'') >系统默认角色</option>
+							
+						</select>
+					</div>
 				</div>
-			</div>
-			<div class="am-u-sm-12 am-u-md-3">
-				<div class="am-input-group">
-					<input type="text" class="am-form-field" name="qKeyword" value="#(qKeyword??)"> 
-					<span
-						class="am-input-group-btn">
-						<button class="am-btn am-btn-default" type="submit">搜索</button>
-					</span>
+				<div class="am-u-sm-7">
+					<div class="am-input-group">
+						<input type="text" class="am-form-field" name="qKeyword" value="#(qKeyword??)"> 
+						<span
+							class="am-input-group-btn">
+							<button class="am-btn am-btn-default" type="submit">搜索</button>
+						</span>
+					</div>
 				</div>
-			</div>
-
-		</form>
+			</form>
+		</div>
+		
 	</div>
 	
 	<div class="am-g">
@@ -69,10 +71,12 @@
 							<!-- <th class="table-check"><input type="checkbox" /></th>-->
 							<!-- <th class="table-id">ID</th> -->
 							<th class="table-title">名称</th>
-							<th class="table-type">描述</th>
-							<th class="table-author am-hide-sm-only">类别</th>
+							<th class="table-type am-hide-sm-only">描述</th>
+							<th class="table-type">类别</th>
+							<!--
 							<th class="table-date am-hide-sm-only">创建时间</th>
 							<th class="table-date am-hide-sm-only">修改时间</th>
+							-->
 							<th class="table-set">操作</th>
 						</tr>
 					</thead>
@@ -83,13 +87,17 @@
 							<!-- <td><input type="checkbox" /></td>-->
 							<!--<td class="am-text-xs">#(x.id)</td>-->
 							<td class="am-text-xs"><a href="#">#(x.name)</a></td>
-							<td class="am-text-xs">
-								<div class="am-text-truncate" style="width:280px;" title="#(x.description??)">#(x.description??)</div>
+							<td class="am-hide-sm-only am-text-xs">
+								<div title="#(x.description??)">#(x.description??)</div><!-- class="am-text-truncate" style="width:280px;"  -->
 							</td>
 							<td class="am-text-xs">#(x.flag=='0'?'系统默认角色':'用户扩展角色')</td>
+							<!--
 							<td class="am-text-xs am-hide-sm-only">#date(x.created, "yyyy-MM-dd HH:mm:ss")</td>
 							<td class="am-text-xs am-hide-sm-only">#date(x.modified, "yyyy-MM-dd HH:mm:ss")</td>
+							-->
 							<td class="am-text-xs">
+								<!-- type=button必须指定，否则弹出框失效“一闪而关” -->
+								<!--
 								<div class="am-btn-toolbar">
 									<div class="am-btn-group am-btn-group-xs">
 										<button
@@ -97,15 +105,21 @@
 											onclick="javascript:window.location.href='#(CPATH)/auth/role/edit/#(x.id)';return false;">
 											<span class="am-icon-pencil-square-o"></span> 编辑
 										</button>
-										<!-- type=button必须指定，否则弹出框失效“一闪而关” -->
 										<button type="button" onclick="deleteRole({'id':#(x.id), 'name':'#(x.name)', 'flag':'#(x.flag)'})"
 											class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">
 											<span class="am-icon-trash-o"></span> 删除
 										</button>
 									</div>
-
-
 								</div>
+								-->
+								<div class="am-dropdown" data-am-dropdown>
+					                <button class="am-btn am-btn-default am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-cog"></span> <span class="am-icon-caret-down"></span></button>
+					                <ul class="am-dropdown-content">
+					                  <li><a href="#" onclick="javascript:window.location.href='#(CPATH)/auth/role/edit/#(x.id)';return false;">编辑</a></li>
+					                  <li><a href="#" onclick="javascript:deleteRole({'id':#(x.id), 'name':'#(x.name)', 'flag':'#(x.flag)'})">删除</a></li>
+					                </ul>
+					            </div>
+								
 							</td>
 						</tr>
 						#end

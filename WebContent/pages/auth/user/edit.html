@@ -34,28 +34,17 @@
 							<form class="am-form  am-form-horizontal">
 								<fieldset>
 									#include("_basic_form.html")
-								
-									<!--begin 提交保存按钮 -->
-									<div class="am-form-group">
-											<div class="am-u-sm-3">
-												<div class="am-input-group am-input-group-sm">
-													<button class="am-btn am-btn-primary am-btn-lg am-fl am-radius"
-														type="button"
-														onclick="updateuser()">保存</button>
-												</div>
-											</div>
-											<div class="am-u-sm-9">
-												<div class="am-btn-group am-btn-group-xs">
-													<a href="#(CPATH)/auth/user">
-														<button type="button"
-															class="am-btn am-btn-primary am-btn-lg am-fl am-radius">
-															返回</button>
-													</a>
-												</div>
-											</div>
-									</div>
-								<!--end 提交保存按钮 -->
 									
+									<!--begin 提交保存按钮 -->
+									<div class="am-form-group am-margin">
+      									<button type="button" 
+      										class="am-btn am-btn-primary am-btn-default" 
+      										onclick="updateuser()">提交保存</button>
+      									<button type="button" 
+      									class="am-btn am-btn-primary am-btn-default" 
+      									onclick="javascript:location.href='#(CPATH)/auth/user';return false;">返回</button>		
+									</div>
+									<!--end 提交保存按钮 -->
 								</fieldset>
 								</form>
 						</div>
@@ -63,26 +52,16 @@
 							<form class="am-form  am-form-horizontal" id="chgpasswd-form-with-tooltip">
 								<fieldset>
 								#include("_change_password.html")
-								
-								<!--begin 提交保存按钮 -->
-								<div class="am-form-group">
-									<div class="am-u-sm-3">
-										<div class="am-input-group am-input-group-sm">
-											<button class="am-btn am-btn-primary am-btn-lg am-fl am-radius"
-												type="button" onclick="changepswd()">更改密码</button>
-										</div>
+									<!--begin 提交保存按钮 -->
+									<div class="am-form-group am-margin">
+      									<button type="button" 
+      										class="am-btn am-btn-primary am-btn-default" 
+      										onclick="changepswd()">提交更改</button>
+      									<button type="button" 
+      									class="am-btn am-btn-primary am-btn-default" 
+      									onclick="javascript:location.href='#(CPATH)/auth/user';return false;">返回</button>		
 									</div>
-									<div class="am-u-sm-9">
-										<div class="am-btn-group am-btn-group-xs">
-											<a href="#(CPATH)/auth/user">
-												<button type="button"
-													class="am-btn am-btn-primary am-btn-lg am-fl am-radius">
-													返回</button>
-											</a>
-										</div>
-									</div>
-								</div>
-								<!--end 提交保存按钮 -->
+									<!--end 提交保存按钮 -->
 								</fieldset>
 							</form>
 						</div>

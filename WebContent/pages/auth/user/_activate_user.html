@@ -4,9 +4,9 @@
 <div class="am-form-group"></div>
 <div class="am-form-group">
 	<label for="switch-state">激活用户</label>
-	<input id="switch-state" #(user.status!='0'?'checked':'') type="checkbox" data-am-switch />
-	<span>&nbsp;<small>(ON: 代表激活用户; OFF: 代表用户未激活)</small></span>
+	<input id="switch-state" #(user.status!='0'?'checked':'') type="checkbox" data-size="normal" data-on-text="已激活" data-off-text="未激活" data-am-switch />
 </div>
+
 <!-- 
 <div class="am-form-group">
 	<label for="switch-lock">解锁用户</label>

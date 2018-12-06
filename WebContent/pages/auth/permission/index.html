@@ -24,7 +24,7 @@
 	
 	<div class="am-g">
 		
-		<div class="am-u-sm-12 am-u-md-6">
+		<div class="am-u-sm-3">
 			<div class="am-btn-toolbar">
 				<div class="am-btn-group">
 					<button type="button" class="am-btn am-btn-default"
@@ -35,28 +35,29 @@
 			</div>
 		</div>
 		
-		<form class="am-form" action="#(CPATH)/auth/permission" method="post">
-			<div class="am-u-sm-12 am-u-md-3">
-				<div class="am-form-group">
-					<select id="filter-permission-type" name="qPermType">
-						<option value="all" #(qPermType == 'all'?'selected':'') >所有类别</option>
-						<option value="menu" #(qPermType == 'menu'?'selected':'') >菜单</option>
-						<option value="oper" #(qPermType == 'oper'?'selected':'') >操作</option>
-						<option value="other" #(qPermType == 'other'?'selected':'') >其他</option>
-					</select>
+		<div class="am-u-sm-9">
+			<form class="am-form" action="#(CPATH)/auth/permission" method="post">
+				<div class="am-u-sm-5">
+					<div class="am-form-group">
+						<select id="filter-permission-type" name="qPermType">
+							<option value="all" #(qPermType == 'all'?'selected':'') >所有类别</option>
+							<option value="menu" #(qPermType == 'menu'?'selected':'') >菜单</option>
+							<option value="oper" #(qPermType == 'oper'?'selected':'') >操作</option>
+							<option value="other" #(qPermType == 'other'?'selected':'') >其他</option>
+						</select>
+					</div>
 				</div>
-			</div>
-			
-			<div class="am-u-sm-12 am-u-md-3">
-				<div class="am-input-group">
-					<input type="text" class="am-form-field" name="qKeyword" value="#(qKeyword??)"> <span
-						class="am-input-group-btn">
-						<button class="am-btn am-btn-default" type="submit">搜索</button>
-					</span>
+				<div class="am-u-sm-7">
+					<div class="am-input-group">
+						<input type="text" class="am-form-field" name="qKeyword" value="#(qKeyword??)"> <span
+							class="am-input-group-btn">
+							<button class="am-btn am-btn-default" type="submit">搜索</button>
+						</span>
+					</div>
 				</div>
-			</div>
-
-		</form>
+			</form>
+		</div>
+		
 	</div>
 	
 	<div class="am-g">
@@ -66,14 +67,18 @@
 				<table class="am-table am-table-striped am-table-hover table-main">
 					<thead>
 						<tr>
+							<!-- 
 							<th class="table-check"><input type="checkbox" /></th>
+							-->
 							<th class="table-id">ID</th>
-							<th class="table-title">ActionKey</th>
-							<th class="table-type">模块</th>
-							<th class="table-type">类型</th>
-							<th class="table-author am-hide-sm-only">备注</th>
+							<th class="">ActionKey</th>
+							<th class="">模块</th>
+							<th class="am-hide-sm-only">类型</th>
+							<th class="am-hide-sm-only">备注</th>
+							<!-- 
 							<th class="table-date am-hide-sm-only">创建时间</th>
 							<th class="table-date am-hide-sm-only">修改时间</th>
+							-->
 							<th class="table-set">操作</th>
 						</tr>
 					</thead>
@@ -81,15 +86,18 @@
 					#if(permissionPage??)
 						#for(x : permissionPage.getList())
 						<tr>
-							<td><input type="checkbox" /></td>
+							<!-- <td><input type="checkbox" /></td>-->
 							<td>#(x.id)</td>
 							<td><a href="#">#(x.action_key)</a></td>
 							<td>#(x.node)</td>
 							<td class="am-hide-sm-only">#(x.type=='menu'?'菜单':x.type=='oper'?'操作':'其他')</td>
 							<td class="am-hide-sm-only">#(x.text)</td>
+							<!-- 
 							<td class="am-hide-sm-only">#date(x.created, "yyyy-MM-dd HH:mm:ss")</td>
 							<td class="am-hide-sm-only">#date(x.modified, "yyyy-MM-dd HH:mm:ss")</td>
+							-->
 							<td>
+								<!--
 								<div class="am-btn-toolbar">
 									<div class="am-btn-group am-btn-group-xs">
 										<button
@@ -105,6 +113,15 @@
 									</div>
 
 								</div>
+								-->
+								<div class="am-dropdown" data-am-dropdown>
+					                <button class="am-btn am-btn-default am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-cog"></span> <span class="am-icon-caret-down"></span></button>
+					                <ul class="am-dropdown-content">
+					                  <li><a href="#" onclick="javascript:window.location.href='#(CPATH)/auth/permission/edit/#(x.id)';return false;">编辑</a></li>
+					                  <li><a href="#" onclick="javascript:deletePermission({'id':#(x.id), 'actionkey':'#(x.action_key)', 'type':'#(x.type)'})">删除</a></li>
+					                </ul>
+					            </div>
+								
 							</td>
 						</tr>
 						#end
@@ -117,7 +134,7 @@
 				#@paginate(permissionPage.pageNumber, permissionPage.totalPage, CPATH+"/auth/permission/", permissionPage.totalRow)
 				#end
 				<hr />
-				<p><small>注：资源列表，一键同步将自动更新ActionKey、Action方法与类型，若需要调整资源类型，则需要手工进行！</small></p>
+				<p><small>注：资源列表，一键同步将自动更新ActionKey、所属模块与类型，若需要调整“模块”“资源类型”，则需要手工进行！</small></p>
 
 			</form>
 		</div>

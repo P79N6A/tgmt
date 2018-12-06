@@ -26,7 +26,7 @@ public class RoleService {
 			whereSql += likeSql;
 		}
 		
-		String fromSql = "from tbds_role order by by id asc";
+		String fromSql = "from tbds_role order by id asc";
 		
 		if(StrKit.notBlank(whereSql)) {
 			fromSql = " from tbds_role where " + whereSql +" order by id asc";

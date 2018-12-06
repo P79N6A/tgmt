@@ -42,26 +42,15 @@
 						<label for="permission-description">资源描述</label> 
 						<textarea class="" rows="5" id="permission-description">#(permission.text??)</textarea>
 					</div>
-            		
-            		<!--begin 提交保存按钮 -->
-					<div class="am-form-group">
-						<div class="am-u-sm-3">
-							<div class="am-input-group am-input-group-sm">
-								<button id="save-user-btn"
-									class="am-btn am-btn-primary am-btn-lg am-fl am-radius"
-									onclick="savepermission()"
-									type="button">保存</button>
-							</div>
-						</div>
-						<div class="am-u-sm-9">
-							<div class="am-btn-group am-btn-group-xs">
-								<a href="#(CPATH)/auth/permission">
-									<button type="button"
-										class="am-btn am-btn-primary am-btn-lg am-fl am-radius">
-										返回</button>
-								</a>
-							</div>
-						</div>
+					
+					<!--begin 提交保存按钮 -->
+					<div class="am-form-group am-margin">
+						<button type="button" 
+							class="am-btn am-btn-primary am-btn-default" 
+							onclick="savepermission()">提交保存</button>
+						<button type="button" 
+						class="am-btn am-btn-primary am-btn-default" 
+						onclick="javascript:location.href='#(CPATH)/auth/permission';return false;">返回</button>		
 					</div>
 					<!--end 提交保存按钮 -->
 					
