@@ -22,7 +22,7 @@
 	<hr id="mps-hr">
 	
 	<div class="am-g">
-		<div class="am-u-sm-12 am-u-md-6">
+		<div class="am-u-sm-3">
 			<div class="am-btn-toolbar">
 				<div class="am-btn-group">
 					<button type="button" class="am-btn am-btn-default"
@@ -41,30 +41,31 @@
 				</div>
 			</div>
 		</div>
-
-		<form class="am-form" action="#(CPATH)/mps" method="post">
-
-			<div class="am-u-sm-12 am-u-md-3">
-				<div class="am-form-group">
-					<select id="filter-mps-type" name="qTrainType">
-						<option value="all" #(qTrainType=='ATP'||qTrainType=='CDV'?'':'selected') >所有类别</option>
-						<option value="ATP" #(qTrainType == 'ATP'?'selected':'') >ATP</option>
-						<option value="CDV" #(qTrainType == 'CDV'?'selected':'') >CDV</option>
-						
-					</select>
+		
+		<div class="am-u-sm-9">
+			<form class="am-form" action="#(CPATH)/mps" method="post">
+				<div class="am-u-sm-5">
+					<div class="am-form-group">
+						<select id="filter-mps-type" name="qTrainType">
+							<option value="all" #(qTrainType=='ATP'||qTrainType=='CDV'?'':'selected') >所有类别</option>
+							<option value="ATP" #(qTrainType == 'ATP'?'selected':'') >ATP</option>
+							<option value="CDV" #(qTrainType == 'CDV'?'selected':'') >CDV</option>
+							
+						</select>
+					</div>
 				</div>
-			</div>
-			<div class="am-u-sm-12 am-u-md-3">
-				<div class="am-input-group">
-					<input type="text" class="am-form-field" name="qKeyword" value="#(qKeyword??)"> <span
-						class="am-input-group-btn">
-						<button class="am-btn am-btn-default" type="submit">搜索</button>
-					</span>
+				<div class="am-u-sm-7">
+					<div class="am-input-group">
+						<input type="text" class="am-form-field" name="qKeyword" value="#(qKeyword??)"> <span
+							class="am-input-group-btn">
+							<button class="am-btn am-btn-default" type="submit">搜索</button>
+						</span>
+					</div>
 				</div>
-			</div>
-
-		</form>
-
+			</form>
+		</div>
+		
+		
 
 	</div>
 
@@ -78,11 +79,11 @@
 							<!-- <th class="table-check"><input type="checkbox" /></th> -->
 							<!-- <th class="table-id">ID</th>  -->
 							<th class="table-title">唯一标识</th>
-							<th class="table-type">类别</th>
-							<th class="table-title">所属列车号</th>
-							<th class="table-type">端类别</th>
-							<th class="table-author am-hide-sm-only">主机IP</th>
-							<th class="table-date am-hide-sm-only">端口</th>
+							<th class="am-hide-sm-only">类别</th>
+							<th class="am-hide-sm-only">所属列车号</th>
+							<th class="am-hide-sm-only">端类别</th>
+							<th class="">主机IP</th>
+							<th class="">端口</th>
 							<th class="table-set">操作</th>
 						</tr>
 					</thead>
@@ -93,34 +94,39 @@
 							<!--  <td><input type="checkbox" /></td> -->
 							<!--  <td>#(x.id)</td>  -->
 							<td><a href="#">#(x.desc)</a></td>
-							<td>#(x.train_type)</td>
-							<td>#(x.train_num)</td>
-							<td>#(x.ab_marker=='A'?'A端' : 'B端')</td>
-							<td class="am-hide-sm-only">#(x.host_ip)</td>
-							<td class="am-hide-sm-only">#(x.host_port)</td>
+							<td class="am-hide-sm-only">#(x.train_type)</td>
+							<td class="am-hide-sm-only">#(x.train_num)</td>
+							<td class="am-hide-sm-only">#(x.ab_marker=='A'?'A端' : 'B端')</td>
+							<td>#(x.host_ip)</td>
+							<td>#(x.host_port)</td>
 							<td>
+								<!-- 
 								<div class="am-btn-toolbar">
 									<div class="am-btn-group am-btn-group-xs">
 										<button
-											class="am-btn am-btn-default am-btn-xs am-text-secondary"
-											onclick="javascript:window.location.href='#(CPATH)/mps/edit/#(x.id)';return false;">
+											class="am-btn am-btn-default am-btn-xs am-text-secondary">
 											<span class="am-icon-pencil-square-o"></span> 编辑
 										</button>
-										<!-- 
 										<button
 											class="am-btn am-btn-default am-btn-xs am-hide-sm-only">
 											<span class="am-icon-copy"></span> 复制
 										</button>
-										-->
 										<button
-											class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"
-											onclick="javascript:del(#(x.id),'#(x.desc)', '#(x.host_ip)', '#(x.host_port)')">
+											class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">
 											<span class="am-icon-trash-o"></span> 删除
 										</button>
 									</div>
-
-
 								</div>
+								-->
+								
+								<div class="am-dropdown" data-am-dropdown>
+					                <button class="am-btn am-btn-default am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-cog"></span> <span class="am-icon-caret-down"></span></button>
+					                <ul class="am-dropdown-content">
+					                  <li><a href="#" onclick="javascript:window.location.href='#(CPATH)/mps/edit/#(x.id)';return false;">编辑</a></li>
+					                  <li><a href="#" onclick="javascript:del(#(x.id),'#(x.desc)', '#(x.host_ip)', '#(x.host_port)')">删除</a></li>
+					                </ul>
+					            </div>
+								
 							</td>
 						</tr>
 						#end
