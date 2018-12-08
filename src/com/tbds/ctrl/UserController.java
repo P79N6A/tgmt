@@ -2,6 +2,7 @@ package com.tbds.ctrl;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -9,7 +10,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.StrKit;
+import com.tbds.model.eo.Role;
 import com.tbds.model.eo.User;
+import com.tbds.service.RoleService;
 import com.tbds.service.UserService;
 import com.tbds.util.StrUtil;
 
@@ -297,7 +300,10 @@ public class UserController extends Controller {
 
 	}
 	
-	
+	/**
+	 * 删除用户
+	 * 注意：需要考虑将其对应的角色关联信息也删除！
+	 */
 	public void delete() {
 		JSONObject resp = new JSONObject();
 		User user = getModel(User.class, "user");
@@ -316,7 +322,7 @@ public class UserController extends Controller {
 			return;
 		}
 		
-		boolean flag = user.delete();
+		boolean flag = UserService.deleteByUser(user);
 		int code = 0;
 		if (flag) {
 			code = 1;
@@ -326,6 +332,15 @@ public class UserController extends Controller {
 		}
 		resp.put("code", code);
 		renderJson(resp);
+	}
+	
+	public void setrole() {
+		setAttr("user", UserService.findById(getParaToInt()));
+		
+		List<Role> roles = RoleService.findAll();
+        setAttr("roles", roles);
+		
+		render("setrole.html");
 	}
 
 }

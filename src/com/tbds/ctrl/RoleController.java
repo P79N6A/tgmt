@@ -97,7 +97,7 @@ public class RoleController extends Controller {
         setAttr("groupCheck", groupCheck);
         setAttr("permissionGroup", permissionGroup);
 		
-		render("rolepermission.html");
+		render("setpermission.html");
 	}
 	
 	/**

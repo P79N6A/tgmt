@@ -41,6 +41,10 @@ public class RoleService {
 		return Role.dao.paginate(pageNumber, pageSize, "select *", fromSql);
 	}
 	
+	public static List<Role> findAll() {
+		return Role.dao.find("select * from tbds_role");
+	}
+	
 	public static Role filterByRoleName(String roleName) {
 		return Role.dao.findFirst("select * from tbds_role where name = ?", roleName);
 	}
@@ -107,6 +111,97 @@ public class RoleService {
             if (role != null) roles.add(role);
         }
         return roles;
+    }
+	
+	
+	public static boolean isSupperAdmin(int userId) {
+        List<Role> roles = findRoleListByUserId(userId);
+        if (roles == null || roles.isEmpty()) {
+            return false;
+        }
+
+        for (Role role : roles) {
+            if (role.isSuperAdmin()) {
+                return true;
+            }
+        }
+        return false;
+    }
+	
+	public static boolean hasRole(int userId, String... roles) {
+        if (roles == null || roles.length == 0) {
+            return false;
+        }
+
+        List<Role> roleList = findRoleListByUserId(userId);
+        if (roleList == null || roleList.isEmpty()) {
+            return false;
+        }
+
+        for (String roleFlag : roles) {
+            boolean hasRole = false;
+            for (Role role : roleList) {
+                if (roleFlag.equals(role.getStr("id"))) {
+                    hasRole = true;
+                    break;
+                }
+            }
+
+            if (!hasRole) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+	
+	public static boolean hasRole(int userId, int... roles) {
+        if (roles == null || roles.length == 0) {
+            return false;
+        }
+
+        List<Role> roleList = findRoleListByUserId(userId);
+        if (roleList == null || roleList.isEmpty()) {
+            return false;
+        }
+
+        for (int roleId : roles) {
+            boolean hasRole = false;
+            for (Role role : roleList) {
+                if (roleId == role.getInt("id")) {
+                    hasRole = true;
+                    break;
+                }
+            }
+
+            if (!hasRole) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+	
+	public static boolean doResetUserRoles(int userId, int... RoleIds) {
+        if (RoleIds == null || RoleIds.length == 0) {
+            return Db.delete("delete from tbds_user_role_mapping where user_id = ? ", userId) > 0;
+        }
+
+        return Db.tx(() -> {
+            Db.delete("delete from tbds_user_role_mapping where user_id = ? ", userId);
+
+            List<Record> records = new ArrayList<>();
+            for (int roleId : RoleIds) {
+                Record record = new Record();
+                record.set("user_id", userId);
+                record.set("role_id", roleId);
+                records.add(record);
+            }
+
+            Db.batchSave("tbds_user_role_mapping", records, records.size());
+
+            return true;
+        });
     }
 	
 	

@@ -1,0 +1,75 @@
+#@layout(title="用户权限管理") #define content()
+
+<link rel="stylesheet" href="#(CPATH)/assets/css/amazeui.switch.css" />
+<script type="text/javascript"
+	src="#(CPATH)/assets/js/amazeui.switch.min.js"></script>
+
+<div class="admin-content">
+
+	<div class="am-cf">
+		<div class="am-cf am-padding">
+			<div class="am-fl am-cf">
+				<strong class="am-text-primary am-text-lg">权限管理 / <a
+					href="#(CPATH)/auth/user">用户管理</a> /
+				</strong><small>用户权限管理</small>
+			</div>
+		</div>
+	</div>
+	
+	<div class="am-u-sm-12">
+		<div class="am-panel am-panel-default">
+			<div class="am-panel-hd">
+				用户名：#(user.username??)
+				#if(user!=null&&user.flag=='s')
+				[ <span class="am-icon-street-view">超级管理员</span> ]
+				#end
+			</div>
+			<div class="am-panel-bd">
+				<div id="tips-msg"></div>
+				<div class="am-tabs" data-am-tabs>
+					<ul class="am-tabs-nav am-nav am-nav-tabs">
+						<li class="am-active"><a href="#role-set-tab">权限列表</a></li>
+					</ul>
+					<div class="am-tabs-bd">
+						<div class="am-tab-panel am-fade am-in am-active" id="role-set-tab">
+							#if(user!=null && user.flag=='s')
+								[ <span class="am-icon-street-view">该用户是超级管理员，无需设置任何角色！</span> ]
+							#else
+								<table
+									class="am-table am-table-striped am-table-bordered am-table-hover table-main am-table-compact">
+									<thead>
+										<tr>
+											<th class="">操作</th>
+											<th class="am-hide-sm-only">角色名称</th>
+											<th class="">描述</th>
+										</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<td><input type="checkbox" data-size="xs"
+											class="grantswitcher"
+											data-on-text="已授权" data-off-text="未授权"
+											data-on-color="success" data-off-color="secondary"
+											data-am-switch data-rid="">
+										</td>
+										<td class="am-hide-sm-only"></td>
+										<td></td>
+									</tr>
+								   </tbody>
+								</table>
+							#end
+						</div>
+						
+					</div>
+				</div>
+				<!-- end tab -->
+			</div>
+			<!-- end panel content -->
+		</div>
+		<!-- end panel total -->
+	</div>
+	
+	
+	
+</div>
+#end
