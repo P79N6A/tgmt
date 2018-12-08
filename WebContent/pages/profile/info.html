@@ -64,24 +64,15 @@
 							class="" id="user-company" name="user.company"
 							placeholder="公司名称" value="#(user.company??)">
 					</div>
-
+					
 					<!--begin 提交保存按钮 -->
-					<div class="am-form-group">
-						<div class="am-u-sm-3">
-							<div class="am-input-group am-input-group-sm">
-								<button class="am-btn am-btn-primary am-btn-lg am-fl am-radius"
-									type="button" onclick="updateuser()">保存</button>
-							</div>
-						</div>
-						<div class="am-u-sm-9">
-							<div class="am-btn-group am-btn-group-xs">
-								<a href="#(CPATH)/home">
-									<button type="button"
-										class="am-btn am-btn-primary am-btn-lg am-fl am-radius">
-										返回</button>
-								</a>
-							</div>
-						</div>
+					<div class="am-form-group am-margin">
+						<button type="button" 
+							class="am-btn am-btn-primary am-btn-default" 
+							onclick="updateuser()">提交保存</button>
+						<button type="button" 
+						class="am-btn am-btn-primary am-btn-default" 
+						onclick="javascript:location.href='#(CPATH)/home';return false;">返回</button>		
 					</div>
 					<!--end 提交保存按钮 -->
 

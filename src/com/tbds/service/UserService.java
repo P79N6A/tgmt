@@ -1,7 +1,9 @@
 package com.tbds.service;
 
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.tbds.model.eo.User;
+import com.tbds.util.StrUtil;
 
 public class UserService {
 	
@@ -14,6 +16,9 @@ public class UserService {
 	}
 	
 	public static User findByLoginUserName(String userName) {
+		if(!StrUtil.isValid(userName)) {
+				return null;
+		}
 		return User.dao.findFirst("select id, username, password, salt, logged from tbds_user where status='1' and username = ?", userName);
 	}
 	

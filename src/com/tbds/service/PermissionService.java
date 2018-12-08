@@ -10,7 +10,9 @@ import com.jfinal.core.Action;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
 import com.tbds.model.eo.Permission;
 import com.tbds.util.Constants;
 
@@ -205,7 +207,55 @@ public class PermissionService {
         
 	}
 	
+	public static List<Permission> findAll() {
+		List<Permission> permissions = Permission.dao.find("select * from tbds_permission");
+		return permissions;
+	}
 	
+	public static Map<String, List<Permission>> findAllByGroupPermissionNode() {
+		List<Permission> permissions = Permission.dao.find("select * from tbds_permission");
+		return groupPermission(permissions);
+	}
 	
+	public static List<Permission> findPermissionListByRoleId(int roleId) {
+        String sql = "select * from tbds_role_permission_mapping where role_id = ? ";
+        List<Record> rolePermissionRecords = Db.find(sql, roleId);
+        if (rolePermissionRecords == null || rolePermissionRecords.isEmpty()) {
+            return null;
+        }
+
+        List<Permission> permissionList = new ArrayList<>();
+        for (Record rolePermissionRecord : rolePermissionRecords) {
+        	if(null != rolePermissionRecord) {
+	            Permission permission = findById(rolePermissionRecord.getInt("permission_id"));
+	            if (permission != null) permissionList.add(permission);
+        	}
+        }
+
+        return permissionList;
+    }
+
+	private static Map<String, List<Permission>> groupPermission(List<Permission> permissions) {
+
+        Map<String, List<Permission>> map = new HashMap<>();
+
+        for (Permission permission : permissions) {
+        	String groupNode = permission.get("node");
+            List<Permission> permissionList = map.get(groupNode);
+            if (permissionList == null) {
+                permissionList = new ArrayList<>();
+                map.put(groupNode, permissionList);
+            }
+            permissionList.add(permission);
+        }
+
+        return map;
+    }
+	
+	public static List<Permission> findListByNode(String node) {
+		System.out.println("***********");
+		List<Permission> permissions = Permission.dao.find("select * from tbds_permission where node = ?", node);
+		return permissions;
+	}
 	
 }

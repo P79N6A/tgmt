@@ -1,6 +1,6 @@
 <fieldset>
-	<legend> #if(mps==null) 新建设备 #else
-		设备标识：#(mps.train_type??)_#(mps.train_num??)#(mps.ab_marker??) #end </legend>
+	<legend> #if(mps==null) 新建MPS #else
+		MPS标识：#(mps.train_type??)_#(mps.train_num??)#(mps.ab_marker??) #end </legend>
 	<input type="hidden" name="mps.id" value="#(mps.id??)" />
 	<div class="am-form-group">
 		<label for="doc-ipt-host-1">主机IP(格式：*.*.*.*, 例如：192.168.0.100)</label>
@@ -17,7 +17,7 @@
 	<div class="am-form-group">
 		<label for="train-type-1">类型</label> <select id="train-type-1"
 			name="mps.train_type" required>
-			<option value="">请选择设备类型</option>
+			<option value="">请选择MPS类型</option>
 			<option value="ATP" #(mps !=null && mps.train_type==
 				'ATP'?'selected':'')>ATP</option>
 			<option value="CDV" #(mps !=null && mps.train_type==

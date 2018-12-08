@@ -1,0 +1,207 @@
+#@layout(title="设置权限") #define content()
+
+<link rel="stylesheet" href="#(CPATH)/assets/css/amazeui.switch.css" />
+<script type="text/javascript"
+	src="#(CPATH)/assets/js/amazeui.switch.min.js"></script>
+
+<div class="admin-content">
+
+	<div class="am-cf">
+		<div class="am-cf am-padding">
+			<div class="am-fl am-cf">
+				<strong class="am-text-primary am-text-lg">权限管理 / <a
+					href="#(CPATH)/auth/role">角色管理</a> /
+				</strong><small>设置权限</small>
+			</div>
+		</div>
+	</div>
+	
+	<hr id="sp-hr">
+
+	<div class="am-g">
+		<div class="am-u-sm-12 am-u-sm-centered">
+			<h2>
+				#if(role.isSuperAdmin()) 
+					<span style="color: red">#(role.name??)</span> 是超级管理员，默认拥有所有权限，无需设置。
+				#else 
+					您正在设置角色 <span style="color: red">#(role.name??)</span> 的权限:
+				#end
+			</h2>
+		</div>
+		<div class="am-u-md-12">
+			<div class="am-panel-group">
+				#for(x : permissionGroup)
+				<form class="am-form">
+					<div class="am-panel am-panel-secondary">
+						<div class="am-panel-hd">
+							<div class="am-g">
+								<div class="am-u-sm-6">
+										<div class="am-btn-toolbar"><span class="am-icon-map-pin am-icon-lg">#(x.key ??)</span>
+										#if(role.isSuperAdmin()) 
+										
+										<!-- <input type="checkbox" checked data-size="xs" data-on-text="全授权" data-off-text="全取消"
+										data-on-color="success" data-off-color="secondary"
+										data-gid="#(x.key ??)" data-rid="#(role.id ??)" checked
+										disabled /> -->
+										
+										<div class="am-dropdown" data-am-dropdown>
+							                <button disabled class="am-btn am-btn-secondary am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-cog"></span> <span class="am-icon-caret-down"></span></button>
+							                <ul class="am-dropdown-content">
+							                  <li><a href="#" onclick="javascript:grantGroupPermissions2Role('#(x.key ??)','#(role.id ??)');return false;">授予全部权限</a></li>
+							                  <li><a href="#" onclick="javascript:grantGroupPermissions2Role('#(x.key ??)','#(role.id ??)');return false;">取消全部权限</a></li>
+							                </ul>
+							            </div>
+										
+										#else 
+										<!-- 
+										(<input type="checkbox" data-size="xs" data-on-text="全授权" data-off-text="全取消"
+										data-on-color="success" data-off-color="secondary"
+										#for(group:groupCheck) #if(x.key==group.key && group.value)
+										checked #end #end data-gid="#(x.key ??)"
+										data-rid="#(role.id ??)" data-am-switch>) 
+										-->
+										<div class="am-dropdown" data-am-dropdown>
+							                <button class="am-btn am-btn-secondary am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-cog"></span> <span class="am-icon-caret-down"></span></button>
+							                <ul class="am-dropdown-content">
+							                  <li><a href="#" onclick="javascript:batchgrant('grant','#(x.key ??)','#(role.id ??)');return false;">授予全部权限</a></li>
+							                  <li><a href="#" onclick="javascript:batchgrant('cancel','#(x.key ??)','#(role.id ??)');return false;">取消全部权限</a></li>
+							                </ul>
+							            </div>
+										
+										
+										#end 
+										
+										</div>
+								</div>
+							</div>
+						</div>
+						<!-- panel-body -->
+						<div class="am-panel-bd ">
+							<table
+								class="am-table am-table-striped am-table-bordered am-table-hover table-main am-table-compact">
+								<thead>
+									<tr>
+										<th class="">操作</th>
+										<th class="am-hide-sm-only">Action Key</th>
+										<th class="">描述</th>
+										<th class="am-hide-sm-only">类型</th>
+									</tr>
+								</thead>
+								<tbody>
+									#if(role.isSuperAdmin()) #for(permission : x.value)
+									<tr>
+										<td><input type="checkbox" checked data-size="xs"
+											class="grantswitcher"
+											data-on-text="已授权" data-off-text="未授权"
+											data-on-color="success" data-off-color="secondary"
+											data-am-switch disabled></td>
+										<td class="am-hide-sm-only">#(permission.action_key ??)</td>
+										<td>#(permission.text ??)</td>
+										<td class="am-hide-sm-only">#(permission.type == 'menu'?
+											'菜单':(permission.type == 'oper' ? '操作' : '其他'))</td>
+									</tr>
+									#end #else #for(permission : x.value)
+									<tr>
+										<td><input type="checkbox" data-size="xs"
+											class="grantswitcher"
+											data-on-text="已授权" data-off-text="未授权"
+											data-on-color="success" data-off-color="secondary"
+											data-am-switch data-pid="#(permission.id ??)"
+											data-rid="#(role.id ??)"
+											#for(ownperm:ownPermCheck) 
+												#if(ownperm.key==permission.id && ownperm.value)
+													checked 
+												#end 
+											#end><!-- 注意此处需要一个结束标志 -->
+										</td>
+										<td class="am-hide-sm-only">#(permission.action_key ??)</td>
+										<td>#(permission.text ??)</td>
+										<td class="am-hide-sm-only">#(permission.type == 'menu'?
+											'菜单':(permission.type == 'oper' ? '操作' : '其他'))</td>
+									</tr>
+									#end #end
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</form>
+				#end
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+<!--
+
+$('.grantswitcher').on('switchChange.bootstrapSwitch', function(event, state) {
+	 //console.log(this); // DOM element
+	 //console.log(event); // jQuery event
+	 //console.log(state); // true | false
+	 
+	$(".am-alert").remove(); 
+	
+	 var pid = $(this).data('pid');
+	 var rid = $(this).data('rid');
+	 
+	var assigned = 0;
+	if(state) {
+		assigned = 1;
+	}
+	
+	$.ajax({
+		type: "POST",
+		dataType: "json",//返回数据是json格式
+		url: "#(CPATH)/auth/role/grant",
+		data: {
+			'assigned': assigned,
+			'roleId':rid,
+			'permissionId': pid
+		},
+		success: function(rsp){
+          	if(rsp['code']==1){
+          		$("#sp-hr").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>'+rsp['msg']+'</p></div>');
+          		return true;
+          	} else {
+          		$("#sp-hr").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>'+rsp['msg']+'</p></div>');
+              	return false;
+			}
+		}
+	});
+});
+
+function batchgrant(action, group, role) {
+	$(".am-alert").remove(); 
+	
+	//alert(">>>" + action + "  " + group + "  " + role);
+	
+	$.ajax({
+		type: "POST",
+		dataType: "json",//返回数据是json格式
+		url: "#(CPATH)/auth/role/batchgrant",
+		data: {
+			'action': action,
+			'node':group,
+			'roleid': role
+		},
+		success: function(rsp){
+         	if(rsp['code']==1){
+         		//$("#sp-hr").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>'+rsp['msg']+'</p></div>');
+         		alert(rsp['msg']);
+         		location.href="#(CPATH)/auth/role/setpermission/" + rsp['currentRoleId'];
+         		return true;
+         	} else {
+         		$("#sp-hr").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>'+rsp['msg']+'</p></div>');
+             	return false;
+			}
+		}
+	});
+	
+}
+	
+//-->
+</script>
+
+
+#end
