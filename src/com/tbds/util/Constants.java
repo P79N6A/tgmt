@@ -79,6 +79,11 @@ public class Constants {
     public static final String COOKIE_UUUID = "_tbdsuid";
     
     /**
+     * Init Login User Menu Key
+     */
+    public static final String LOGIN_USER_MENU_ATTR = "_my_permission_menu_";
+    
+    /**
      * Permission Type
      */
     public static final String PERMISSION_MENU_TYPE = "permissionMenuType";

@@ -5,9 +5,9 @@ import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.core.NotAction;
 import com.jfinal.kit.Ret;
-import com.tbds.web.CSRFInterceptor;
-import com.tbds.web.LoginerInterceptor;
-import com.tbds.web.PermissionInterceptor;
+import com.tbds.web.interceptor.CSRFInterceptor;
+import com.tbds.web.interceptor.LoginerInterceptor;
+import com.tbds.web.interceptor.PermissionInterceptor;
 
 @Before({
     CSRFInterceptor.class,

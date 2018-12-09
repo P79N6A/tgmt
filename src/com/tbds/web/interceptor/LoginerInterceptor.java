@@ -1,9 +1,10 @@
-package com.tbds.web;
+package com.tbds.web.interceptor;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.tbds.model.eo.User;
+import com.tbds.service.PermissionService;
 import com.tbds.service.UserService;
 import com.tbds.util.Constants;
 import com.tbds.util.EncryptCookieUtils;
@@ -29,8 +30,10 @@ public class LoginerInterceptor implements Interceptor {
         }
         
         //此处可进行初始化菜单等公共资源
-        
         ctrler.setAttr(Constants.LOGINER_USER, user);
+        //菜单权限控制
+        //控制
+        
 
         ai.invoke();
         

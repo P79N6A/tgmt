@@ -1,4 +1,4 @@
-package com.tbds.web;
+package com.tbds.web.interceptor;
 
 import org.apache.log4j.Logger;
 

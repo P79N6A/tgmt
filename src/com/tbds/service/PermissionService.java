@@ -26,6 +26,7 @@ public class PermissionService {
 	private static List<String> BELONG_PERMISSION_OPER_TYPE_LST = new ArrayList<String>();
 	
 	private static Map<String, String> CTRL_KEY_MODULE_MAP = new HashMap<String, String>();
+//	private static Map<String, Boolean> PERMIT_MODULE_CTRL_KEY_MENU_MAP = new HashMap<String, Boolean>();
 	
 	static {
 		PropKit.use(Constants.CONFIG_FILE);
@@ -50,14 +51,24 @@ public class PermissionService {
 			}
 		}
 		
+
+		
+		
 		CTRL_KEY_MODULE_MAP.put("/", "系统主页");
 		CTRL_KEY_MODULE_MAP.put("/login", "用户登录");
 		CTRL_KEY_MODULE_MAP.put("/profile", "个人资料");
+		
 		CTRL_KEY_MODULE_MAP.put("/mps", "MPS终端");
 		CTRL_KEY_MODULE_MAP.put("/filebrowser", "设备数据");
 		CTRL_KEY_MODULE_MAP.put("/fthistory", "传输日志");
 		CTRL_KEY_MODULE_MAP.put("/analytics", "数据分析");
 		CTRL_KEY_MODULE_MAP.put("/auth", "权限模块");
+		
+//		PERMIT_MODULE_CTRL_KEY_MENU_MAP.put("/mps", new Boolean(false));
+//		PERMIT_MODULE_CTRL_KEY_MENU_MAP.put("/filebrowser", new Boolean(false));
+//		PERMIT_MODULE_CTRL_KEY_MENU_MAP.put("/fthistory", new Boolean(false));
+//		PERMIT_MODULE_CTRL_KEY_MENU_MAP.put("/analytics", new Boolean(false));
+//		PERMIT_MODULE_CTRL_KEY_MENU_MAP.put("/auth", new Boolean(false));
 	}
 	
 	public static Page<Permission> paginate(int pageNumber, int pageSize) {
@@ -289,8 +300,7 @@ public class PermissionService {
         }
 
         return new ArrayList<>(permissions);
-    }
-    
+    }    
     
     public static boolean hasPermission(int userId, String actionKey) {
         User user = UserService.findById(userId);

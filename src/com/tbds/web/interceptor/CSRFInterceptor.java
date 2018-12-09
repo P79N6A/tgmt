@@ -1,4 +1,4 @@
-package com.tbds.web;
+package com.tbds.web.interceptor;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;

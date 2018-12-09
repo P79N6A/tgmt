@@ -15,7 +15,7 @@ import com.tbds.util.Constants;
 import com.tbds.util.DateUtil;
 import com.tbds.util.EncryptCookieUtils;
 import com.tbds.util.StrUtil;
-import com.tbds.web.PermissionInterceptor;
+import com.tbds.web.interceptor.PermissionInterceptor;
 
 import org.apache.log4j.Logger;
 
