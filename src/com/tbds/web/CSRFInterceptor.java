@@ -25,25 +25,35 @@ public class CSRFInterceptor implements Interceptor {
 		//登录与首页可进入，并触发相关Cookie初始化信息
 		if (RequestUtil.isAjaxRequest(request) == false && StrUtil.isBlank(cookieToken)) {
 			
+			//当用户首次进入系统时，不拦截登录页和首页，以便有入口进入系统
 			if(ctrler instanceof LogonController || ctrler instanceof HomeController) {
+				
 				renderNormal(ai); 
 				return;
+				
+			} else {//若用户访问别的资源时，则直接转入到登录页面
+				
+				ctrler.redirect("/login");
+				return;
 			}
+			
+			
 		}
 		
-		
+		//拦住非登陆和首页相关的AJAX的请求，但需要校验Cookie Token
         if (StrUtil.isBlank(cookieToken)) {
             renderBad(ai);
             return;
         }
         
+        //文件处理
         if (RequestUtil.isMultipartRequest(request)) {
         	ctrler.getFile();
         }
         
         /**
          * 是否有必要——比较cookie：cookieToken以及url：cookieToken进行对吧，若相等才可进行登录！
-         * TODO: 此处暂时忽略
+         * TODO: 此处暂时可忽略考虑
          */
 
         renderNormal(ai);

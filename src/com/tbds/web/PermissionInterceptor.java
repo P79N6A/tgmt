@@ -41,7 +41,7 @@ public class PermissionInterceptor implements Interceptor {
 			
 			//render(ai);
 			//跳转至登录页
-			ai.getController().redirect("/login");
+			ctrler.redirect("/login");
 			
             return;
         }
