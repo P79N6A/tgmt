@@ -335,12 +335,48 @@ public class UserController extends Controller {
 	}
 	
 	public void setrole() {
-		setAttr("user", UserService.findById(getParaToInt()));
+		int userId = getParaToInt();
+		setAttr("user", UserService.findById(userId));
 		
 		List<Role> roles = RoleService.findAll();
         setAttr("roles", roles);
+        
+        List<Role> myroles = RoleService.findRoleListByUserId(userId);
+        setAttr("myroles", myroles);
 		
 		render("setrole.html");
+	}
+	
+	public void assignrole() {
+		JSONObject resp = new JSONObject();
+		Integer assigned = getParaToInt("assigned");
+		Integer userId =  getParaToInt("userId");
+		Integer roleId =  getParaToInt("roleId");
+		
+		boolean flag = false;
+		
+		int code = 0;
+		String msg = "";
+		if(assigned == 1) {//赋予角色
+			flag = RoleService.addUserRole(userId, roleId);
+			msg = "赋予角色";
+			
+		} else if(assigned == 0) {//取消角色
+			flag = RoleService.deleteUserRole(userId, roleId);
+			msg = "取消角色";
+		}
+		
+		if(flag) {//操作成功！
+			code = 1;
+			msg += "成功";
+		} else {
+			msg += "失败";
+		}
+		
+		resp.put("code", code);
+		resp.put("msg", msg);
+		
+		renderJson(resp);
 	}
 
 }

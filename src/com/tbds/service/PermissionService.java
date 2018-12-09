@@ -2,8 +2,10 @@ package com.tbds.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Action;
@@ -253,9 +255,25 @@ public class PermissionService {
     }
 	
 	public static List<Permission> findListByNode(String node) {
-		System.out.println("***********");
 		List<Permission> permissions = Permission.dao.find("select * from tbds_permission where node = ?", node);
 		return permissions;
 	}
+	
+    public static List<Permission> findPermissionListByUserId(int userId) {
+
+        Set<Permission> permissions = new HashSet<>();
+        String sql = "select * from tbds_user_role_mapping where user_id = ? ";
+        List<Record> userRoleRecords = Db.find(sql, userId);
+        if (userRoleRecords != null) {
+            for (Record userRoleRecord : userRoleRecords) {
+                List<Permission> rolePermissions = findPermissionListByRoleId(userRoleRecord.getInt("role_id"));
+                if (rolePermissions != null) {
+                    permissions.addAll(rolePermissions);
+                }
+            }
+        }
+
+        return new ArrayList<>(permissions);
+    }
 	
 }

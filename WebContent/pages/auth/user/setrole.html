@@ -40,21 +40,30 @@
 									<thead>
 										<tr>
 											<th class="">操作</th>
-											<th class="am-hide-sm-only">角色名称</th>
-											<th class="">描述</th>
+											<th class="">角色名称</th>
+											<th class="am-hide-sm-only">角色描述</th>
+											<th class="am-hide-sm-only">角色类别</th>
 										</tr>
 									</thead>
 									<tbody>
+									#for(role : roles)
 									<tr>
 										<td><input type="checkbox" data-size="xs"
 											class="grantswitcher"
-											data-on-text="已授权" data-off-text="未授权"
+											data-on-text="已分配" data-off-text="未分配"
 											data-on-color="success" data-off-color="secondary"
-											data-am-switch data-rid="">
+											#for(myrole:myroles)
+												#if(myrole.id == role.id)
+													checked
+												#end     
+											#end
+											data-am-switch data-rid="#(role.id??)" data-uid="#(user.id)">
 										</td>
-										<td class="am-hide-sm-only"></td>
-										<td></td>
+										<td>#(role.name??)</td>
+										<td class="am-hide-sm-only">#(role.description??)</td>
+										<td class="am-hide-sm-only">#(role.flag=='0'?'系统默认角色':'用户扩展角色')</td>
 									</tr>
+									#end
 								   </tbody>
 								</table>
 							#end
@@ -68,8 +77,49 @@
 		</div>
 		<!-- end panel total -->
 	</div>
-	
-	
-	
 </div>
+
+
+<script type="text/javascript">
+<!--
+
+$('.grantswitcher').on('switchChange.bootstrapSwitch', function(event, state) {
+	 //console.log(this); // DOM element
+	 //console.log(event); // jQuery event
+	 //console.log(state); // true | false
+	 
+	$(".am-alert").remove(); 
+	
+	 var uid = $(this).data('uid');
+	 var rid = $(this).data('rid');
+	 
+	var assigned = 0;
+	if(state) {
+		assigned = 1;
+	}
+	
+	$.ajax({
+		type: "POST",
+		dataType: "json",//返回数据是json格式
+		url: "#(CPATH)/auth/user/assignrole",
+		data: {
+			'assigned': assigned,
+			'roleId':rid,
+			'userId': uid
+		},
+		success: function(rsp){
+          	if(rsp['code']==1){
+          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>'+rsp['msg']+'</p></div>');
+          		return true;
+          	} else {
+          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>'+rsp['msg']+'</p></div>');
+              	return false;
+			}
+		}
+	});
+});
+	
+//-->
+</script>
+
 #end

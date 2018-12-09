@@ -72,7 +72,7 @@
 							<td><input type="checkbox" /></td>
 							-->
 							<!--<td>#(x.id)</td>-->
-							<td><a href="#(CPATH)/auth/user/setrole/#(x.id)">#(x.username)</a></td>
+							<td><a href="#">#(x.username)</a></td>
 							<td>#(x.nickname)</td>
 							<td class="am-hide-sm-only">#(x.email)</td>
 							<td>
@@ -106,6 +106,7 @@
 					                <button class="am-btn am-btn-default am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-cog"></span> <span class="am-icon-caret-down"></span></button>
 					                <ul class="am-dropdown-content">
 					                  <li><a href="#" onclick="javascript:window.location.href='#(CPATH)/auth/user/edit/#(x.id)';return false;">编辑</a></li>
+					                  <li><a href="#(CPATH)/auth/user/setrole/#(x.id)">权限</a></li>
 					                  <li><a href="#" onclick="javascript:deleteUser({'id':#(x.id), 'username':'#(x.username)', 'flag':'#(x.flag)'})">删除</a></li>
 					                </ul>
 					            </div>

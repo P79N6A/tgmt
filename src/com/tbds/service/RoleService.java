@@ -182,6 +182,16 @@ public class RoleService {
         return true;
     }
 	
+	public static boolean addUserRole(int userId, int roleId) {
+		Record userRole = new Record().set("user_id", userId).set("role_id", roleId);
+        return Db.save("tbds_user_role_mapping", userRole);
+	}
+	
+	public static boolean deleteUserRole(int userId, int roleId) {
+		Db.update("delete from tbds_user_role_mapping where userId=? and role_id=?", userId, roleId);
+		return true;
+	}
+	
 	public static boolean doResetUserRoles(int userId, int... RoleIds) {
         if (RoleIds == null || RoleIds.length == 0) {
             return Db.delete("delete from tbds_user_role_mapping where user_id = ? ", userId) > 0;
@@ -194,6 +204,29 @@ public class RoleService {
             for (int roleId : RoleIds) {
                 Record record = new Record();
                 record.set("user_id", userId);
+                record.set("role_id", roleId);
+                records.add(record);
+            }
+
+            Db.batchSave("tbds_user_role_mapping", records, records.size());
+
+            return true;
+        });
+    }
+	
+	public boolean doChangeRoleByIds(Integer roleId, Object... ids) {
+
+        return Db.tx(() -> {
+            //清空用户的其他所有角色
+            for (Object id : ids) {
+                Db.delete("delete from tbds_user_role_mapping where user_id = ? ", id);
+            }
+
+            //添加新的映射
+            List<Record> records = new ArrayList<>();
+            for (Object id : ids) {
+                Record record = new Record();
+                record.set("user_id", id);
                 record.set("role_id", roleId);
                 records.add(record);
             }
