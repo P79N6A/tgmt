@@ -1,5 +1,7 @@
 package com.tbds.web;
 
+import org.apache.log4j.Logger;
+
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
@@ -9,6 +11,7 @@ import com.tbds.ctrl.UserProfileController;
 import com.tbds.model.eo.User;
 import com.tbds.service.PermissionService;
 import com.tbds.util.Constants;
+import com.tbds.util.EncryptCookieUtils;
 import com.tbds.util.RequestUtil;
 
 /**
@@ -18,6 +21,8 @@ import com.tbds.util.RequestUtil;
  */
 
 public class PermissionInterceptor implements Interceptor {
+	
+	private static final Logger log = Logger.getLogger(PermissionInterceptor.class);
 	
 	private static final String NO_PERMISSION_VIEW = "/pages/error/denied.html";
 	
@@ -29,7 +34,15 @@ public class PermissionInterceptor implements Interceptor {
 		User user = (User)ctrler.getSession().getAttribute(Constants.LOGINER_USER);
 		
 		if (user == null) {
-            render(ai);
+			System.err.println(">>>>Current User Is Timeout, You will logout and redirect to login page.");
+			
+			//Session Timeout时，检测用户已不存在，移除已存在Cookie，并跳转至登录页
+			EncryptCookieUtils.remove(ctrler, Constants.COOKIE_UUUID);
+			
+			//render(ai);
+			//跳转至登录页
+			ai.getController().redirect("/login");
+			
             return;
         }
 		
@@ -42,9 +55,14 @@ public class PermissionInterceptor implements Interceptor {
 		}
 		
 		/**
-		 * 
+		 * 判断当前用户是否拥有权限访问此资源
 		 */
-        if (!PermissionService.hasPermission(user.getInt("id"), ai.getActionKey())) {
+		int userId = user.getInt("id");
+		
+		log.info("Current User Id is: " + userId);
+		System.out.println(">>>>Current User Id is: " + userId);
+		
+        if (!PermissionService.hasPermission(userId, ai.getActionKey())) {
             render(ai);
             return;
         }

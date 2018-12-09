@@ -40,6 +40,11 @@ public class CSRFInterceptor implements Interceptor {
         if (RequestUtil.isMultipartRequest(request)) {
         	ctrler.getFile();
         }
+        
+        /**
+         * 是否有必要——比较cookie：cookieToken以及url：cookieToken进行对吧，若相等才可进行登录！
+         * TODO: 此处暂时忽略
+         */
 
         renderNormal(ai);
         

@@ -6,7 +6,7 @@
     </li>
     
     <li class="admin-parent">
-        <a class="am-cf" data-am-collapse="{target: '#md15'}">
+        <a class="am-cf" data-am-collapse="{parent:'#sidebar',target: '#md15'}">
             <span class="am-icon-subway am-icon-fw"></span> MPS管理
             <span class="am-icon-angle-right am-fr am-margin-right"></span>
         </a>
@@ -24,10 +24,10 @@
 
 
 
-    <li class="admin-parent"><a class="am-cf"
-                                data-am-collapse="{target: '#md20'}"><span
-                class="am-icon-database am-icon-fw"></span> 数据浏览<span
-                class="am-icon-angle-right am-fr am-margin-right"></span>
+    <li class="admin-parent">
+    	<a class="am-cf" data-am-collapse="{parent:'#sidebar',target: '#md20'}">
+    		<span class="am-icon-database am-icon-fw"></span> 数据浏览
+    		<span class="am-icon-angle-right am-fr am-margin-right"></span>
         </a>
         <ul class="am-list am-collapse admin-sidebar-sub" id="md20">
             <li><a href="#(CPATH)/filebrowser" class="am-cf"><span
@@ -36,12 +36,13 @@
         </ul>
     </li>
 
-    <li class="admin-parent"><a class="am-cf am-collapsed"
-                                data-am-collapse="{target: '#md401'}"><span
+    <li class="admin-parent">
+    	<a class="am-cf am-collapsed"
+    			data-am-collapse="{parent:'#sidebar',target: '#md25'}"><span
                 class="am-icon-ambulance am-icon-fw"></span> 传输日志<span
                 class="am-icon-angle-right am-fr am-margin-right"></span>
         </a>
-        <ul class="am-list admin-sidebar-sub am-collapse" id="md401"
+        <ul class="am-list admin-sidebar-sub am-collapse" id="md25"
             style="height: 0px;">
             <li><a href="#(CPATH)/fthistory" class="am-cf"><span
                         class="am-icon-medkit"></span> 日志列表</a>
@@ -50,11 +51,11 @@
     </li>
 
     <li class="admin-parent"><a class="am-cf am-collapsed"
-                                data-am-collapse="{target: '#md40'}"><span
+                                data-am-collapse="{parent:'#sidebar',target: '#md30'}"><span
                 class="am-icon-bar-chart am-icon-fw"></span> 日常分析<span
                 class="am-icon-angle-right am-fr am-margin-right"></span>
         </a>
-        <ul class="am-list admin-sidebar-sub am-collapse" id="md40"
+        <ul class="am-list admin-sidebar-sub am-collapse" id="md30"
             style="height: 0px;">
             <li><a href="#(CPATH)/analytics/fault" class="am-cf"><span
                         class="am-icon-line-chart"></span> 列车故障</a>
@@ -70,11 +71,11 @@
     </li>
     
     <li class="admin-parent"><a class="am-cf am-collapsed"
-                                data-am-collapse="{target: '#md140'}"><span
+                                data-am-collapse="{parent:'#sidebar',target: '#md35'}"><span
                 class="am-icon-bar-chart am-icon-fw"></span> 高级分析<span
                 class="am-icon-angle-right am-fr am-margin-right"></span>
         </a>
-        <ul class="am-list admin-sidebar-sub am-collapse" id="md140"
+        <ul class="am-list admin-sidebar-sub am-collapse" id="md35"
             style="height: 0px;">
             <li><a href="#(CPATH)/analytics/fault" class="am-cf"><span
                         class="am-icon-line-chart"></span> 健康状况预测</a>
@@ -86,11 +87,11 @@
         </ul>
     </li>
     <li class="admin-parent"><a class="am-cf am-collapsed"
-                                data-am-collapse="{target: '#md30'}"><span
+                                data-am-collapse="{parent:'#sidebar',target: '#md40'}"><span
                 class="am-icon-users am-icon-fw"></span> 权限管理<span
                 class="am-icon-angle-right am-fr am-margin-right"></span>
         </a>
-        <ul class="am-list admin-sidebar-sub am-collapse" id="md30"
+        <ul class="am-list admin-sidebar-sub am-collapse" id="md40"
             style="height: 0px;">
             <li><a href="#(CPATH)/auth/user" class="am-cf"><span
                         class="am-icon-user-plus"></span> 用户管理</a>
