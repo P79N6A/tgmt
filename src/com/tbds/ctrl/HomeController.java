@@ -11,7 +11,7 @@ import com.jfinal.core.Controller;
  *
  * @author totan
  */
-public class HomeController extends Controller {
+public class HomeController extends TbdsBaseController {
     public void index() {
         render("index.html");
     }

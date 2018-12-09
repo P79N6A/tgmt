@@ -15,7 +15,7 @@ import com.tbds.service.PermissionService;
 import com.tbds.service.RoleService;
 import com.tbds.util.StrUtil;
 
-public class PermissionController extends Controller {
+public class PermissionController extends TbdsBaseController {
 	private static final Logger log = Logger.getLogger(PermissionController.class);
 	
 	public void index() {

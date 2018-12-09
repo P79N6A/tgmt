@@ -17,7 +17,7 @@ import com.tbds.service.PermissionService;
 import com.tbds.service.RoleService;
 import com.tbds.util.StrUtil;
 
-public class RoleController extends Controller {
+public class RoleController extends TbdsBaseController {
 	private static final Logger log = Logger.getLogger(RoleController.class);
 	public void index() {
 		int currentPageIndex = getParaToInt(0, 1);

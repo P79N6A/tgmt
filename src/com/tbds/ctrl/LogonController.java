@@ -6,7 +6,6 @@
 package com.tbds.ctrl;
 
 import com.jfinal.aop.Clear;
-import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.StrKit;
 
@@ -14,7 +13,9 @@ import com.tbds.model.eo.User;
 import com.tbds.service.UserService;
 import com.tbds.util.Constants;
 import com.tbds.util.DateUtil;
+import com.tbds.util.EncryptCookieUtils;
 import com.tbds.util.StrUtil;
+import com.tbds.web.PermissionInterceptor;
 
 import org.apache.log4j.Logger;
 
@@ -22,20 +23,25 @@ import org.apache.log4j.Logger;
  *
  * @author totan
  */
-public class LogonController extends Controller {
+public class LogonController extends TbdsBaseController {
     private static final Logger log = Logger.getLogger(LogonController.class);
     
+    @Clear
     public void index() {
         render("login.html");
     }
     
+    @Clear(PermissionInterceptor.class)
     public void quit() {
+    	EncryptCookieUtils.remove(this, Constants.COOKIE_UUUID);
         setSessionAttr(Constants.LOGINER, null);
         setSessionAttr(Constants.LOGINER_UNI_ID, null);
         setSessionAttr(Constants.LOGINER_UNI_NAME, null);
+        setSessionAttr(Constants.LOGINER_USER, null);
         redirect("/");
     }
     
+    @Clear
     public void forgetPassword() {
         render("forgetPassword.html");
     }
@@ -58,7 +64,7 @@ public class LogonController extends Controller {
         
         User loginUser = UserService.findByLoginUserName(userName.trim());
         
-        if(loginUser == null) {
+        if(loginUser == null || !loginUser.isActive()) {
         	setAttr("LoginFailed", "请输入用户名与密码错误！");
             renderText("0");
             return;
@@ -100,12 +106,15 @@ public class LogonController extends Controller {
             setSessionAttr(Constants.LOGINER, showName);//设置显示名
             setSessionAttr(Constants.LOGINER_UNI_ID, loginUniID);//设置唯一ID
             setSessionAttr(Constants.LOGINER_UNI_NAME, userName);//设置唯一用户名
+            setSessionAttr(Constants.LOGINER_USER, loginUser);//设置对象到session
+            
+            EncryptCookieUtils.put(this, Constants.COOKIE_UUUID, loginUniID);
             
             renderText("1");
             return;
         } else {
         	System.out.println("****UserName = " + userName + " login failed!");
-        	setAttr("LoginFailed", "请输入用户名与密码错误！");
+        	setAttr("LoginFailed", "请输入用户名与密码！");
             renderText("0");
             return;
         }

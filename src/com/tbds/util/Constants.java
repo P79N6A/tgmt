@@ -70,6 +70,13 @@ public class Constants {
     public static final String LOGINER = "_tbds_logon_user_";
     public static final String LOGINER_UNI_ID = "_tbds_logon_user_id_";
     public static final String LOGINER_UNI_NAME = "_tbds_logon_user_name_";
+    public static final String LOGINER_USER = "_tbds_logon_user_obj_";
+    
+    
+    /**
+     * Login user cookie attribute
+     */
+    public static final String COOKIE_UUUID = "_tbdsuid";
     
     /**
      * Permission Type

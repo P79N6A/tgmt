@@ -5,7 +5,6 @@
  */
 package com.tbds.web;
 
-import java.lang.reflect.Method;
 
 import org.apache.log4j.Logger;
 import com.jfinal.aop.Interceptor;
@@ -17,6 +16,7 @@ import com.tbds.util.Constants;
 /**
  *
  * @author totan
+ * @deprecated Replaced by other interceptors
  */
 public class WebInterceptor implements Interceptor {
 
@@ -25,7 +25,7 @@ public class WebInterceptor implements Interceptor {
     public void intercept(Invocation ai) {
         System.out.println("before GlobalActionInterceptor");
         Controller ctrl = ai.getController();
-
+        
         String actionKey = ai.getActionKey();
         String action = ai.getMethodName();
         

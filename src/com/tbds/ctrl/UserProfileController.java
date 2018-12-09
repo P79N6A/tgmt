@@ -10,7 +10,7 @@ import com.tbds.model.eo.User;
 import com.tbds.service.UserService;
 import com.tbds.util.Constants;
 
-public class UserProfileController extends Controller {
+public class UserProfileController extends TbdsBaseController {
 	private static final Logger log = Logger.getLogger(UserProfileController.class);
 	
 	public void index() {

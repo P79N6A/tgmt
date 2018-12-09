@@ -20,7 +20,7 @@ public class UserService {
 		if(!StrUtil.isValid(userName)) {
 				return null;
 		}
-		return User.dao.findFirst("select id, username, password, salt, logged from tbds_user where status='1' and username = ?", userName);
+		return User.dao.findFirst("select id, username, password, salt, logged, status from tbds_user where username = ?", userName);
 	}
 	
 	public static User filterByUserName(String userName) {

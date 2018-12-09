@@ -14,7 +14,7 @@ import com.tbds.service.JobSchedulerService;
  *
  * @author JQIAO
  */
-public class FileBrowserController  extends Controller {
+public class FileBrowserController  extends TbdsBaseController {
     
    public void index()
     {

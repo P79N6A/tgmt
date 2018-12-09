@@ -19,7 +19,7 @@ import com.tbds.service.RoleService;
 import com.tbds.service.UserService;
 import com.tbds.util.StrUtil;
 
-public class UserController extends Controller {
+public class UserController extends TbdsBaseController {
 	private static final Logger log = Logger.getLogger(UserController.class);
 
 	public void index() {

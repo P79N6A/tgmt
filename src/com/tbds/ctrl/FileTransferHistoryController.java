@@ -12,7 +12,7 @@ import com.tbds.service.JobSchedulerService;
  *
  * @author jq
  */
-public class FileTransferHistoryController extends Controller  {
+public class FileTransferHistoryController extends TbdsBaseController  {
     
     public void index()
     {

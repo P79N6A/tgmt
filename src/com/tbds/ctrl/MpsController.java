@@ -23,7 +23,7 @@ import com.tbds.util.StrUtil;
  *
  * @author totan
  */
-public class MpsController extends Controller {
+public class MpsController extends TbdsBaseController {
 
 	private static final Logger log = Logger.getLogger(MpsController.class);
 

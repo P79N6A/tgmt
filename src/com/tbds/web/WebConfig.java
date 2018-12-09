@@ -74,8 +74,10 @@ public class WebConfig extends JFinalConfig {
     @Override
     public void configRoute(Routes me) {
         //me.add(new TbdsRoutes());//路由
-        // 自定义的路由配置往这里加。。。
+        //***************自定义的路由配置往这里加***************
+    	//为了安全考虑，建议放置到/WEB-INF/pages下面(防止别人读取到源代码)
         me.setBaseViewPath("/pages");
+        //**********************************************
         
         me.add("/", HomeController.class, "/home");
         
@@ -100,15 +102,7 @@ public class WebConfig extends JFinalConfig {
          * 个人信息修改（包括基本信息以及密码重置）
          */
         me.add("/profile", UserProfileController.class);
-
-        //me.add("/test", TestController.class);
-
-        // 排除不需要登录拦截的URI 语法同SpringMVC拦截器配置 @see com.eova.common.utils.util.AntPathMatcher
-//        LoginInterceptor.excludes.add("/test/**");
-//
-//        LoginInterceptor.excludes.add("/init");
-//        LoginInterceptor.excludes.add("/code");
-        // LoginInterceptor.excludes.add("/xxxx/**");
+        
     }
 
     @Override
@@ -145,8 +139,10 @@ public class WebConfig extends JFinalConfig {
 
     @Override
     public void configInterceptor(Interceptors me) {
-        me.add(new WebInterceptor());//添加全局拦截器，用于判断用户是否已正常登录
-        me.add(new SessionInViewInterceptor());//for session
+        //me.add(new WebInterceptor());//添加全局拦截器，用于判断用户是否已正常登录
+    	
+    	//for session globally
+        me.add(new SessionInViewInterceptor());
     }
 
     @Override

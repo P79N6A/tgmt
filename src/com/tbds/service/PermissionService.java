@@ -66,7 +66,7 @@ public class PermissionService {
 	
 	public static Page<Permission> search(int pageNumber, int pageSize, String permType, String keyword) {
 		
-		System.out.println("**********permType = " + permType + " & keyword = " + keyword);
+		//System.out.println("**********permType = " + permType + " & keyword = " + keyword);
 		
 		String whereSql = "";
 		if(StrKit.notBlank(permType) && !"all".equalsIgnoreCase(permType)) {
@@ -89,7 +89,7 @@ public class PermissionService {
 			fromSql = " from tbds_permission where " + whereSql + " order by id asc";
 		}
 		
-		System.out.println(fromSql);
+		//System.out.println(fromSql);
 		
 		
 		return Permission.dao.paginate(pageNumber, pageSize, "select *", fromSql);
@@ -292,13 +292,14 @@ public class PermissionService {
     }
     
     
-    public boolean hasPermission(int userId, String actionKey) {
+    public static boolean hasPermission(int userId, String actionKey) {
         User user = UserService.findById(userId);
+        
         if (user == null || !user.isActive()) {
             return false;
         }
         
-        if (RoleService.isSupperAdmin(userId)) {
+        if (RoleService.isSupperAdmin(userId) || "s".equals(user.get("flag"))) {
             return true;
         }
 
@@ -317,7 +318,7 @@ public class PermissionService {
     }
 
     
-    public boolean hasPermission(int userId, int permissionId) {
+    public static boolean hasPermission(int userId, int permissionId) {
         User user = UserService.findById(userId);
         if (user == null || !user.isActive()) {
             return false;
