@@ -16,6 +16,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.tbds.model.eo.Permission;
+import com.tbds.model.eo.User;
 import com.tbds.util.Constants;
 
 
@@ -209,6 +210,20 @@ public class PermissionService {
         
 	}
 	
+	public static boolean deletePermission(Permission permission) {
+		
+		return Db.tx(() -> {
+			int permissionId = permission.getInt("id");
+			Db.delete("delete from tbds_role_permission_mapping where permission_id = ? ", permissionId);
+			
+			permission.delete();
+			
+			return true;
+		});
+		
+		
+	}
+	
 	public static List<Permission> findAll() {
 		List<Permission> permissions = Permission.dao.find("select * from tbds_permission");
 		return permissions;
@@ -274,6 +289,56 @@ public class PermissionService {
         }
 
         return new ArrayList<>(permissions);
+    }
+    
+    
+    public boolean hasPermission(int userId, String actionKey) {
+        User user = UserService.findById(userId);
+        if (user == null || !user.isActive()) {
+            return false;
+        }
+        
+        if (RoleService.isSupperAdmin(userId)) {
+            return true;
+        }
+
+        List<Permission> permissions = findPermissionListByUserId(userId);
+        if (permissions == null || permissions.isEmpty()) {
+            return false;
+        }
+
+        for (Permission permission : permissions) {
+            if (permission.getStr("action_key").equals(actionKey)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    
+    public boolean hasPermission(int userId, int permissionId) {
+        User user = UserService.findById(userId);
+        if (user == null || !user.isActive()) {
+            return false;
+        }
+
+        if (RoleService.isSupperAdmin(userId)) {
+            return true;
+        }
+
+        List<Permission> permissions = findPermissionListByUserId(userId);
+        if (permissions == null || permissions.isEmpty()) {
+            return false;
+        }
+
+        for (Permission permission : permissions) {
+            if (permission.getInt("id") == permissionId) {
+                return true;
+            }
+        }
+
+        return false;
     }
 	
 }

@@ -1,0 +1,125 @@
+#@layout(title="用户权限列表查看") 
+
+#define content()
+
+<link rel="stylesheet" href="#(CPATH)/assets/css/amazeui.switch.css" />
+<script type="text/javascript"
+	src="#(CPATH)/assets/js/amazeui.switch.min.js"></script>
+
+<div class="admin-content">
+
+	<div class="am-cf">
+		<div class="am-cf am-padding">
+			<div class="am-fl am-cf">
+				<strong class="am-text-primary am-text-lg">权限管理 / <a
+					href="#(CPATH)/auth/user">用户管理</a> /
+				</strong><small>权限列表查看</small>
+			</div>
+		</div>
+	</div>
+	
+	<div class="am-u-sm-12">
+		<div class="am-panel am-panel-default">
+			<div class="am-panel-hd">
+				用户名：#(user.username??)
+				#if(user!=null&&user.flag=='s')
+				[ <span class="am-icon-street-view">超级管理员</span> ]
+				#end
+			</div>
+			<div class="am-panel-bd">
+				<div id="tips-msg"></div>
+				<div class="am-tabs" data-am-tabs>
+					<ul class="am-tabs-nav am-nav am-nav-tabs">
+						<li class="am-active"><a href="#role-set-tab">您拥有的权限列表</a></li>
+					</ul>
+					<div class="am-tabs-bd">
+						<div class="am-tab-panel am-fade am-in am-active" id="role-set-tab">
+							
+							#for(x : groupPermissions)
+									<form class="am-form">
+										<div class="am-panel am-panel-secondary">
+											<div class="am-panel-hd">
+												<div class="am-g">
+													<div class="am-u-sm-6">
+															<div class="am-btn-toolbar">
+																<span class="am-icon-map-pin am-icon-lg">#(x.key ??)</span>
+															</div>
+													</div>
+												</div>
+											</div>
+											<!-- panel-body -->
+											<div class="am-panel-bd ">
+												<table
+													class="am-table am-table-striped am-table-bordered am-table-hover table-main am-table-compact">
+													<thead>
+														<tr>
+															<th class="">#</th>
+															<th class="am-hide-sm-only">Action Key</th>
+															<th class="">描述</th>
+															<th class="am-hide-sm-only">类型</th>
+														</tr>
+													</thead>
+													<tbody>
+														#if(user!=null&&user.flag=='s') 
+															#for(permission : x.value)
+															<tr>
+																<td><input type="checkbox" checked data-size="xs"
+																	class="grantswitcher"
+																	data-on-text="已授权" data-off-text="未授权"
+																	data-on-color="success" data-off-color="secondary"
+																	data-am-switch disabled></td>
+																<td class="am-hide-sm-only">#(permission.action_key ??)</td>
+																<td>#(permission.text ??)</td>
+																<td class="am-hide-sm-only">#(permission.type == 'menu'?
+																	'菜单':(permission.type == 'oper' ? '操作' : '其他'))</td>
+															</tr>
+															#end 
+														#else 
+															#for(permission : x.value)
+															<tr>
+																<td><input type="checkbox" data-size="xs"
+																	class="grantswitcher"
+																	data-on-text="已授权" data-off-text="未授权"
+																	data-on-color="success" data-off-color="secondary"
+																	data-am-switch data-pid="#(permission.id ??)"
+																	data-rid="#(role.id ??)" disabled
+																	#for(ownperm:myPermissions) 
+																		#if(ownperm.id==permission.id)
+																			checked 
+																		#end 
+																	#end><!-- 注意此处需要一个结束标志 -->
+																</td>
+																<td class="am-hide-sm-only">#(permission.action_key ??)</td>
+																<td>#(permission.text ??)</td>
+																<td class="am-hide-sm-only">#(permission.type == 'menu'?
+																	'菜单':(permission.type == 'oper' ? '操作' : '其他'))</td>
+															</tr>
+															#end 
+														#end
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</form>
+									#end
+							
+							<!--begin 提交保存按钮 -->
+							<div class="am-form-group am-margin">
+								<button type="button" 
+								class="am-btn am-btn-primary am-btn-default" 
+								onclick="javascript:location.href='#(CPATH)/auth/user';return false;">返回</button>		
+							</div>
+							<!--end 提交保存按钮 -->
+
+						</div>
+						
+					</div>
+				</div>
+				<!-- end tab -->
+			</div>
+			<!-- end panel content -->
+		</div>
+		<!-- end panel total -->
+	</div>
+</div>
+#end

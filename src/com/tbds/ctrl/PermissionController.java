@@ -73,7 +73,7 @@ public class PermissionController extends Controller {
 			return;
 		}
 		
-		boolean flag = permission.delete();
+		boolean flag = PermissionService.deletePermission(permission);
 		
 		int code = 0;
 		if (flag) {

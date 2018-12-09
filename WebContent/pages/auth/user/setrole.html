@@ -28,7 +28,7 @@
 				<div id="tips-msg"></div>
 				<div class="am-tabs" data-am-tabs>
 					<ul class="am-tabs-nav am-nav am-nav-tabs">
-						<li class="am-active"><a href="#role-set-tab">权限列表</a></li>
+						<li class="am-active"><a href="#role-set-tab">角色列表</a></li>
 					</ul>
 					<div class="am-tabs-bd">
 						<div class="am-tab-panel am-fade am-in am-active" id="role-set-tab">
@@ -67,6 +67,18 @@
 								   </tbody>
 								</table>
 							#end
+							<!--begin 提交保存按钮 -->
+							<div class="am-form-group am-margin">
+								<button type="button" 
+								class="am-btn am-btn-primary am-btn-default" 
+								onclick="javascript:location.href='#(CPATH)/auth/user';return false;">返回</button>	
+								
+								<button type="button" 
+								class="am-btn am-btn-primary am-btn-default" 
+								onclick="javascript:location.href='#(CPATH)/auth/user/mypermissions/#(user.id)';return false;">查看权限</button>
+									
+							</div>
+							<!--end 提交保存按钮 -->
 						</div>
 						
 					</div>

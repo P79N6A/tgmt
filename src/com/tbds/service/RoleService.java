@@ -188,7 +188,7 @@ public class RoleService {
 	}
 	
 	public static boolean deleteUserRole(int userId, int roleId) {
-		Db.update("delete from tbds_user_role_mapping where userId=? and role_id=?", userId, roleId);
+		Db.update("delete from tbds_user_role_mapping where user_id=? and role_id=?", userId, roleId);
 		return true;
 	}
 	

@@ -3,6 +3,7 @@ package com.tbds.ctrl;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -10,8 +11,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.StrKit;
+import com.tbds.model.eo.Permission;
 import com.tbds.model.eo.Role;
 import com.tbds.model.eo.User;
+import com.tbds.service.PermissionService;
 import com.tbds.service.RoleService;
 import com.tbds.service.UserService;
 import com.tbds.util.StrUtil;
@@ -377,6 +380,22 @@ public class UserController extends Controller {
 		resp.put("msg", msg);
 		
 		renderJson(resp);
+	}
+	
+	public void mypermissions() {
+		int userId = getParaToInt();
+		
+		User user = UserService.findById(userId);
+        setAttr("user", user);
+        
+        Map<String, List<Permission>> groupPermissions = PermissionService.findAllByGroupPermissionNode();
+        
+        List<Permission> myPermissions = PermissionService.findPermissionListByUserId(userId);
+        
+        setAttr("groupPermissions", groupPermissions);
+        setAttr("myPermissions", myPermissions);
+        
+        render("userpermission.html");
 	}
 
 }
