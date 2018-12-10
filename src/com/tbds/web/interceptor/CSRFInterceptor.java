@@ -76,9 +76,9 @@ public class CSRFInterceptor implements Interceptor {
 
 	private void renderBad(Invocation ai) {
 		if (RequestUtil.isAjaxRequest(ai.getController().getRequest())) {
-            ai.getController().renderJson(Ret.fail().set("msg", "bad or mission token!"));
+            ai.getController().renderJson(Ret.fail().set("msg", "Token is bad or missing."));
         } else {
-            ai.getController().renderError(403, new TextRender("bad or missing token!"));
+            ai.getController().renderError(403, new TextRender("Token is bad or missing."));
         }
 		
 	}

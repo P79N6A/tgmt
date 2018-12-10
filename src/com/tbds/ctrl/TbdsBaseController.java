@@ -16,7 +16,7 @@ import com.tbds.web.interceptor.PermissionInterceptor;
 })
 public abstract class TbdsBaseController extends Controller {
 	
-	public static final String NO_PERMISSION_DENIED_VIEW = "/pages/error/denied.html";
+	public static final String NO_PERMISSION_DENIED_VIEW = "/WEB-INF/pages/error/denied.html";
 	
 	
 }

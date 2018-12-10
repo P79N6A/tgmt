@@ -34,7 +34,7 @@ public class PermissionInterceptor implements Interceptor {
 		User user = (User)ctrler.getSession().getAttribute(Constants.LOGINER_USER);
 		
 		if (user == null) {
-			System.err.println(">>>>Current User Is Timeout, You will logout and redirect to login page.");
+			System.err.println(">>>>Session is timeout, you will redirect to login.");
 			
 			//Session Timeout时，检测用户已不存在，移除已存在Cookie，并跳转至登录页
 			EncryptCookieUtil.remove(ctrler, Constants.COOKIE_UUUID);
@@ -60,7 +60,6 @@ public class PermissionInterceptor implements Interceptor {
 		int userId = user.getInt("id");
 		
 		log.info("Current User Id is: " + userId);
-		System.out.println(">>>>Current User Id is: " + userId);
 		
         if (!PermissionService.hasPermission(userId, ai.getActionKey())) {
             render(ai);
