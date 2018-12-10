@@ -24,7 +24,7 @@ public class PermissionInterceptor implements Interceptor {
 	
 	private static final Logger log = Logger.getLogger(PermissionInterceptor.class);
 	
-	private static final String NO_PERMISSION_VIEW = "/pages/error/denied.html";
+	private static final String NO_PERMISSION_VIEW = "/WEB-INF/pages/error/denied.html";
 	
 	@Override
 	public void intercept(Invocation ai) {

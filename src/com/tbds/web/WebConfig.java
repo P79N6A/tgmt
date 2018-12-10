@@ -77,7 +77,7 @@ public class WebConfig extends JFinalConfig {
         //me.add(new TbdsRoutes());//路由
         //***************自定义的路由配置往这里加***************
     	//为了安全考虑，建议放置到/WEB-INF/pages下面(防止别人读取到源代码)
-        me.setBaseViewPath("/pages");
+        me.setBaseViewPath("/WEB-INF/pages");
         //**********************************************
         
         me.add("/", HomeController.class, "/home");
@@ -159,12 +159,12 @@ public class WebConfig extends JFinalConfig {
 
     @Override
     public void configEngine(Engine me) {
-        me.addSharedFunction("/pages/common/_header.html");
-        me.addSharedFunction("/pages/common/_layout.html");
-        me.addSharedFunction("/pages/common/_footer.html");
-        me.addSharedFunction("/pages/common/_menu.html");
-        me.addSharedFunction("/pages/common/_paginate.html");
-        me.addSharedFunction("/pages/common/_sidebar.html");
+        me.addSharedFunction("/WEB-INF/pages/common/_header.html");
+        me.addSharedFunction("/WEB-INF/pages/common/_layout.html");
+        me.addSharedFunction("/WEB-INF/pages/common/_footer.html");
+        me.addSharedFunction("/WEB-INF/pages/common/_menu.html");
+        me.addSharedFunction("/WEB-INF/pages/common/_paginate.html");
+        me.addSharedFunction("/WEB-INF/pages/common/_sidebar.html");
         
         //如果是用的jfinal template（也就是html[freemark]），只需要配置一句
         me.addSharedObject("CPATH", JFinal.me().getContextPath());
