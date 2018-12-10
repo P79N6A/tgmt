@@ -7,7 +7,7 @@ import com.tbds.model.eo.User;
 import com.tbds.service.PermissionService;
 import com.tbds.service.UserService;
 import com.tbds.util.Constants;
-import com.tbds.util.EncryptCookieUtils;
+import com.tbds.util.EncryptCookieUtil;
 import com.tbds.util.StrUtil;
 
 public class LoginerInterceptor implements Interceptor {
@@ -16,7 +16,7 @@ public class LoginerInterceptor implements Interceptor {
 	public void intercept(Invocation ai) {
 		Controller ctrler = ai.getController();
 		
-		String uid = EncryptCookieUtils.get(ctrler, Constants.COOKIE_UUUID);
+		String uid = EncryptCookieUtil.get(ctrler, Constants.COOKIE_UUUID);
         
 		if (StrUtil.isBlank(uid)) {
 			ctrler.redirect("/login");

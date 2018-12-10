@@ -13,7 +13,7 @@ import com.tbds.model.eo.User;
 import com.tbds.service.UserService;
 import com.tbds.util.Constants;
 import com.tbds.util.DateUtil;
-import com.tbds.util.EncryptCookieUtils;
+import com.tbds.util.EncryptCookieUtil;
 import com.tbds.util.StrUtil;
 import com.tbds.web.interceptor.PermissionInterceptor;
 
@@ -33,7 +33,7 @@ public class LogonController extends TbdsBaseController {
     
     @Clear(PermissionInterceptor.class)
     public void quit() {
-    	EncryptCookieUtils.remove(this, Constants.COOKIE_UUUID);
+    	EncryptCookieUtil.remove(this, Constants.COOKIE_UUUID);
         setSessionAttr(Constants.LOGINER, null);
         setSessionAttr(Constants.LOGINER_UNI_ID, null);
         setSessionAttr(Constants.LOGINER_UNI_NAME, null);
@@ -108,7 +108,7 @@ public class LogonController extends TbdsBaseController {
             setSessionAttr(Constants.LOGINER_UNI_NAME, userName);//设置唯一用户名
             setSessionAttr(Constants.LOGINER_USER, loginUser);//设置对象到session
             
-            EncryptCookieUtils.put(this, Constants.COOKIE_UUUID, loginUniID);
+            EncryptCookieUtil.put(this, Constants.COOKIE_UUUID, loginUniID);
             
             renderText("1");
             return;

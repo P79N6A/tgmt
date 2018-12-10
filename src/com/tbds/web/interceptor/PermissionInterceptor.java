@@ -11,7 +11,7 @@ import com.tbds.ctrl.UserProfileController;
 import com.tbds.model.eo.User;
 import com.tbds.service.PermissionService;
 import com.tbds.util.Constants;
-import com.tbds.util.EncryptCookieUtils;
+import com.tbds.util.EncryptCookieUtil;
 import com.tbds.util.RequestUtil;
 
 /**
@@ -37,7 +37,7 @@ public class PermissionInterceptor implements Interceptor {
 			System.err.println(">>>>Current User Is Timeout, You will logout and redirect to login page.");
 			
 			//Session Timeout时，检测用户已不存在，移除已存在Cookie，并跳转至登录页
-			EncryptCookieUtils.remove(ctrler, Constants.COOKIE_UUUID);
+			EncryptCookieUtil.remove(ctrler, Constants.COOKIE_UUUID);
 			
 			//render(ai);
 			//跳转至登录页

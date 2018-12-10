@@ -5,24 +5,47 @@ import com.jfinal.kit.Base64Kit;
 import com.jfinal.kit.HashKit;
 import java.math.BigInteger;
 
-public class EncryptCookieUtils {
+public class EncryptCookieUtil {
 	private final static String COOKIE_SEPARATOR = "#";
 	private static String COOKIE_ENCRYPT_KEY = "$@))()^@^_!(*^)$!*";
 	
+	/**
+	 * 设置cookie，cookie有效期默认时长为一周
+	 * @param ctr
+	 * @param key
+	 * @param value
+	 */
 	public static void put(Controller ctr, String key, String value) {
         put(ctr, key, value, 60 * 60 * 24 * 7);
     }
-
+	
+	/**
+	 * 设置cookie，cookie有效期默认时长为一周
+	 * @param ctr
+	 * @param key
+	 * @param value
+	 */
     public static void put(Controller ctr, String key, Object value) {
         put(ctr, key, value.toString());
     }
 
-
+    /**
+	 * 设置cookie及cookie有效期时长
+	 * @param ctr
+	 * @param key
+	 * @param value
+	 */
     public static void put(Controller ctr, String key, String value, int maxAgeInSeconds) {
         String cookie = buildCookieValue(value, maxAgeInSeconds);
         ctr.setCookie(key, cookie, maxAgeInSeconds);
     }
-
+    
+    /**
+	 * 根据domain来设置cookie及cookie有效期时长
+	 * @param ctr
+	 * @param key
+	 * @param value
+	 */
     public static void put(Controller ctr, String key, String value, String domain) {
         put(ctr, key, value, 60 * 60 * 24 * 7, domain);
     }
@@ -32,7 +55,12 @@ public class EncryptCookieUtils {
         ctr.setCookie(key, cookie, maxAgeInSeconds, null, domain, false);
     }
 
-
+    /**
+	 * 移除cookie
+	 * @param ctr
+	 * @param key
+	 * @param value
+	 */
     public static void remove(Controller ctr, String key) {
         ctr.removeCookie(key);
     }
@@ -40,7 +68,13 @@ public class EncryptCookieUtils {
     public static void remove(Controller ctr, String key, String path, String domain) {
         ctr.removeCookie(key, path, domain);
     }
-
+    
+    /**
+	 * 移除cookie
+	 * @param ctr
+	 * @param key
+	 * @param value
+	 */
     public static String get(Controller ctr, String key) {
 
         String encrypt_key = COOKIE_ENCRYPT_KEY;
@@ -53,8 +87,8 @@ public class EncryptCookieUtils {
         String value = new String(Base64Kit.decode(cookieValue));
         return getFromCookieInfo(encrypt_key, value);
     }
-
-
+    
+    
     public static String buildCookieValue(String value, int maxAgeInSeconds) {
         String encrypt_key = COOKIE_ENCRYPT_KEY;
         long saveTime = System.currentTimeMillis();
@@ -94,7 +128,7 @@ public class EncryptCookieUtils {
 
         String encrypt = encrypt(encrypt_key, Long.valueOf(saveTime), maxAgeInSeconds, value);
 
-        // 非常重要，确保 cookie 不被人为修改
+        //判断cookie值是否与加密值是否一致，防止篡改的问题
         if (!encrypt.equals(encrypt_value)) {
             return null;
         }
