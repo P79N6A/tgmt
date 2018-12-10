@@ -24,6 +24,7 @@ import com.tbds.ctrl.MpsController;
 import com.tbds.ctrl.FileTransferHistoryController;
 import com.tbds.model.util.DbManager;
 import com.tbds.model.util.ModelCacheManager;
+import com.tbds.web.sharekit.PermissionKits;
 import com.tbds.ctrl.*;
 import com.tbds.model.eo.Permission;
 import com.tbds.model.eo.Role;
@@ -167,6 +168,8 @@ public class WebConfig extends JFinalConfig {
         
         //如果是用的jfinal template（也就是html[freemark]），只需要配置一句
         me.addSharedObject("CPATH", JFinal.me().getContextPath());
-        //
+        
+        //添加可直接在模板调用的静态方法
+        me.addSharedStaticMethod(PermissionKits.class);
     }
 }

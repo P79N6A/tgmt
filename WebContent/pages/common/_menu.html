@@ -5,7 +5,7 @@
 
     </li>
     
-    
+    #if(hasPermission(_tbds_logon_user_obj_, '/mps'))
     <li class="admin-parent">
         <a class="am-cf" data-am-collapse="{parent:'#sidebar',target: '#md15'}">
             <span class="am-icon-subway am-icon-fw"></span> MPS管理
@@ -22,8 +22,9 @@
             </li>
         </ul>
     </li>
-    
+    #end
 	
+	#if(hasPermission(_tbds_logon_user_obj_, '/filebrowser'))
     <li class="admin-parent">
     	<a class="am-cf" data-am-collapse="{parent:'#sidebar',target: '#md20'}">
     		<span class="am-icon-database am-icon-fw"></span> 数据浏览
@@ -35,7 +36,9 @@
             </li>
         </ul>
     </li>
-
+	#end
+	
+	#if(hasPermission(_tbds_logon_user_obj_, '/fthistory'))
     <li class="admin-parent">
     	<a class="am-cf am-collapsed"
     			data-am-collapse="{parent:'#sidebar',target: '#md25'}"><span
@@ -49,7 +52,9 @@
             </li>
         </ul>
     </li>
+    #end
 
+	#if(hasPermission(_tbds_logon_user_obj_, '/analytics'))
     <li class="admin-parent"><a class="am-cf am-collapsed"
                                 data-am-collapse="{parent:'#sidebar',target: '#md30'}"><span
                 class="am-icon-bar-chart am-icon-fw"></span> 日常分析<span
@@ -86,6 +91,10 @@
 
         </ul>
     </li>
+    #end
+    
+    
+    #if(hasPermission(_tbds_logon_user_obj_, '/auth'))
     <li class="admin-parent"><a class="am-cf am-collapsed"
                                 data-am-collapse="{parent:'#sidebar',target: '#md40'}"><span
                 class="am-icon-users am-icon-fw"></span> 权限管理<span
@@ -104,6 +113,6 @@
             </li>
         </ul>
     </li>
-
+	#end
 
 </ul>
