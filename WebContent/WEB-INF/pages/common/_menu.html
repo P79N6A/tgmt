@@ -116,3 +116,25 @@
 	#end
 
 </ul>
+<script type="text/javascript">
+
+//默认展开当前访问URL所属的主菜单
+$(function(){
+	var currentPath = window.location.pathname;
+	if(currentPath.indexOf("/mps") != -1) {
+		$("#md15").collapse('open')
+	} else if(currentPath.indexOf("/filebrowser") != -1) {
+		$("#md20").collapse('open')
+	} else if(currentPath.indexOf("/fthistory") != -1) {
+		$("#md25").collapse('open')
+	} else if(currentPath.indexOf("/analytics/fault") != -1 || currentPath.indexOf("/analytics/wheel") != -1) {
+		$("#md30").collapse('open')
+	} else if(currentPath.indexOf("/analytics/stop") != -1) {
+		$("#md35").collapse('open')
+	} else if(currentPath.indexOf("/auth") != -1) {
+		$("#md40").collapse('open')
+	}
+});
+
+
+</script>
