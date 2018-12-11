@@ -42,8 +42,6 @@
 	padding:0px 4px;
 }
 
-
-
 #vld-tooltip {
     position: absolute;
     z-index: 1000;
@@ -69,9 +67,6 @@
     border-style: none inset solid;
  }
 
-
-
-
 .errorClass{
 	background:url(/Admin/assets/i/error.png) no-repeat;
 	font-size:10pt;
@@ -79,6 +74,19 @@
 	color: #f40000;
 	border:1px solid #ffb8b8;
 	padding: 8px 8px 8px 35px;
+}
+
+/**
+ * logo css样式设置
+*/
+.am-topbar .am-text-ir {
+  display: block;
+  margin-right: 10px;
+  height: 50px;
+  width: 125px;
+  background: url(../i/logo.png) no-repeat left center;
+  -webkit-background-size: 125px 24px;
+  background-size: 125px 24px;
 }
 
 
