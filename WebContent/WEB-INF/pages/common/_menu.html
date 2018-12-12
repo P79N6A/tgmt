@@ -13,11 +13,13 @@
 	        </a>
 	        <ul class="am-list am-collapse admin-sidebar-sub" id="md15">
 	            <li><a href="#(CPATH)/mps/status" class="am-cf">
-	                    <span class="am-icon-clock-o"></span> MPS状态
+	                    <span class="am-icon-clock-o"></span>
+	                    <span id="mps-status">MPS状态</span>
 	                </a>
 	            </li>
 	            <li><a href="#(CPATH)/mps" class="am-cf">
-	                    <span class="am-icon-server"></span> MPS配置
+	                    <span class="am-icon-server"></span>
+	                    <span id="mps-conf">MPS配置</span>
 	                </a>
 	            </li>
 	        </ul>
@@ -31,8 +33,10 @@
 	    		<span class="am-icon-angle-right am-fr am-margin-right"></span>
 	        </a>
 	        <ul class="am-list am-collapse admin-sidebar-sub" id="md20">
-	            <li><a href="#(CPATH)/filebrowser" class="am-cf"><span
-	                        class="am-icon-list"></span> 数据详情</a>
+	            <li><a href="#(CPATH)/filebrowser" class="am-cf">
+	            	<span class="am-icon-list"></span> 
+	            	<span id="ftdata-detail">数据详情</span>
+	            	</a>
 	            </li>
 	        </ul>
 	    </li>
@@ -47,8 +51,10 @@
 	        </a>
 	        <ul class="am-list admin-sidebar-sub am-collapse" id="md25"
 	            style="height: 0px;">
-	            <li><a href="#(CPATH)/fthistory" class="am-cf"><span
-	                        class="am-icon-medkit"></span> 日志列表</a>
+	            <li><a href="#(CPATH)/fthistory" class="am-cf">
+	            	<span class="am-icon-medkit"></span>
+	            	<span id="ftlog-list">日志列表</span>
+	            	</a>
 	            </li>
 	        </ul>
 	    </li>
@@ -62,14 +68,20 @@
 	        </a>
 	        <ul class="am-list admin-sidebar-sub am-collapse" id="md30"
 	            style="height: 0px;">
-	            <li><a href="#(CPATH)/analytics/fault" class="am-cf"><span
-	                        class="am-icon-line-chart"></span> 列车故障</a>
+	            <li><a href="#(CPATH)/analytics/fault" class="am-cf">
+	            	<span class="am-icon-line-chart"></span> 
+	            	<span id="train-fault">列车故障</span>
+	            	</a>
 	            </li>
-	            <li><a href="#(CPATH)/analytics/fault" class="am-cf"><span
-	                        class="am-icon-pie-chart"></span> 故障综合统计</a>
+	            <li><a href="#(CPATH)/analytics/fault" class="am-cf">
+	            		<span class="am-icon-pie-chart"></span> 
+	                	<span id="fault-statistic">故障综合统计</span>
+	                </a>
 	            </li>
-	            <li><a href="#(CPATH)/analytics/wheel" class="am-cf"><span
-	                        class="am-icon-pie-chart"></span> 轮径误差</a>
+	            <li><a href="#(CPATH)/analytics/wheel" class="am-cf">
+	            	<span class="am-icon-pie-chart"></span> 
+	            	<span id="wheel-fault">轮径误差</span>
+	            	</a>
 	            </li>
 	
 	        </ul>
@@ -82,11 +94,15 @@
 	        </a>
 	        <ul class="am-list admin-sidebar-sub am-collapse" id="md35"
 	            style="height: 0px;">
-	            <li><a href="#(CPATH)/analytics/fault" class="am-cf"><span
-	                        class="am-icon-line-chart"></span> 健康状况预测</a>
+	            <li><a href="#(CPATH)/analytics/fault" class="am-cf">
+	            	<span class="am-icon-line-chart"></span> 
+	            	<span id="health-forcast">健康状况预测</span>
+	            	</a>
 	            </li>
-	            <li><a href="#(CPATH)/analytics/stop" class="am-cf"><span
-	                        class="am-icon-pie-chart"></span> 停车精度</a>
+	            <li><a href="#(CPATH)/analytics/stop" class="am-cf">
+	            		<span class="am-icon-pie-chart"></span>
+	                    <span id="stop-precise">停车精度</span>
+	               	</a>
 	            </li>
 	
 	        </ul>
@@ -102,14 +118,20 @@
 	        </a>
 	        <ul class="am-list admin-sidebar-sub am-collapse" id="md40"
 	            style="height: 0px;">
-	            <li><a href="#(CPATH)/auth/user" class="am-cf"><span
-	                        class="am-icon-user-plus"></span> 用户管理</a>
+	            <li><a href="#(CPATH)/auth/user" class="am-cf">
+	            	<span class="am-icon-user-plus"></span> 
+	            	<span id="user-mnt">用户管理</span>
+	            	</a>
 	            </li>
-	            <li><a href="#(CPATH)/auth/role" class="am-cf"><span
-	                        class="am-icon-group"></span> 角色管理</a>
+	            <li><a href="#(CPATH)/auth/role" class="am-cf">
+	            		<span class="am-icon-group"></span>
+	                	<span id="role-mnt">角色管理</span>
+	                </a>
 	            </li>
-	            <li><a href="#(CPATH)/auth/permission" class="am-cf"><span
-	                        class="am-icon-certificate"></span> 资源管理</a>
+	            <li><a href="#(CPATH)/auth/permission" class="am-cf">
+	            	<span class="am-icon-certificate"></span> 
+	                <span id="permission-mnt">资源管理</span>
+	                </a>
 	            </li>
 	        </ul>
 	    </li>
@@ -122,17 +144,44 @@
 $(function(){
 	var currentPath = window.location.pathname;
 	if(currentPath.indexOf("/mps") != -1) {
-		$("#md15").collapse('open')
+		$("#md15").collapse('open');
+		if(currentPath.indexOf("/mps/status") != -1) {
+			$("#mps-status").addClass("am-text-danger");
+		} else if(currentPath=="#(CPATH)/mps" || currentPath=="#(CPATH)/mps/index") {
+			$("#mps-conf").addClass("am-text-danger");
+		}
+		
 	} else if(currentPath.indexOf("/filebrowser") != -1) {
-		$("#md20").collapse('open')
+		$("#md20").collapse('open');
+		$("#ftdata-detail").addClass("am-text-danger");
+		
 	} else if(currentPath.indexOf("/fthistory") != -1) {
-		$("#md25").collapse('open')
+		$("#md25").collapse('open');
+		$("#ftlog-list").addClass("am-text-danger");
+		
 	} else if(currentPath.indexOf("/analytics/fault") != -1 || currentPath.indexOf("/analytics/wheel") != -1) {
-		$("#md30").collapse('open')
+		$("#md30").collapse('open');
+		
+		if(currentPath.indexOf("/analytics/fault") != -1) {
+			$("#train-fault").addClass("am-text-danger");
+			$("#fault-statistic").addClass("am-text-danger");
+		} else if(currentPath.indexOf("/analytics/wheel") != -1) {
+			$("#wheel-fault").addClass("am-text-danger");
+		}
+		
 	} else if(currentPath.indexOf("/analytics/stop") != -1) {
-		$("#md35").collapse('open')
+		$("#md35").collapse('open');
+		$("#stop-precise").addClass("am-text-danger");
+		
 	} else if(currentPath.indexOf("/auth") != -1) {
-		$("#md40").collapse('open')
+		$("#md40").collapse('open');
+		if(currentPath.indexOf("/auth/user") != -1) {
+			$("#user-mnt").addClass("am-text-danger");
+		} else if(currentPath.indexOf("/auth/role") != -1) {
+			$("#role-mnt").addClass("am-text-danger");
+		} else if(currentPath.indexOf("/auth/permission") != -1) {
+			$("#permission-mnt").addClass("am-text-danger");
+		}
 	}
 });
 
