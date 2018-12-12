@@ -81,10 +81,9 @@ public class MpsService {
         ArrayList<String> orderKeys = new ArrayList<String>();
         for (Mps mps : listMps) {
             MpsExt currentMpsExt = null;
-            String trainType = mps.get("train_type");
-            String trainNum = mps.get("train_num");
+            //String trainType = mps.get("train_type");
 
-            String trainName = trainType + "_" + trainNum;
+            String trainName = mps.get("fullname");
 
             if (cluster.get(trainName) == null) {
                 orderKeys.add(trainName);

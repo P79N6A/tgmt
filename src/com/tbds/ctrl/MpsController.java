@@ -45,7 +45,7 @@ public class MpsController extends TbdsBaseController {
 //			keyword = getPara("qKeyword");
 //		}
 		
-		String trainType = getPara("qTrainType");
+		String trainType = "all";//getPara("qTrainType");
 		String keyword = getPara("qKeyword");
 
 
@@ -59,8 +59,8 @@ public class MpsController extends TbdsBaseController {
 				}
 			}
 			// 通过keyword进一步搜索查询
-			setAttr("mpsPage", service.search(currentPageIndex, 10, trainType, keyword));
-			setAttr("qTrainType", trainType);
+			setAttr("mpsPage", service.search(currentPageIndex, 10, null, keyword));
+			//setAttr("qTrainType", trainType);
 			setAttr("qKeyword", keyword);
 
 		} else {
@@ -89,17 +89,20 @@ public class MpsController extends TbdsBaseController {
 		Mps mps = getModel(Mps.class, "mps");
 
 		Integer id = mps.getInt("id");
-		String trainType = mps.get("train_type");
+		//默认Train Type设置为T
+		String trainType = "T";//mps.get("train_type");
 		String trainNum = mps.get("train_num");
 		String abMarker = mps.get("ab_marker");
 		String hostIP = mps.get("host_ip");
 		String hostPort = mps.get("host_port");
-
+		
+		String fullname = trainType + trainNum;
 		// TODO: 判断是否存在重复的IP地址与端口
-
-		mps.set("fullname", trainType + "_" + trainNum);
-		mps.set("desc", trainType + "_" + trainNum + abMarker);
+		mps.set("train_type", trainType);//默认设定上面的类型
+		mps.set("fullname", fullname);
+		mps.set("desc", fullname + abMarker);
 		mps.set("status", 1);
+		
 
 		PropKit.use(com.tbds.util.Constants.CONFIG_FILE);
 		String statusPath = PropKit.get(com.tbds.util.Constants.MPS_STATUS_LOG_PATH);
@@ -123,15 +126,15 @@ public class MpsController extends TbdsBaseController {
 		Mps mps = getModel(Mps.class, "mps");
 
 		Integer id = mps.getInt("id");
-		String trainType = mps.get("train_type");
+		//String trainType = mps.get("train_type");
 		String trainNum = mps.get("train_num");
 		String abMarker = mps.get("ab_marker");
 		String hostIP = mps.get("host_ip");
 		String hostPort = mps.get("host_port");
 
 		// TODO: 判断是否存在重复的IP地址与端口，方便排除问题
-		mps.set("fullname", trainType + "_" + trainNum);
-		mps.set("desc", trainType + "_" + trainNum + abMarker);
+		mps.set("fullname", trainNum);
+		mps.set("desc", trainNum + abMarker);
 		mps.set("status", 1);
 
 		boolean flag = mps.update();

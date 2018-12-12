@@ -147,7 +147,7 @@ $(function(){
 		$("#md15").collapse('open');
 		if(currentPath.indexOf("/mps/status") != -1) {
 			$("#mps-status").addClass("am-text-danger");
-		} else if(currentPath=="#(CPATH)/mps" || currentPath=="#(CPATH)/mps/index") {
+		} else if(currentPath!="#(CPATH)/mps/status") {
 			$("#mps-conf").addClass("am-text-danger");
 		}
 		

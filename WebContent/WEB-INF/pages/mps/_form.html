@@ -1,6 +1,6 @@
 <fieldset>
 	<legend> #if(mps==null) 新建MPS #else
-		MPS标识：#(mps.train_type??)_#(mps.train_num??)#(mps.ab_marker??) #end </legend>
+		列车端标识：#(mps.train_type??)#(mps.train_num??)#(mps.ab_marker??) #end </legend>
 	<input type="hidden" name="mps.id" value="#(mps.id??)" />
 	<div class="am-form-group">
 		<label for="doc-ipt-host-1">主机IP(格式：*.*.*.*, 例如：192.168.0.100)</label>
@@ -14,16 +14,14 @@
 			placeholder="主机连接端口" value="#(mps.host_port??)" required>
 	</div>
 
-	<div class="am-form-group">
+	<!-- div class="am-form-group">
 		<label for="train-type-1">类型</label> <select id="train-type-1"
-			name="mps.train_type" required>
+			name="mps.train_type">
 			<option value="">请选择MPS类型</option>
-			<option value="ATP" #(mps !=null && mps.train_type==
-				'ATP'?'selected':'')>ATP</option>
-			<option value="CDV" #(mps !=null && mps.train_type==
-				'CDV'?'selected':'')>CDV</option>
+			<option value="ATP">ATP</option>
+			<option value="CDV">CDV</option>
 		</select> <span class="am-form-caret"></span>
-	</div>
+	</div-->
 
 	<div class="am-form-group">
 		<label for="doc-ipt-num-1">列车号（例如：0221）</label> <input type="text"

@@ -4,18 +4,18 @@
 #define content()
 
 #set(append = "")
-#if(qTrainType??)
+#--if(qTrainType??)
   #set(append = append + "?qTrainType=" + qTrainType)
-#end
+end--#
 #if(qKeyword??)
-  #set(append = append + "&qKeyword=" + qKeyword)
+  #set(append = append + "?qKeyword=" + qKeyword)
 #end
 
 <div class="admin-content">
 
 	<div class="am-cf am-padding">
 		<div class="am-fl am-cf">
-			<strong class="am-text-primary am-text-lg">MPS管理</strong> / <small>MPS配置</small>
+			<strong class="am-text-primary am-text-lg">列车管理</strong> / <small>列车信息</small>
 		</div>
 	</div>
 
@@ -44,17 +44,20 @@
 		
 		<div class="am-u-sm-9">
 			<form class="am-form" action="#(CPATH)/mps" method="post">
-				<div class="am-u-sm-5">
-					<div class="am-form-group">
-						<select id="filter-mps-type" name="qTrainType">
-							<option value="all" #(qTrainType=='ATP'||qTrainType=='CDV'?'':'selected') >所有类别</option>
-							<option value="ATP" #(qTrainType == 'ATP'?'selected':'') >ATP</option>
-							<option value="CDV" #(qTrainType == 'CDV'?'selected':'') >CDV</option>
-							
-						</select>
+				<!-- 
+					<div class="am-u-sm-5">
+						<div class="am-form-group">
+							<select id="filter-mps-type" name="qTrainType">
+								<option value="all" #(qTrainType=='ATP'||qTrainType=='CDV'?'':'selected') >所有类别</option>
+								<option value="ATP" #(qTrainType == 'ATP'?'selected':'') >ATP</option>
+								<option value="CDV" #(qTrainType == 'CDV'?'selected':'') >CDV</option>
+								
+							</select>
+						</div>
 					</div>
-				</div>
-				<div class="am-u-sm-7">
+				-->
+				<div class="am-u-sm-6"></div>
+				<div class="am-u-sm-6">
 					<div class="am-input-group">
 						<input type="text" class="am-form-field" name="qKeyword" value="#(qKeyword??)"> <span
 							class="am-input-group-btn">
@@ -79,8 +82,8 @@
 							<!-- <th class="table-check"><input type="checkbox" /></th> -->
 							<!-- <th class="table-id">ID</th>  -->
 							<th class="table-title">唯一标识</th>
-							<th class="am-hide-sm-only">类别</th>
-							<th class="am-hide-sm-only">所属列车号</th>
+							<!-- th class="am-hide-sm-only">类别</th-->
+							<th class="am-hide-sm-only">列车号</th>
 							<th class="am-hide-sm-only">端类别</th>
 							<th class="">主机IP</th>
 							<th class="">端口</th>
@@ -94,7 +97,7 @@
 							<!--  <td><input type="checkbox" /></td> -->
 							<!--  <td>#(x.id)</td>  -->
 							<td><a href="#">#(x.desc)</a></td>
-							<td class="am-hide-sm-only">#(x.train_type)</td>
+							<!-- td class="am-hide-sm-only">#(x.train_type)</td-->
 							<td class="am-hide-sm-only">#(x.train_num)</td>
 							<td class="am-hide-sm-only">#(x.ab_marker=='A'?'A端' : 'B端')</td>
 							<td>#(x.host_ip)</td>
@@ -131,7 +134,7 @@
 						</tr>
 						#end
 					#end
-
+					
 
 					</tbody>
 				</table>
