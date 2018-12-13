@@ -1,6 +1,6 @@
 <fieldset>
 	<legend> #if(mps==null) 新建MPS #else
-		列车端标识：#(mps.train_type??)#(mps.train_num??)#(mps.ab_marker??) #end </legend>
+		MPS标识：#(mps.train_type??)#(mps.train_num??)#(mps.ab_marker??) #end </legend>
 	<input type="hidden" name="mps.id" value="#(mps.id??)" />
 	<div class="am-form-group">
 		<label for="doc-ipt-host-1">主机IP(格式：*.*.*.*, 例如：192.168.0.100)</label>
