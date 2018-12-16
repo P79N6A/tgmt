@@ -47,15 +47,23 @@ $(function(){
 			
 			$("#classify-statistic").addClass("am-text-danger");
 			
-		} else if(currentPath.indexOf("/analytics/wheel") != -1) {
-			
-			$("#wheel-fault").addClass("am-text-danger");
-			
-		} else if(currentPath.indexOf("/analytics/stop") != -1 || currentPath.indexOf("/analytics/health") != -1) {
+		} else if(currentPath.indexOf("/analytics/health") != -1 || currentPath.indexOf("/analytics/wheel") != -1 || currentPath.indexOf("/analytics/stop") != -1 ) {
 			
 			openMenu = "#md35";
 			
-			$("#stop-precise").addClass("am-text-danger");
+			if(currentPath.indexOf("/analytics/health") != -1) {
+				
+				$("#health-forcast").addClass("am-text-danger");
+				
+			} else if(currentPath.indexOf("/analytics/wheel") != -1) {
+				
+				$("#wheel-fault").addClass("am-text-danger");
+				
+			} else if(currentPath.indexOf("/analytics/stop") != -1) {
+				
+				$("#stop-precise").addClass("am-text-danger");
+				
+			}
 			
 		}
 		

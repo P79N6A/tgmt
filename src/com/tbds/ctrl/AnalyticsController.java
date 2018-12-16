@@ -76,6 +76,9 @@ public class AnalyticsController extends TbdsBaseController {
 		render("fault/classify.html");
 	}
 	
+	public void health() {
+		render("health/index.html");
+	}
 
 	public void wheel() {
 		render("wheel/index.html");
