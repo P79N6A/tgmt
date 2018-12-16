@@ -1,127 +1,163 @@
-#@layout(title="故障分析")
+#@layout(title="列车错误频率统计")
 
 #define content()
 
+<link rel="stylesheet" href="#(CPATH)/assets/css/amazeui.datetimepicker.css"/>
+<script src="#(CPATH)/assets/js/amazeui.datetimepicker.min.js"></script>
+
+<script type="text/javascript" src="#(CPATH)/assets/js/echarts.min.js"></script>
+
+
+
 
 <div class="admin-content">
-
-	<script type="text/javascript" src="#(CPATH)/assets/js/echarts.min.js"></script>
 
     <div class="am-cf am-padding">
         <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">数据分析</strong> / <small>故障分析</small></div>
     </div>
 
     <hr>
-        
+    
     <div class="am-g">
-          
-		<div id="report1" class="am-u-sm-12 am-u-md-12" style="width:100%;height:400px">
-			
-		</div>
+    	<div class="am-u-sm-1"></div>
+     	<div class="am-u-sm-11">
+ 			<form class="am-form" action="#(CPATH)/analytics/faultsummary" method="post">
+ 				<div class="am-u-sm-5">
+		   			<div class="am-input-group date form-datetime-lang" data-date="#(startdate??)">
+		              <input  id="startdate" name="startdate"  value="#(startdate??)" type="text" class="am-form-field" placeholder="起始时间">
+		              <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+		           	</div>
+				</div>
+				<div class="am-u-sm-5">
+		           	<div class="am-input-group date form-datetime-lang" data-date="#(enddate??)">
+		              <input  id="enddate" name="enddate"  value="#(enddate??)" type="text" class="am-form-field" placeholder="结束时间">
+		              <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+		           	</div>
+	           	</div>
 
-	<script type="text/javascript">
-		// 基于准备好的dom，初始化echarts实例
-		var myChart = echarts.init(document.getElementById('report1'));
-		
-		option = {
-			    tooltip : {
-			        trigger: 'axis',
-			        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-			            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-			        }
-			    },
-			    legend: {
-			        data:['Balise','EB','LRU_ATP','LRU_ITF','WMA','Stopping Window','LRU_HMI']
-			    },
-			    toolbox: {
-			        show : true,
-			        orient: 'vertical',
-			        x: 'right',
-			        y: 'center',
-			        feature : {
-			            mark : {show: true},
-			            dataView : {show: true, readOnly: false},
-			            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
-			            restore : {show: true},
-			            saveAsImage : {show: true}
-			        }
-			    },
-			    calculable : true,
-			    xAxis : [
-			        {
-			            type : 'category',
-			            data : ['周一','周二','周三','周四','周五','周六','周日']
-			        }
-			    ],
-			    yAxis : [
-			        {
-			            type : 'value'
-			        }
-			    ],
-			    series : [
-			        {
-			            name:'Balise',
-			            type:'bar',
-			            data:[320, 332, 301, 334, 390, 330, 320]
-			        },
-			        {
-			            name:'EB',
-			            type:'bar',
-			            stack: '广告',
-			            data:[120, 132, 101, 134, 90, 230, 210]
-			        },
-			        {
-			            name:'LRU_ATP',
-			            type:'bar',
-			            stack: '广告',
-			            data:[220, 182, 191, 234, 290, 330, 310]
-			        },
-			        {
-			            name:'LRU_ITF',
-			            type:'bar',
-			            stack: '广告',
-			            data:[150, 232, 201, 154, 190, 330, 410]
-			        },
-			        {
-			            name:'WMA',
-			            type:'bar',
-			            data:[862, 1018, 964, 1026, 1679, 1600, 1570],
-			            markLine : {
-			                itemStyle:{
-			                    normal:{
-			                        lineStyle:{
-			                            type: 'dashed'
-			                        }
-			                    }
-			                },
-			                data : [
-			                    [{type : 'min'}, {type : 'max'}]
-			                ]
-			            }
-			        },
-			        {
-			            name:'Stopping_Window',
-			            type:'bar',
-			            barWidth : 5,
-			            stack: '搜索引擎',
-			            data:[620, 732, 701, 734, 1090, 1130, 1120]
-			        },
-			        {
-			            name:'LRU_HMI',
-			            type:'bar',
-			            stack: '搜索引擎',
-			            data:[120, 132, 101, 134, 290, 230, 220]
-			        }
-			    ]
-			};
-			                    		
-		
-		myChart.setOption(option);
-		
-	</script>
-
-  </div>
+	           	
+	           	<div class="am-u-sm-2">
+		           	<div class="am-input-group">
+			          <span class="am-input-group-btn">
+			            <input id="searchBtn" class="am-btn am-btn-default" type="submit" value="搜索">搜索</input>
+			          </span>
+			        </div>
+		        </div>
+         	</form>
+ 		</div>
+    </div>
+    <hr>
+    <div class="am-g">
+		<div id="trainErrEventGroupByOBCU" class="am-u-sm-12 am-u-md-12" style="width:100%;height:400px"></div>
+  	</div>
 
 </div>
+<script> 
+(function($){ 
+	// 只需要添加一次 
+	$.fn.datetimepicker.dates['zh-CN'] = { 
+			days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"], 
+			daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"], 
+			daysMin: ["日", "一", "二", "三", "四", "五", "六", "日"], 
+			months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"], 
+			monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"], 
+			today: "今日", 
+			suffix: [], 
+			meridiem: ["上午", "下午"] 
+	}; 
+	$('.form-datetime-lang').datetimepicker(
+			{ 
+				language: 'zh-CN', 
+				format: 'yyyy-mm-dd hh:ii',
+				autoclose: true
+			}); 
+}(jQuery)); 
+</script>
+
+<script type="text/javascript">
+var obcuErrData = #(obcuErrs);
+var series = [
+	{
+		name: '列车A端错误',
+		type:'bar',
+        stack: '列车错误',
+        data: []
+	},
+	{
+		name: '列车B端错误',
+		type:'bar',
+        stack: '列车错误',
+        data: []
+	}
+];
+var trainList = [];
+
+$.each(obcuErrData, function(index, obcuItem){
+	var tempTrainNum = "T0" + obcuItem.train;
+	
+	var obcuName = obcuItem.obcu;
+	var pointFlag = obcuName.substr(obcuName.length-1,1);
+	
+	var errtimes = obcuItem.errtimes;
+				
+	if(trainList.length == 0) {
+		trainList.push(tempTrainNum);
+	} else {
+		for(var i = 0; i<trainList.length; i++) {
+			if(trainList[i] == tempTrainNum) {
+				continue;
+			} else {
+				trainList.push(tempTrainNum);
+			}
+		}
+	}
+	
+	if(pointFlag == 'A') {
+		series[0].data.push(errtimes);//构建全新的记录
+	} else if(pointFlag == 'B') {
+		series[1].data.push(errtimes);//构建全新的记录
+	}
+	
+});
+
+
+console.log(trainList);
+console.log(series);
+
+var obcuErrsReport = echarts.init(document.getElementById('trainErrEventGroupByOBCU'));
+obcuErrsReportOption = {
+	    tooltip : {
+	        trigger: 'axis',
+	        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+	            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+	        }
+	    },
+	    legend: {
+	        data:['列车A端错误','列车B端错误']
+	    },
+	    grid: {
+	        left: '3%',
+	        right: '4%',
+	        bottom: '3%',
+	        containLabel: true
+	    },
+	    xAxis : [
+	        {
+	            type : 'category',
+	            data : trainList
+	        }
+	    ],
+	    yAxis : [
+	        {
+	            type : 'value'
+	        }
+	    ],
+	    series : series
+	};
+	
+obcuErrsReport.setOption(obcuErrsReportOption);
+
+</script>
+	
 
 #end

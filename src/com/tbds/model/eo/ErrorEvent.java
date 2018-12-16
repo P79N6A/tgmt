@@ -9,6 +9,8 @@ public class ErrorEvent extends Model<ErrorEvent> {
 	 */
 	private static final long serialVersionUID = 3064113955984824852L;
 	
+	public static final ErrorEvent dao = new ErrorEvent().dao();
+	
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}

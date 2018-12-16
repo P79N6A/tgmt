@@ -68,16 +68,22 @@
 	        </a>
 	        <ul class="am-list admin-sidebar-sub am-collapse" id="md30"
 	            style="height: 0px;">
-	            <li><a href="#(CPATH)/analytics/fault" class="am-cf">
+	            <li><a href="#(CPATH)/analytics/faultsummary" class="am-cf">
 	            	<span class="am-icon-line-chart"></span> 
-	            	<span id="train-fault">列车故障</span>
+	            	<span id="fault-statistic">故障发生概况</span>
 	            	</a>
 	            </li>
-	            <li><a href="#(CPATH)/analytics/fault" class="am-cf">
+	            <li><a href="#(CPATH)/analytics/faulttimeline" class="am-cf">
 	            		<span class="am-icon-pie-chart"></span> 
-	                	<span id="fault-statistic">故障综合统计</span>
+	                	<span id="fault-eventtime">故障时间表</span>
 	                </a>
 	            </li>
+	            <li><a href="#(CPATH)/analytics/classify" class="am-cf">
+	            	<span class="am-icon-line-chart"></span> 
+	            	<span id="classify-statistic">故障分类统计</span>
+	            	</a>
+	            </li>
+	            
 	            <li><a href="#(CPATH)/analytics/wheel" class="am-cf">
 	            	<span class="am-icon-pie-chart"></span> 
 	            	<span id="wheel-fault">轮径误差</span>
@@ -94,7 +100,7 @@
 	        </a>
 	        <ul class="am-list admin-sidebar-sub am-collapse" id="md35"
 	            style="height: 0px;">
-	            <li><a href="#(CPATH)/analytics/fault" class="am-cf">
+	            <li><a href="#(CPATH)/analytics/health" class="am-cf">
 	            	<span class="am-icon-line-chart"></span> 
 	            	<span id="health-forcast">健康状况预测</span>
 	            	</a>
@@ -159,14 +165,25 @@ $(function(){
 		$("#md25").collapse('open');
 		$("#ftlog-list").addClass("am-text-danger");
 		
-	} else if(currentPath.indexOf("/analytics/fault") != -1 || currentPath.indexOf("/analytics/wheel") != -1) {
+	} else if(currentPath.indexOf("/analytics/") != -1 || currentPath.indexOf("/analytics/") != -1) {
 		$("#md30").collapse('open');
 		
-		if(currentPath.indexOf("/analytics/fault") != -1) {
-			$("#train-fault").addClass("am-text-danger");
+		if(currentPath.indexOf("/analytics/faultsummary") != -1) {
+			
 			$("#fault-statistic").addClass("am-text-danger");
+			
+		} else if(currentPath.indexOf("/analytics/faulttimeline") != -1) {
+			
+			$("#fault-eventtime").addClass("am-text-danger");
+			
+		} else if(currentPath.indexOf("/analytics/classify") != -1) {
+			
+			$("#classify-statistic").addClass("am-text-danger");
+			
 		} else if(currentPath.indexOf("/analytics/wheel") != -1) {
+			
 			$("#wheel-fault").addClass("am-text-danger");
+			
 		}
 		
 	} else if(currentPath.indexOf("/analytics/stop") != -1) {

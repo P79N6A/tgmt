@@ -6,6 +6,7 @@ public class ValueEvent extends Model<ValueEvent> {
 	
 	private static final long serialVersionUID = -3249757092919242935L;
 	
+	public static final ValueEvent dao = new ValueEvent().dao();
 	
 	public void setId(java.lang.Long id) {
 		set("id", id);

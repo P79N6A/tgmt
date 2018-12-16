@@ -108,6 +108,44 @@ public class DateUtil {
 		return "2012-12-12 12:12:12";
 	}
 	
+	/**
+	 * 格式化时间并输出成字符串
+	 * @param date
+	 * @return 格式化后的时间字符串
+	 */
+	public static String date2str(Date date, String fortmat) {
+		if(null != date) {
+			DateFormat df = new SimpleDateFormat(fortmat);
+			return df.format(date);
+		} 
+		return "";
+	}
+	
+	/**
+	 * 字符串转换为时间格式
+	 * @param sdate
+	 * @param format
+	 * @return
+	 */
+	public static Date str2date(String sdate, String format) {
+		DateFormat df = new SimpleDateFormat(format);
+		
+		Date result = null;
+		
+		if(StrUtil.notBlank(sdate)) {
+			try {
+				 
+				result = df.parse(sdate);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.err.println(e.getMessage());
+			}
+		}
+		
+		return result;
+	}
+	
 	
 	//for test
 	public static void main(String[] args) {
