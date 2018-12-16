@@ -52,7 +52,103 @@
   	</div>
 
 </div>
-<script> 
+
+<script type="text/javascript">
+var obcuErrData = #(obcuErrs);
+var series = [
+	{
+		name: '列车A端错误',
+		type:'bar',
+        stack: '列车错误',
+        data: []
+	},
+	{
+		name: '列车B端错误',
+		type:'bar',
+        stack: '列车错误',
+        data: []
+	}
+];
+
+var trainList = [];
+
+$.each(obcuErrData, function(index, obcuItem){
+	var tempTrainNum = "T0" + obcuItem.train;
+	
+	var obcuName = obcuItem.obcu;
+	var pointFlag = obcuName.substr(obcuName.length-1,1);
+	
+	var errtimes = obcuItem.errtimes;//当前列车端的错误数
+		
+	if(trainList.length == 0) {
+		trainList.push(tempTrainNum);
+	} else {
+		for(var i = 0; i<trainList.length; i++) {//为了添加列车数组
+			if(trainList[i] == tempTrainNum) {
+				continue;
+			} else {
+				trainList.push(tempTrainNum);
+			}
+		}
+	}
+	
+	if(pointFlag == 'A') {
+		series[0].data.push(errtimes);//构建全新的记录
+	} else if(pointFlag == 'B') {
+		series[1].data.push(errtimes);//构建全新的记录
+	}
+	
+	
+});
+
+
+console.log(trainList);
+console.log(series);
+
+var obcuErrsReport = echarts.init(document.getElementById('trainErrEventGroupByOBCU'));
+obcuErrsReportOption = {
+	    tooltip : {
+	        trigger: 'axis',
+	        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+	            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+	        }
+	    },
+	    title : {
+	        text: '列车故障发生数量统计',
+	        subtext: '数据来自TGMT平台',
+	        x:'center'
+	    },
+	    legend: {
+	    	bottom: 'left',
+	        data:['列车A端错误','列车B端错误']
+	    },
+	    /*
+	    grid: {
+	        left: '3%',
+	        right: '4%',
+	        bottom: '3%',
+	        containLabel: true
+	    },
+	   */ 
+	    xAxis : [
+	        {
+	            type : 'category',
+	            data : trainList
+	        }
+	    ],
+	    yAxis : [
+	        {
+	            type : 'value'
+	        }
+	    ],
+	    series : series
+	};
+	
+obcuErrsReport.setOption(obcuErrsReportOption);
+
+</script>
+<<script type="text/javascript">
+<!--
 (function($){ 
 	// 只需要添加一次 
 	$.fn.datetimepicker.dates['zh-CN'] = { 
@@ -72,92 +168,7 @@
 				autoclose: true
 			}); 
 }(jQuery)); 
+//-->
 </script>
-
-<script type="text/javascript">
-var obcuErrData = #(obcuErrs);
-var series = [
-	{
-		name: '列车A端错误',
-		type:'bar',
-        stack: '列车错误',
-        data: []
-	},
-	{
-		name: '列车B端错误',
-		type:'bar',
-        stack: '列车错误',
-        data: []
-	}
-];
-var trainList = [];
-
-$.each(obcuErrData, function(index, obcuItem){
-	var tempTrainNum = "T0" + obcuItem.train;
-	
-	var obcuName = obcuItem.obcu;
-	var pointFlag = obcuName.substr(obcuName.length-1,1);
-	
-	var errtimes = obcuItem.errtimes;
-				
-	if(trainList.length == 0) {
-		trainList.push(tempTrainNum);
-	} else {
-		for(var i = 0; i<trainList.length; i++) {
-			if(trainList[i] == tempTrainNum) {
-				continue;
-			} else {
-				trainList.push(tempTrainNum);
-			}
-		}
-	}
-	
-	if(pointFlag == 'A') {
-		series[0].data.push(errtimes);//构建全新的记录
-	} else if(pointFlag == 'B') {
-		series[1].data.push(errtimes);//构建全新的记录
-	}
-	
-});
-
-
-console.log(trainList);
-console.log(series);
-
-var obcuErrsReport = echarts.init(document.getElementById('trainErrEventGroupByOBCU'));
-obcuErrsReportOption = {
-	    tooltip : {
-	        trigger: 'axis',
-	        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-	            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-	        }
-	    },
-	    legend: {
-	        data:['列车A端错误','列车B端错误']
-	    },
-	    grid: {
-	        left: '3%',
-	        right: '4%',
-	        bottom: '3%',
-	        containLabel: true
-	    },
-	    xAxis : [
-	        {
-	            type : 'category',
-	            data : trainList
-	        }
-	    ],
-	    yAxis : [
-	        {
-	            type : 'value'
-	        }
-	    ],
-	    series : series
-	};
-	
-obcuErrsReport.setOption(obcuErrsReportOption);
-
-</script>
-	
 
 #end

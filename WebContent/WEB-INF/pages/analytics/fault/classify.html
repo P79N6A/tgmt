@@ -1,0 +1,310 @@
+#@layout(title="列车分类统计")
+
+#define content()
+
+<link rel="stylesheet" href="#(CPATH)/assets/css/amazeui.datetimepicker.css"/>
+<script src="#(CPATH)/assets/js/amazeui.datetimepicker.min.js"></script>
+
+<script type="text/javascript" src="#(CPATH)/assets/js/echarts.min.js"></script>
+
+
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">数据分析</strong> / <small>故障分析</small></div>
+    </div>
+
+    <hr>
+    
+    <div class="am-g">
+    	<div class="am-u-sm-1"></div>
+     	<div class="am-u-sm-11">
+ 			<form class="am-form" action="#(CPATH)/analytics/classify" method="post">
+ 				<div class="am-u-sm-5">
+		   			<div class="am-input-group date form-datetime-lang" data-date="#(startdate??)">
+		              <input  id="startdate" name="startdate"  value="#(startdate??)" type="text" class="am-form-field" placeholder="起始时间">
+		              <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+		           	</div>
+				</div>
+				<div class="am-u-sm-5">
+		           	<div class="am-input-group date form-datetime-lang" data-date="#(enddate??)">
+		              <input  id="enddate" name="enddate"  value="#(enddate??)" type="text" class="am-form-field" placeholder="结束时间">
+		              <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+		           	</div>
+	           	</div>
+
+	           	
+	           	<div class="am-u-sm-2">
+		           	<div class="am-input-group">
+			          <span class="am-input-group-btn">
+			            <input id="searchBtn" class="am-btn am-btn-default" type="submit" value="搜索">搜索</input>
+			          </span>
+			        </div>
+		        </div>
+         	</form>
+ 		</div>
+    </div>
+    <hr>
+    <div class="am-g">
+    	<div class="am-u-sm-12">
+			<div id="trainErrEventGroupByTrainNum" class="am-u-sm-6" style="height:400px"></div>
+			<div id="trainErrEventGroupByItem" class="am-u-sm-6" style="height:400px"></div>
+		</div>
+		<div class="am-u-sm-12">
+			<div id="trainErrEventGroupByElement" class="am-u-sm-6" style="height:400px"></div>
+			<div id="trainErrEventGroupByErrType" class="am-u-sm-6" style="height:400px"></div>
+		</div>
+		<div class="am-u-sm-12">
+			<hr>
+		</div>
+  	</div>
+
+</div>
+
+<script type="text/javascript">
+
+var byTrainNumReport = echarts.init(document.getElementById('trainErrEventGroupByTrainNum'));
+
+var byTrainNumErrs = #(trainNumErrs??)
+
+var byTrainNumLegendData = [];
+var byTrainNumData = [];
+
+$.each(byTrainNumErrs, function(index, item){
+	var trainName = "T0" + item.train;
+	var row = {value: item.errtimes, name: trainName};
+	byTrainNumData.push(row);
+	byTrainNumLegendData.push(trainName);
+});
+
+byTrainNumOption = {
+	    title : {
+	        text: '按列车号统计',
+	        x:'left'
+	    },
+	    tooltip : {
+	        trigger: 'item',
+	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+	    },
+	    legend: {
+	        bottom: 'left',
+	        data: byTrainNumLegendData
+	    },
+	    series : [
+	        {
+	            name: '列车号',
+	            type: 'pie',
+	            radius : '55%',
+	            data: byTrainNumData,
+	            itemStyle: {
+	                emphasis: {
+	                    shadowBlur: 10,
+	                    shadowOffsetX: 0,
+	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+	                }
+	            }
+	        }
+	    ]
+	};
+
+	
+byTrainNumReport.setOption(byTrainNumOption);
+
+
+//*********************************************************//
+
+
+var byItemReport = echarts.init(document.getElementById('trainErrEventGroupByItem'));
+
+var byItemErrs = #(itemErrs??)
+
+var byItemLegendData = [];
+var byItemData = [];
+
+$.each(byItemErrs, function(index, item){
+	var row = {value: item.errtimes, name: item.item};
+	byItemData.push(row);
+	byItemLegendData.push(item.item);
+});
+
+
+byItemOption = {
+	    title : {
+	        text: '按硬件模块统计',
+	        x:'left'
+	    },
+	    tooltip : {
+	        trigger: 'item',
+	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+	    },
+	    legend: {
+	        bottom: 'left',
+	        data: byItemLegendData
+	    },
+	    series : [
+	        {
+	            name: '硬件模块',
+	            type: 'pie',
+	            radius : '55%',
+	            data: byItemData,
+	            itemStyle: {
+	                emphasis: {
+	                    shadowBlur: 10,
+	                    shadowOffsetX: 0,
+	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+	                }
+	            }
+	        }
+	    ]
+	};
+
+byItemReport.setOption(byItemOption);
+
+
+//*********************************************************//
+
+var byElementReport = echarts.init(document.getElementById('trainErrEventGroupByElement'));
+
+var byElementErrs = #(elementErrs??)
+
+var byElementLegendData = [];
+var byElementData = [];
+
+$.each(byElementErrs, function(index, item){
+	byElementData.push(item.errtimes);
+	byElementLegendData.push(item.element);
+});
+
+byElementOption = {
+	    tooltip : {
+	        trigger: 'axis',
+	        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+	            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+	        }
+	    },
+	    title : {
+	        text: '按故障元素统计',
+	        x:'left'
+	    },
+	    legend: {
+	        data: byElementLegendData
+	    },
+	    grid: {
+	        left: '3%',
+	        right: '4%',
+	        bottom: '3%',
+	        containLabel: true
+	    },
+	    xAxis:  {
+	        type: 'value'
+	    },
+	    yAxis: {
+	        type: 'category',
+	        data: byElementLegendData
+	    },
+	    series: [
+	        {
+	            name: '发生次数',
+	            type: 'bar',
+	            itemStyle: {
+	                    normal: {
+	　　　　　　　　　　　　　　//好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
+	                        color: function(params) {
+	                            var colorList = [
+	                              '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+	                               '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+	                               '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+	                            ];
+	                            return colorList[params.dataIndex]
+	                        },
+	                    }
+	            },
+	            barWidth:15,
+	/*          label: {
+	                normal: {
+	                    show: true,
+	                    position: 'insideRight'
+	                }
+	            },
+	*/
+	            data: byElementData
+	        }
+	    ]
+	};
+	
+byElementReport.setOption(byElementOption);
+
+//*********************************************************//
+var byErrTypeReport = echarts.init(document.getElementById('trainErrEventGroupByErrType'));
+
+var byErrTypeErrs = #(errTypeErrs);
+var byErrTypeLegendData = [];
+var byErrTypeData = [];
+
+$.each(byErrTypeErrs, function(index, item){
+	var row = {value: item.errtimes, name: item.errType};
+	byErrTypeData.push(row);
+	byErrTypeLegendData.push(item.errType);
+});
+
+byErrTypeOption = {
+	    title : {
+	        text: '按故障类型统计',
+	        x:'left'
+	    },
+	    tooltip : {
+	        trigger: 'item',
+	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+	    },
+	    legend: {
+	        bottom: 'left',
+	        data: byErrTypeLegendData
+	    },
+	    series : [
+	        {
+	            name: '故障类型',
+	            type: 'pie',
+	            radius : '55%',
+	            data: byErrTypeData,
+	            itemStyle: {
+	                emphasis: {
+	                    shadowBlur: 10,
+	                    shadowOffsetX: 0,
+	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+	                }
+	            }
+	        }
+	    ]
+	};
+	
+byErrTypeReport.setOption(byErrTypeOption);
+
+</script>
+
+
+<<script type="text/javascript">
+<!--
+(function($){ 
+	// 只需要添加一次 
+	$.fn.datetimepicker.dates['zh-CN'] = { 
+			days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"], 
+			daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"], 
+			daysMin: ["日", "一", "二", "三", "四", "五", "六", "日"], 
+			months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"], 
+			monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"], 
+			today: "今日", 
+			suffix: [], 
+			meridiem: ["上午", "下午"] 
+	}; 
+	$('.form-datetime-lang').datetimepicker(
+			{ 
+				language: 'zh-CN', 
+				format: 'yyyy-mm-dd hh:ii',
+				autoclose: true
+			}); 
+}(jQuery)); 
+//-->
+</script>
+
+
+#end

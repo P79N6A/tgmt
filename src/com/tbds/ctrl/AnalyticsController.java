@@ -53,6 +53,29 @@ public class AnalyticsController extends TbdsBaseController {
 	}
 	
 	
+	public void classify() {
+		String format = "yyyy-MM-dd HH:mm";
+		
+		String sDate = getPara("startdate");
+		String eDate = getPara("enddate");
+		
+		Date startDate = DateUtil.str2date(sDate, format);
+		Date endDate = DateUtil.str2date(eDate, format);
+		
+		List<Record> trainErrs = AnalyticsService.statisticTrainErrorGroupByTrainNumber(startDate, endDate);
+		List<Record> itemErrs = AnalyticsService.statisticTrainErrorGroupByItem(startDate, endDate);
+		List<Record> elementErrs = AnalyticsService.statisticTrainErrorGroupByElement(startDate, endDate);
+		List<Record> errTypeErrs = AnalyticsService.statisticTrainErrorGroupByErrType(startDate, endDate);
+		
+		
+		setAttr("trainNumErrs", JsonKit.toJson(trainErrs));
+		setAttr("itemErrs", JsonKit.toJson(itemErrs));
+		setAttr("elementErrs", JsonKit.toJson(elementErrs));
+		setAttr("errTypeErrs", JsonKit.toJson(errTypeErrs));
+		
+		render("fault/classify.html");
+	}
+	
 
 	public void wheel() {
 		render("wheel/index.html");

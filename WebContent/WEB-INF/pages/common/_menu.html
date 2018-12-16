@@ -73,16 +73,18 @@
 	            	<span id="fault-statistic">故障发生概况</span>
 	            	</a>
 	            </li>
+	          	<li><a href="#(CPATH)/analytics/classify" class="am-cf">
+	            	<span class="am-icon-line-chart"></span> 
+	            	<span id="classify-statistic">故障分类统计</span>
+	            	</a>
+	            </li>
+	            
 	            <li><a href="#(CPATH)/analytics/faulttimeline" class="am-cf">
 	            		<span class="am-icon-pie-chart"></span> 
 	                	<span id="fault-eventtime">故障时间表</span>
 	                </a>
 	            </li>
-	            <li><a href="#(CPATH)/analytics/classify" class="am-cf">
-	            	<span class="am-icon-line-chart"></span> 
-	            	<span id="classify-statistic">故障分类统计</span>
-	            	</a>
-	            </li>
+
 	            
 	            <li><a href="#(CPATH)/analytics/wheel" class="am-cf">
 	            	<span class="am-icon-pie-chart"></span> 
@@ -144,63 +146,3 @@
 	#end
 
 </ul>
-<script type="text/javascript">
-
-//默认展开当前访问URL所属的主菜单
-$(function(){
-	var currentPath = window.location.pathname;
-	if(currentPath.indexOf("/mps") != -1) {
-		$("#md15").collapse('open');
-		if(currentPath.indexOf("/mps/status") != -1) {
-			$("#mps-status").addClass("am-text-danger");
-		} else if(currentPath!="#(CPATH)/mps/status") {
-			$("#mps-conf").addClass("am-text-danger");
-		}
-		
-	} else if(currentPath.indexOf("/filebrowser") != -1) {
-		$("#md20").collapse('open');
-		$("#ftdata-detail").addClass("am-text-danger");
-		
-	} else if(currentPath.indexOf("/fthistory") != -1) {
-		$("#md25").collapse('open');
-		$("#ftlog-list").addClass("am-text-danger");
-		
-	} else if(currentPath.indexOf("/analytics/") != -1 || currentPath.indexOf("/analytics/") != -1) {
-		$("#md30").collapse('open');
-		
-		if(currentPath.indexOf("/analytics/faultsummary") != -1) {
-			
-			$("#fault-statistic").addClass("am-text-danger");
-			
-		} else if(currentPath.indexOf("/analytics/faulttimeline") != -1) {
-			
-			$("#fault-eventtime").addClass("am-text-danger");
-			
-		} else if(currentPath.indexOf("/analytics/classify") != -1) {
-			
-			$("#classify-statistic").addClass("am-text-danger");
-			
-		} else if(currentPath.indexOf("/analytics/wheel") != -1) {
-			
-			$("#wheel-fault").addClass("am-text-danger");
-			
-		}
-		
-	} else if(currentPath.indexOf("/analytics/stop") != -1) {
-		$("#md35").collapse('open');
-		$("#stop-precise").addClass("am-text-danger");
-		
-	} else if(currentPath.indexOf("/auth") != -1) {
-		$("#md40").collapse('open');
-		if(currentPath.indexOf("/auth/user") != -1) {
-			$("#user-mnt").addClass("am-text-danger");
-		} else if(currentPath.indexOf("/auth/role") != -1) {
-			$("#role-mnt").addClass("am-text-danger");
-		} else if(currentPath.indexOf("/auth/permission") != -1) {
-			$("#permission-mnt").addClass("am-text-danger");
-		}
-	}
-});
-
-
-</script>

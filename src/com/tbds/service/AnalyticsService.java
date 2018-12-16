@@ -13,6 +13,29 @@ import com.tbds.model.eo.ValueEvent;
 public class AnalyticsService {
 
 	private static final Logger log = Logger.getLogger(AnalyticsService.class);
+	
+	/**
+	 * 按列车号、OBCU列车端进行分组统计所有错误数据
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public static List<Record> statisticTrainErrorGroupByTrainOBCU(Date startDate, Date endDate) {
+		List<Record> result = null;
+		if(startDate == null && endDate == null) {
+			result = Db.find("SELECT train, obcu, count(*) as errtimes FROM tbds_event_error group by train, obcu order by train asc");
+		} else {
+			if(startDate != null && endDate != null) {
+				result = Db.find("SELECT train, obcu, count(*) as errtimes FROM tbds_event_error where event_datetime between ? and ? group by train, obcu order by train asc", startDate, endDate);
+			} else if(startDate == null && endDate != null) {
+				result = Db.find("SELECT train, obcu, count(*) as errtimes FROM tbds_event_error where event_datetime <= ? group by train, obcu order by train asc", endDate);
+			} else if(startDate != null && endDate == null) {
+				result = Db.find("SELECT train, obcu, count(*) as errtimes FROM tbds_event_error where event_datetime >= ? group by train, obcu order by train asc", startDate);
+			}
+		}
+		
+		return result;
+	}
 
 	/**
 	 *  @see 按列车号进行统计指定时间段发生故障频率
@@ -37,23 +60,82 @@ public class AnalyticsService {
 	}
 	
 	
-	public static List<Record> statisticTrainErrorGroupByTrainOBCU(Date startDate, Date endDate) {
+	/**
+	 * 按硬件模块进行分组统计
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public static List<Record> statisticTrainErrorGroupByItem(Date startDate, Date endDate) {
 		List<Record> result = null;
+		
 		if(startDate == null && endDate == null) {
-			result = Db.find("SELECT train, obcu, count(*) as errtimes FROM tbds_event_error group by train, obcu order by train asc");
+			result = Db.find("SELECT count(*) as errtimes, item FROM tbds_event_error group by item order by item asc");
 		} else {
 			if(startDate != null && endDate != null) {
-				result = Db.find("SELECT train, obcu, count(*) as errtimes FROM tbds_event_error where event_datetime between ? and ? group by train, obcu order by train asc", startDate, endDate);
+				result = Db.find("SELECT count(*) as errtimes, item FROM tbds_event_error where event_datetime between ? and ? group by item order by item asc", startDate, endDate);
 			} else if(startDate == null && endDate != null) {
-				result = Db.find("SELECT train, obcu, count(*) as errtimes FROM tbds_event_error where event_datetime <= ? group by train, obcu order by train asc", endDate);
+				result = Db.find("SELECT count(*) as errtimes, item FROM tbds_event_error where event_datetime <= ? group by item order by item asc", endDate);
 			} else if(startDate != null && endDate == null) {
-				result = Db.find("SELECT train, obcu, count(*) as errtimes FROM tbds_event_error where event_datetime >= ? group by train, obcu order by train asc", startDate);
+				result = Db.find("SELECT count(*) as errtimes, item FROM tbds_event_error where event_datetime >= ? group by item order by item asc", startDate);
 			}
 		}
 		
 		return result;
+		
 	}
 	
+	
+	/**
+	 * 按硬件故障元素进行分组统计
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public static List<Record> statisticTrainErrorGroupByElement(Date startDate, Date endDate) {
+		List<Record> result = null;
+		
+		if(startDate == null && endDate == null) {
+			result = Db.find("SELECT count(*) as errtimes, element FROM tbds_event_error group by element order by element asc");
+		} else {
+			if(startDate != null && endDate != null) {
+				result = Db.find("SELECT count(*) as errtimes, element FROM tbds_event_error where event_datetime between ? and ? group by element order by element asc", startDate, endDate);
+			} else if(startDate == null && endDate != null) {
+				result = Db.find("SELECT count(*) as errtimes, element FROM tbds_event_error where event_datetime <= ? group by element order by element asc", endDate);
+			} else if(startDate != null && endDate == null) {
+				result = Db.find("SELECT count(*) as errtimes, element FROM tbds_event_error where event_datetime >= ? group by element order by element asc", startDate);
+			}
+		}
+		
+		return result;
+		
+	}
+	
+	
+	/**
+	 * 按硬件故障元素进行分组统计
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public static List<Record> statisticTrainErrorGroupByErrType(Date startDate, Date endDate) {
+		List<Record> result = null;
+		
+		if(startDate == null && endDate == null) {
+			result = Db.find("SELECT count(*) as errtimes, error_type as errType FROM tbds_event_error group by error_type order by error_type asc");
+		} else {
+			if(startDate != null && endDate != null) {
+				result = Db.find("SELECT count(*) as errtimes, error_type as errType FROM tbds_event_error where event_datetime between ? and ? group by error_type order by error_type asc", startDate, endDate);
+			} else if(startDate == null && endDate != null) {
+				result = Db.find("SELECT count(*) as errtimes, error_type as errType FROM tbds_event_error where event_datetime <= ? group by error_type order by error_type asc", endDate);
+			} else if(startDate != null && endDate == null) {
+				result = Db.find("SELECT count(*) as errtimes, error_type as errType FROM tbds_event_error where event_datetime >= ? group by error_type order by error_type asc", startDate);
+			}
+		}
+		
+		return result;
+		
+	}
 	
 	
 	/**
