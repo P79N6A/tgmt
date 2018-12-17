@@ -39,13 +39,17 @@ $(function(){
 			
 			$("#fault-statistic").addClass("am-text-danger");
 			
-		} else if(currentPath.indexOf("/analytics/faulttimeline") != -1) {
-			
-			$("#fault-eventtime").addClass("am-text-danger");
-			
 		} else if(currentPath.indexOf("/analytics/classify") != -1) {
 			
 			$("#classify-statistic").addClass("am-text-danger");
+			
+		} else if(currentPath.indexOf("/analytics/frequency") != -1) {
+			
+			$("#frequency-statistic").addClass("am-text-danger");
+			
+		} else if(currentPath.indexOf("/analytics/faulttimeline") != -1) {
+			
+			$("#fault-eventtime").addClass("am-text-danger");
 			
 		} else if(currentPath.indexOf("/analytics/health") != -1 || currentPath.indexOf("/analytics/wheel") != -1 || currentPath.indexOf("/analytics/stop") != -1 ) {
 			

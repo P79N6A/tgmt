@@ -1,0 +1,172 @@
+#@layout(title="故障频率统计")
+
+#define content()
+
+<link rel="stylesheet" href="#(CPATH)/assets/css/amazeui.datetimepicker.css"/>
+<script src="#(CPATH)/assets/js/amazeui.datetimepicker.min.js"></script>
+
+<script type="text/javascript" src="#(CPATH)/assets/js/echarts.min.js"></script>
+
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">数据分析</strong> / <small>故障分析</small></div>
+    </div>
+
+    <hr>
+    
+    <div class="am-g">
+ 			<form class="am-form" action="#(CPATH)/analytics/frequency" method="post">
+ 					<div class="am-u-sm-12">
+		 				<div class="am-u-sm-12  am-u-md-3">
+			 				<div class="am-form-group">
+			 					<label for="startdate">起始时间</label>
+					            <div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
+					              <input  id="startdate" name="startdate"  value="#(startdate)" type="text" class="am-form-field" placeholder="起始时间">
+					              <span class="am-input-group-btn am-datepicker-add-on">
+					                <button class="am-btn am-btn-default" type="button"><span class="am-icon-calendar"></span> </button>
+					              </span>
+					            </div>
+							</div>
+						</div>
+						
+						<div class="am-u-sm-12  am-u-md-3">
+							<div class="am-form-group">
+					           	<label for="enddate">结束时间</label>
+					            <div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
+					              <input  id="enddate" name="enddate"  value="#(enddate)" type="text" class="am-form-field" placeholder="结束时间">
+					              <span class="am-input-group-btn am-datepicker-add-on">
+					                <button class="am-btn am-btn-default" type="button"><span class="am-icon-calendar"></span> </button>
+					              </span>
+					            </div>
+				           	</div>
+						</div>
+						
+						<div class="am-u-sm-12  am-u-md-3">
+							<div class="am-form-group">
+								<label for="train">列车号(如: 617)</label>
+					           	<input id="train"  name="train" class="am-form-field" value="#(train??)" placeholder="列车号"/>
+				           	</div>
+						</div>
+						
+						<div class="am-u-sm-12  am-u-md-3">
+							<div class="am-form-group">
+								<label for="obcu">车载单元(如: A或B)</label>
+					           	<input id="obcu"  name="obcu" class="am-form-field" value="#(obcu??)" placeholder="车载单元"/>
+				           	</div>
+						</div>
+						
+					</div>
+					<div class="am-u-sm-12">
+						<div class="am-u-sm-12  am-u-md-3">
+							<div class="am-form-group">
+								<label for="item">硬件模块</label>
+					           	<input id="item"  name="item" class="am-form-field" value="#(item??)" placeholder="硬件模块"/>
+				           	</div>
+						</div>
+						
+						<div class="am-u-sm-12  am-u-md-3">
+							<div class="am-form-group">
+								<label for="element">故障元素</label>
+					           	<input id="element"  name="element" class="am-form-field" value="#(element??)" placeholder="故障元素"/>
+				           	</div>
+						</div>
+												
+						<div class="am-u-sm-12  am-u-md-3">
+							<div class="am-form-group">
+								<label for="errortype">故障类型</label>
+					           	<input id="errortype"  name="errortype" class="am-form-field" value="#(errortype??)" placeholder="故障类型"/>
+				           	</div>
+						</div>
+			           	
+			           	<div class="am-u-sm-12 am-u-md-3">
+			           		<label for="searchBtn">&nbsp</label>
+				           	<div class="am-input-group">
+					          <span class="am-input-group-btn">
+					            <input id="searchBtn" class="am-btn am-btn-default" type="submit" value="搜索">搜索</input>
+					          </span>
+					        </div>
+				        </div>
+		     		</div>
+         	</form>
+    </div>
+    <hr>
+    <div class="am-g am-g-collapse">
+    	<div class="am-u-sm-12 am-u-end">
+			<div id="trainErrEventFrequency" class="am-u-sm-12" style="height:400px"></div>
+		</div>
+  	</div>
+
+</div>
+
+<script type="text/javascript">
+
+var frequencyReport = echarts.init(document.getElementById('trainErrEventFrequency'));
+
+var frequencyErrs = #(errsFrequency??)
+
+var frequencyLegendData = [];
+var frequencyData = [];
+
+$.each(frequencyErrs, function(index, item){
+	frequencyData.push(item.errtimes);
+	frequencyLegendData.push(item.eventdate);
+});
+
+frequencyOption = {
+		tooltip : {
+	        trigger: 'axis',
+	        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+	            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+	        }
+	    },
+	    title : {
+	        text: '列车故障发生数量统计',
+	        subtext: '数据来自TGMT平台',
+	        x:'center'
+	    },
+	    /*
+	    grid: {
+	        left: '3%',
+	        right: '4%',
+	        bottom: '3%',
+	        containLabel: true
+	    },
+	   */ 
+	    xAxis : [
+	        {
+	            type : 'category',
+	            data : frequencyLegendData
+	        }
+	    ],
+	    yAxis : [
+	        {
+	            type : 'value'
+	        }
+	    ],
+	    series : [
+	        {
+	            name:'故障数',
+	            type:'bar',
+	            data: frequencyData,
+	            markLine : {
+	                lineStyle: {
+	                    normal: {
+	                        type: 'dashed'
+	                    }
+	                },
+	                data : [
+	                    [{type : 'min'}, {type : 'max'}]
+	                ]
+	            }
+	        }
+	    ]
+	};
+
+	
+frequencyReport.setOption(frequencyOption);
+
+</script>
+
+
+#end

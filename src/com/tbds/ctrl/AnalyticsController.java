@@ -3,30 +3,32 @@ package com.tbds.ctrl;
 import java.util.Date;
 import java.util.List;
 
+import com.jfinal.json.JFinalJson;
 import com.jfinal.kit.JsonKit;
 import com.jfinal.plugin.activerecord.Record;
-import com.tbds.model.eo.ErrorEvent;
+
 import com.tbds.service.AnalyticsService;
 import com.tbds.util.DateUtil;
 import com.tbds.util.StrUtil;
 
 public class AnalyticsController extends TbdsBaseController {
-
+	
+	String dateLongFormat = "yyyy-MM-dd HH:mm";
+	String dateShortFormat = "yyyy-MM-dd";
+	
 	public void index() {
 		render("index.html");
 	}
 
 	public void faultsummary() {
-		String format = "yyyy-MM-dd HH:mm";
-		
 		String sDate = getPara("startdate");
 		String eDate = getPara("enddate");
 		
 		String train = getPara("train");
 		String obcu = getPara("obcu");
 		
-		Date startDate = DateUtil.str2date(sDate, format);
-		Date endDate = DateUtil.str2date(eDate, format);
+		Date startDate = DateUtil.str2date(sDate, dateLongFormat);
+		Date endDate = DateUtil.str2date(eDate, dateLongFormat);
 		
 		//List<Record> trainErrs = AnalyticsService.statisticTrainErrorGroupByTrainNumber(startDate, endDate);
 		List<Record> obcuErrs = AnalyticsService.statisticErrorByTrainNumAndOBCU(startDate, endDate, train, obcu);
@@ -45,8 +47,6 @@ public class AnalyticsController extends TbdsBaseController {
 	}
 	
 	public void classify() {
-		String format = "yyyy-MM-dd HH:mm";
-		
 		String sDate = getPara("startdate");
 		String eDate = getPara("enddate");
 		
@@ -57,8 +57,8 @@ public class AnalyticsController extends TbdsBaseController {
 		String element = getPara("element");
 		String errortype = getPara("errortype");
 		
-		Date startDate = DateUtil.str2date(sDate, format);
-		Date endDate = DateUtil.str2date(eDate, format);
+		Date startDate = DateUtil.str2date(sDate, dateLongFormat);
+		Date endDate = DateUtil.str2date(eDate, dateLongFormat);
 		
 		List<Record> obcuErrs = AnalyticsService.statisticErrorByObcu(startDate, endDate, train, obcu, item, element, errortype);
 		List<Record> itemErrs = AnalyticsService.statisticErrorByItem(startDate, endDate, train, obcu, item, element, errortype);
@@ -81,6 +81,42 @@ public class AnalyticsController extends TbdsBaseController {
 		setAttr("errortype", StrUtil.notBlank(errortype) ? errortype : null);
 		
 		render("fault/classify.html");
+	}
+	
+	public void frequency() {
+		String sDate = getPara("startdate");
+		String eDate = getPara("enddate");
+		
+		String train = getPara("train");
+		String obcu = getPara("obcu");
+		
+		String item = getPara("item");
+		String element = getPara("element");
+		String errortype = getPara("errortype");
+		
+		Date startDate = DateUtil.str2date(sDate, dateShortFormat);
+		Date endDate = DateUtil.str2date(eDate, dateShortFormat);
+		
+		List<Record> errsFrequency = AnalyticsService.statisticErrorByEventDate(startDate, endDate, train, obcu, item, element, errortype);
+		
+		//setTimestampPattern("yyyy-MM-dd")
+		//JFinalJson.getJson().setTimestampPattern("yyyy-MM-dd").toJson(errsFrequency);
+		String result = JFinalJson.getJson().setDatePattern(dateShortFormat).toJson(errsFrequency);
+		
+		setAttr("errsFrequency", result);
+		
+		System.out.println(result);
+		
+		setAttr("startdate", StrUtil.notBlank(sDate) ? sDate : null);
+		setAttr("enddate", StrUtil.notBlank(eDate) ? eDate : null);		
+		
+		setAttr("train", StrUtil.notBlank(train) ? train : null);
+		setAttr("obcu", StrUtil.notBlank(obcu) ? obcu : null);
+		setAttr("item", StrUtil.notBlank(item) ? item : null);
+		setAttr("element", StrUtil.notBlank(element) ? element : null);
+		setAttr("errortype", StrUtil.notBlank(errortype) ? errortype : null);
+		
+		render("fault/frequency.html");
 	}
 	
 	public void faulttimeline() {
@@ -113,13 +149,7 @@ public class AnalyticsController extends TbdsBaseController {
 		render("stop/index.html");
 	}
 	
-	public void frequency() {
-		List<ErrorEvent> errEvtList = AnalyticsService.loadErrorEventData();
-		
-		setAttr("errorEventList", errEvtList);
-		
-		render("frequency/index.html");
-	}
+	
 	
 
 }
