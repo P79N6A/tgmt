@@ -5,7 +5,9 @@
  */
 package com.tbds.ctrl;
 
-import com.jfinal.core.Controller;
+import java.util.Map;
+
+import com.tbds.service.MpsService;
 
 /**
  *
@@ -13,9 +15,26 @@ import com.jfinal.core.Controller;
  */
 public class HomeController extends TbdsBaseController {
     public void index() {
-        render("index.html");
+    	callme();
     }
     public void home() {
-        render("index.html");
+    	callme();
     }
+    
+    private void callme() {
+    	/*统计当前列车的数量*/
+    	Map<String, Integer> mpsStatusMap = new MpsService().statisticMpsStatus();
+    	setAttr("mpsStatusMap", mpsStatusMap);
+    	
+    	/*统计当前在线的MPS数量*/
+    	
+    	/*统计当前离线的MPS数量*/
+    	
+    	
+    	/*统计今天上报的列车故障*/
+    	
+    	
+    	render("index.html");
+    }
+    
 }

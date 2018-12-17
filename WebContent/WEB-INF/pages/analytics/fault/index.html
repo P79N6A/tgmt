@@ -57,15 +57,21 @@
 var obcuErrData = #(obcuErrs);
 var series = [
 	{
-		name: '列车A端错误',
+		name: '列车A端',
 		type:'bar',
         stack: '列车错误',
         data: []
 	},
 	{
-		name: '列车B端错误',
+		name: '列车B端',
 		type:'bar',
         stack: '列车错误',
+        data: []
+	},
+	{
+		name: '故障总数',
+		type:'bar',
+		barWidth : 10,
         data: []
 	}
 ];
@@ -80,16 +86,23 @@ $.each(obcuErrData, function(index, obcuItem){
 	
 	var errtimes = obcuItem.errtimes;//当前列车端的错误数
 		
-	if(trainList.length == 0) {
-		trainList.push(tempTrainNum);
-	} else {
-		for(var i = 0; i<trainList.length; i++) {//为了添加列车数组
-			if(trainList[i] == tempTrainNum) {
-				continue;
-			} else {
-				trainList.push(tempTrainNum);
-			}
+	//默认列表不存在此列车号
+	var exist = false;
+	var currentIdx = 0;
+	for(var i = 0; i<trainList.length; i++) {//为了添加列车数组
+		if(trainList[i] == tempTrainNum) {
+			//说明已存在，则标志位true
+			exist = true;
+			currentIdx = i;
+			break;
 		}
+	}
+	
+	if(!exist) {//不存在
+		trainList.push(tempTrainNum);
+		series[2].data.push(errtimes);
+	} else {//已存在，则需要考虑叠加之前的数量
+		series[2].data[currentIdx] += errtimes;
 	}
 	
 	if(pointFlag == 'A') {
@@ -120,7 +133,7 @@ obcuErrsReportOption = {
 	    },
 	    legend: {
 	    	bottom: 'left',
-	        data:['列车A端错误','列车B端错误']
+	        data:['列车A端','列车B端', '故障总数']
 	    },
 	    /*
 	    grid: {

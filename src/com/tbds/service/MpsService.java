@@ -148,6 +148,35 @@ public class MpsService {
     }
     
     
+    /**
+     * 统计MPS在线离线的数量
+     * @return
+     */
+    public Map<String, Integer> statisticMpsStatus() {
+    	Map<String, Integer> result = new HashMap<String, Integer>();
+    	
+    	List<MpsExt> mpsList = getMpsListStatus();
+    	
+    	Integer onlineMps = 0;
+    	Integer offlineMps = 0;
+    	
+    	if(mpsList != null) {
+	    	for(MpsExt me : mpsList) {
+	    		
+	    		if(me.getAPointStatus() == 1 || me.getBPointStatus() == 1) {
+	    			onlineMps++;
+	    		} else {
+	    			offlineMps++;
+	    		}
+	    		
+	    	}
+    	}
+    	
+    	result.put("online", onlineMps);
+    	result.put("offline", offlineMps);
+    	
+    	return result;
+    }
     
     
     
