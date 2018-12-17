@@ -163,7 +163,13 @@ public class MpsService {
     	if(mpsList != null) {
 	    	for(MpsExt me : mpsList) {
 	    		
-	    		if(me.getAPointStatus() == 1 || me.getBPointStatus() == 1) {
+	    		if(me.getAPointStatus() == 1) {
+	    			onlineMps++;
+	    		} else {
+	    			offlineMps++;
+	    		}
+
+	    		if(me.getBPointStatus() == 1) {
 	    			onlineMps++;
 	    		} else {
 	    			offlineMps++;

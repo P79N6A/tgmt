@@ -2,6 +2,8 @@
 
 #define content()
 
+<script type="text/javascript" src="#(CPATH)/assets/js/echarts.min.js"></script>
+
 <div class="admin-content">
 
     <div class="am-cf am-padding">
@@ -11,8 +13,8 @@
     <ul class="am-avg-sm-1 am-avg-md-4 am-margin am-padding am-text-center admin-content-list ">
       <li><a href="#" class="am-text-success"><span class="am-icon-btn am-icon-train"></span><br/>当前已上报的列车数<br/>2300</a></li>
       <li><a href="#" class="am-text-secondary"><span class="am-icon-btn am-icon-calendar-times-o"></span><br/>当前上报故障数<br/>3000</a></li>
-      <li><a href="#" class="am-text-warning"><span class="am-icon-btn am-icon-wifi"></span><br/>在线MPS<br/>#(mpsStatusMap.get("online"))</a></li>
-      <li><a href="#" class="am-text-danger"><span class="am-icon-btn am-icon-plug"></span><br/>离线MPS<br/>#(mpsStatusMap.get("offline"))</a></li>
+      <li><a href="#(CPATH)/mps/status" class="am-text-warning"><span class="am-icon-btn am-icon-wifi"></span><br/>在线MPS<br/>#(mpsStatusMap.get("online"))</a></li>
+      <li><a href="#(CPATH)/mps/status" class="am-text-danger"><span class="am-icon-btn am-icon-plug"></span><br/>离线MPS<br/>#(mpsStatusMap.get("offline"))</a></li>
 
     </ul>
 
@@ -97,25 +99,57 @@
     <div class="am-g">
       <div class="am-u-md-6">
         <div class="am-panel am-panel-default">
-          <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-1'}">文件上传<span class="am-icon-chevron-down am-fr" ></span></div>
+          <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-1'}">列车故障概况(按列车号统计)<span class="am-icon-chevron-down am-fr" ></span></div>
           <div class="am-panel-bd am-collapse am-in" id="collapse-panel-1">
-            <ul class="am-list admin-content-file">
-              <li>
-                <strong><span class="am-icon-upload"></span> Kong-cetian.Mp3</strong>
-                <p>3.3 of 5MB - 5 mins - 1MB/Sec</p>
-                <div class="am-progress am-progress-striped am-progress-sm am-active">
-                  <div class="am-progress-bar am-progress-bar-success" style="width: 82%">82%</div>
-                </div>
-              </li>
-              <li>
-                <strong><span class="am-icon-check"></span> 好人-cetian.Mp3</strong>
-                <p>3.3 of 5MB - 5 mins - 3MB/Sec</p>
-              </li>
-              <li>
-                <strong><span class="am-icon-check"></span> 其实都没有.Mp3</strong>
-                <p>3.3 of 5MB - 5 mins - 3MB/Sec</p>
-              </li>
-            </ul>
+            
+            
+           <div id="trainErrEventGroupByTrainNum" style="height:300px"></div>
+           <script type="text/javascript">
+				var byTrainNumReport = echarts.init(document.getElementById('trainErrEventGroupByTrainNum'));
+				
+				var byTrainNumErrs = #(trainNumErrs??)
+				
+				var byTrainNumLegendData = [];
+				var byTrainNumData = [];
+				
+				$.each(byTrainNumErrs, function(index, item){
+					var trainName = "T0" + item.train;
+					var row = {value: item.errtimes, name: trainName};
+					byTrainNumData.push(row);
+					byTrainNumLegendData.push(trainName);
+				});
+				
+				byTrainNumOption = {
+					    tooltip : {
+					        trigger: 'item',
+					        formatter: "{a} <br/>{b} : {c} ({d}%)"
+					    },
+					    legend: {
+					        bottom: 'left',
+					        data: byTrainNumLegendData
+					    },
+					    series : [
+					        {
+					            name: '列车号',
+					            type: 'pie',
+					            radius : '55%',
+					            data: byTrainNumData,
+					            itemStyle: {
+					                emphasis: {
+					                    shadowBlur: 10,
+					                    shadowOffsetX: 0,
+					                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+					                }
+					            }
+					        }
+					    ]
+					};
+				
+					
+				byTrainNumReport.setOption(byTrainNumOption);
+			</script> 
+			
+			 
           </div>
         </div>
         <div class="am-panel am-panel-default">
