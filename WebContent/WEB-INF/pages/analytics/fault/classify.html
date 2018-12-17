@@ -46,7 +46,7 @@
     <hr>
     <div class="am-g am-g-collapse">
     	<div class="am-u-sm-6 am-u-end">
-			<div id="trainErrEventGroupByTrainNum" class="am-u-sm-12" style="height:400px"></div>
+			<div id="trainErrEventGroupByObcu" class="am-u-sm-12" style="height:400px"></div>
 		</div>
 		<div class="am-u-sm-6 am-u-end">
 			<div id="trainErrEventGroupByItem" class="am-u-sm-12" style="height:400px"></div>
@@ -63,23 +63,22 @@
 
 <script type="text/javascript">
 
-var byTrainNumReport = echarts.init(document.getElementById('trainErrEventGroupByTrainNum'));
+var byObcuReport = echarts.init(document.getElementById('trainErrEventGroupByObcu'));
 
-var byTrainNumErrs = #(trainNumErrs??)
+var byObcuErrs = #(obcuErrs??)
 
-var byTrainNumLegendData = [];
-var byTrainNumData = [];
+var byObcuLegendData = [];
+var byObcuData = [];
 
-$.each(byTrainNumErrs, function(index, item){
-	var trainName = "T0" + item.train;
-	var row = {value: item.errtimes, name: trainName};
-	byTrainNumData.push(row);
-	byTrainNumLegendData.push(trainName);
+$.each(byObcuErrs, function(index, item){
+	var row = {value: item.errtimes, name: item.obcu};
+	byObcuData.push(row);
+	byObcuLegendData.push(item.obcu);
 });
 
-byTrainNumOption = {
+byObcuOption = {
 	    title : {
-	        text: '按列车号统计',
+	        text: '按车载单元统计',
 	        x:'left'
 	    },
 	    tooltip : {
@@ -88,14 +87,14 @@ byTrainNumOption = {
 	    },
 	    legend: {
 	        bottom: 'left',
-	        data: byTrainNumLegendData
+	        data: byObcuLegendData
 	    },
 	    series : [
 	        {
-	            name: '列车号',
+	            name: '车载单元',
 	            type: 'pie',
 	            radius : '55%',
-	            data: byTrainNumData,
+	            data: byObcuData,
 	            itemStyle: {
 	                emphasis: {
 	                    shadowBlur: 10,
@@ -108,7 +107,7 @@ byTrainNumOption = {
 	};
 
 	
-byTrainNumReport.setOption(byTrainNumOption);
+byObcuReport.setOption(byObcuOption);
 
 
 //*********************************************************//

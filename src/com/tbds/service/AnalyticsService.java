@@ -59,6 +59,29 @@ public class AnalyticsService {
 		return result;
 	}
 	
+	/**
+	 * 按OBCU分组统计
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public static List<Record> statisticTrainErrorGroupByOBCU(Date startDate, Date endDate) {
+		List<Record> result = null;
+		if(startDate == null && endDate == null) {
+			result = Db.find("SELECT obcu, count(*) as errtimes FROM tbds_event_error group by obcu order by obcu asc");
+		} else {
+			if(startDate != null && endDate != null) {
+				result = Db.find("SELECT obcu, count(*) as errtimes FROM tbds_event_error where event_datetime between ? and ? group by obcu order by obcu asc", startDate, endDate);
+			} else if(startDate == null && endDate != null) {
+				result = Db.find("SELECT obcu, count(*) as errtimes FROM tbds_event_error where event_datetime <= ? group by obcu order by obcu asc", endDate);
+			} else if(startDate != null && endDate == null) {
+				result = Db.find("SELECT obcu, count(*) as errtimes FROM tbds_event_error where event_datetime >= ? group by obcu order by obcu asc", startDate);
+			}
+		}
+		
+		return result;
+	}
+	
 	
 	/**
 	 * 按硬件模块进行分组统计

@@ -62,13 +62,13 @@ public class AnalyticsController extends TbdsBaseController {
 		Date startDate = DateUtil.str2date(sDate, format);
 		Date endDate = DateUtil.str2date(eDate, format);
 		
-		List<Record> trainErrs = AnalyticsService.statisticTrainErrorGroupByTrainNumber(startDate, endDate);
+		List<Record> obcuErrs = AnalyticsService.statisticTrainErrorGroupByOBCU(startDate, endDate);
 		List<Record> itemErrs = AnalyticsService.statisticTrainErrorGroupByItem(startDate, endDate);
 		List<Record> elementErrs = AnalyticsService.statisticTrainErrorGroupByElement(startDate, endDate);
 		List<Record> errTypeErrs = AnalyticsService.statisticTrainErrorGroupByErrType(startDate, endDate);
 		
 		
-		setAttr("trainNumErrs", JsonKit.toJson(trainErrs));
+		setAttr("obcuErrs", JsonKit.toJson(obcuErrs));
 		setAttr("itemErrs", JsonKit.toJson(itemErrs));
 		setAttr("elementErrs", JsonKit.toJson(elementErrs));
 		setAttr("errTypeErrs", JsonKit.toJson(errTypeErrs));
