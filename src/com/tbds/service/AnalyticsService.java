@@ -19,17 +19,170 @@ public class AnalyticsService {
 	private static final Logger log = Logger.getLogger(AnalyticsService.class);
 	
 	/**
-	 * 按列车号、OBCU列车端进行分组统计所有错误数据
+	 *  @see 按列车号进行统计指定时间段发生故障频率
+	 *  @return 统计结果Record列表
+	 */
+	public static List<Record> statisticErrorByTrainNumber(Date startDate, Date endDate) {
+		List<Record> result = null; 
+		
+		if(startDate == null && endDate == null) {
+			result = Db.find(
+					"SELECT train, count(*) as errtimes FROM tbds_event_error group by train order by train asc");
+		} else {
+			if(startDate != null && endDate != null) {
+				result = Db.find("SELECT train, count(*) as errtimes FROM tbds_event_error where event_datetime between ? and ? group by train order by train asc", startDate, endDate);
+			} else if(startDate == null && endDate != null) {
+				result = Db.find("SELECT train, count(*) as errtimes FROM tbds_event_error where event_datetime <= ? group by train order by train asc", endDate);
+			} else if(startDate != null && endDate == null) {
+				result = Db.find("SELECT train, count(*) as errtimes FROM tbds_event_error where event_datetime >= ? group by train order by train asc", startDate);
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 *     按列车号Train、OBCU列车端进行分组统计所有错误数据
 	 * @param startDate
 	 * @param endDate
 	 * @return
 	 */
-	public static List<Record> statisticTrainErrorGroupByTrainOBCU(Date startDate, Date endDate, String train, String obcu) {
+	public static List<Record> statisticErrorByTrainNumAndOBCU(Date startDate, Date endDate, String train, String obcu) {
 		List<Record> result = null;
 		
 		String selectSql = " SELECT train, obcu, count(*) as errtimes FROM tbds_event_error ";
 		String whereSql = " where 1=1 ";
 		String groupBySql = " group by train, obcu order by train asc ";
+		
+//		List<Object> paras = new  ArrayList<Object>();
+//		
+//		if(startDate != null) {
+//			whereSql += " and event_datetime >= ? ";
+//			paras.add(startDate);
+//			
+//		} 
+//		
+//		if(endDate != null) {
+//			whereSql += " and event_datetime <= ? ";
+//			paras.add(endDate);
+//		}
+//		
+//		if(StrUtil.notBlank(train)) {
+//			whereSql += " and train like concat('%', ?, '%')";
+//			paras.add(train);
+//		}
+//		
+//		if(StrUtil.notBlank(obcu)) {
+//			whereSql += " and obcu like concat('%', ?, '%')";
+//			paras.add(obcu);
+//		}
+//		
+//		String sql = selectSql + whereSql + groupBySql;
+//		if(null == paras || paras.isEmpty()) {
+//			result = Db.find(sql);
+//		} else {
+//			if(paras.size() == 1) {
+//				result = Db.find(sql, paras.get(0));
+//			} else if(paras.size() == 2) {
+//				result = Db.find(sql, paras.get(0), paras.get(1));
+//			} else if(paras.size() == 3) {
+//				result = Db.find(sql, paras.get(0), paras.get(1), paras.get(2));
+//			} else if(paras.size() == 4) {
+//				result = Db.find(sql, paras.get(0), paras.get(1), paras.get(2), paras.get(3));
+//			}
+//			
+//			//failed as belows: 
+//			//result = Db.find(sql, paras);
+//		}
+		
+		result = internalQueryAction(selectSql, whereSql, groupBySql, startDate, endDate, train, obcu, null, null, null);
+		
+		
+		return result;
+	}
+	
+	/**
+	 * 按OBCU分组统计
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public static List<Record> statisticErrorByObcu(Date startDate, Date endDate, String train, String obcu, String item, String element, String errortype) {
+		List<Record> result = null;
+		
+		String selectSql = " SELECT obcu, count(*) as errtimes FROM tbds_event_error ";
+		String whereSql = " where 1=1 ";
+		String groupBySql = " group by obcu order by obcu asc ";
+		
+		result = internalQueryAction(selectSql, whereSql, groupBySql, startDate, endDate, train, obcu, item, element, errortype);
+		
+		return result;
+	}
+	
+	
+	/**
+	 * 按硬件模块进行分组统计
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public static List<Record> statisticErrorByItem(Date startDate, Date endDate, String train, String obcu, String item, String element, String errortype) {
+		List<Record> result = null;
+		
+		String selectSql = " SELECT item, count(*) as errtimes FROM tbds_event_error ";
+		String whereSql = " where 1=1 ";
+		String groupBySql = " group by item order by item asc ";
+		
+		result = internalQueryAction(selectSql, whereSql, groupBySql, startDate, endDate, train, obcu, item, element, errortype);
+		
+		return result;
+		
+	}
+	
+	
+	/**
+	 * 按硬件故障元素进行分组统计
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public static List<Record> statisticErrorByElement(Date startDate, Date endDate, 
+			String train, String obcu, String item, String element, String errortype) {
+		List<Record> result = null;
+		
+		String selectSql = " SELECT element, count(*) as errtimes FROM tbds_event_error ";
+		String whereSql = " where 1=1 ";
+		String groupBySql = " group by element order by element asc ";
+		
+		result = internalQueryAction(selectSql, whereSql, groupBySql, startDate, endDate, train, obcu, item, element, errortype);
+		
+		return result;
+		
+	}
+	
+	
+	/**
+	 * 按硬件故障元素进行分组统计
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public static List<Record> statisticErrorByErrType(Date startDate, Date endDate, String train, String obcu, String item, String element, String errortype) {
+		List<Record> result = null;
+		
+		String selectSql = " SELECT error_type as errType, count(*) as errtimes FROM tbds_event_error ";
+		String whereSql = " where 1=1 ";
+		String groupBySql = " group by error_type order by error_type asc ";
+		
+		result = internalQueryAction(selectSql, whereSql, groupBySql, startDate, endDate, train, obcu, item, element, errortype);
+		
+		return result;
+		
+	}
+	
+	private static List<Record> internalQueryAction(String selectSql, String whereSql, String groupBySql, Date startDate, Date endDate, 
+			String train, String obcu, String item, String element, String errortype) {
+		
+		List<Record> result = null;
 		
 		List<Object> paras = new  ArrayList<Object>();
 		
@@ -54,6 +207,21 @@ public class AnalyticsService {
 			paras.add(obcu);
 		}
 		
+		if(StrUtil.notBlank(item)) {
+			whereSql += " and item like concat('%', ?, '%')";
+			paras.add(item);
+		}
+		
+		if(StrUtil.notBlank(element)) {
+			whereSql += " and element like concat('%', ?, '%')";
+			paras.add(element);
+		}
+		
+		if(StrUtil.notBlank(errortype)) {
+			whereSql += " and error_type like concat('%', ?, '%')";
+			paras.add(errortype);
+		}
+		
 		String sql = selectSql + whereSql + groupBySql;
 		if(null == paras || paras.isEmpty()) {
 			result = Db.find(sql);
@@ -66,137 +234,16 @@ public class AnalyticsService {
 				result = Db.find(sql, paras.get(0), paras.get(1), paras.get(2));
 			} else if(paras.size() == 4) {
 				result = Db.find(sql, paras.get(0), paras.get(1), paras.get(2), paras.get(3));
-			}
-			
-			//failed as belows: 
-			//result = Db.find(sql, paras);
-		}
-		
-		
-		return result;
-	}
-
-	/**
-	 *  @see 按列车号进行统计指定时间段发生故障频率
-	 *  @return 统计结果Record列表
-	 */
-	public static List<Record> statisticTrainErrorGroupByTrainNumber(Date startDate, Date endDate) {
-		List<Record> result = null; 
-		
-		if(startDate == null && endDate == null) {
-			result = Db.find(
-					"SELECT train, count(*) as errtimes FROM tbds_event_error group by train order by train asc");
-		} else {
-			if(startDate != null && endDate != null) {
-				result = Db.find("SELECT train, count(*) as errtimes FROM tbds_event_error where event_datetime between ? and ? group by train order by train asc", startDate, endDate);
-			} else if(startDate == null && endDate != null) {
-				result = Db.find("SELECT train, count(*) as errtimes FROM tbds_event_error where event_datetime <= ? group by train order by train asc", endDate);
-			} else if(startDate != null && endDate == null) {
-				result = Db.find("SELECT train, count(*) as errtimes FROM tbds_event_error where event_datetime >= ? group by train order by train asc", startDate);
-			}
-		}
-		return result;
-	}
-	
-	/**
-	 * 按OBCU分组统计
-	 * @param startDate
-	 * @param endDate
-	 * @return
-	 */
-	public static List<Record> statisticTrainErrorGroupByOBCU(Date startDate, Date endDate) {
-		List<Record> result = null;
-		if(startDate == null && endDate == null) {
-			result = Db.find("SELECT obcu, count(*) as errtimes FROM tbds_event_error group by obcu order by obcu asc");
-		} else {
-			if(startDate != null && endDate != null) {
-				result = Db.find("SELECT obcu, count(*) as errtimes FROM tbds_event_error where event_datetime between ? and ? group by obcu order by obcu asc", startDate, endDate);
-			} else if(startDate == null && endDate != null) {
-				result = Db.find("SELECT obcu, count(*) as errtimes FROM tbds_event_error where event_datetime <= ? group by obcu order by obcu asc", endDate);
-			} else if(startDate != null && endDate == null) {
-				result = Db.find("SELECT obcu, count(*) as errtimes FROM tbds_event_error where event_datetime >= ? group by obcu order by obcu asc", startDate);
+			} else if(paras.size() == 5) {
+				result = Db.find(sql, paras.get(0), paras.get(1), paras.get(2), paras.get(3), paras.get(4));
+			} else if(paras.size() == 6) {
+				result = Db.find(sql, paras.get(0), paras.get(1), paras.get(2), paras.get(3), paras.get(4), paras.get(5));
+			} else if(paras.size() == 7) {
+				result = Db.find(sql, paras.get(0), paras.get(1), paras.get(2), paras.get(3), paras.get(4), paras.get(5), paras.get(6));
 			}
 		}
 		
 		return result;
-	}
-	
-	
-	/**
-	 * 按硬件模块进行分组统计
-	 * @param startDate
-	 * @param endDate
-	 * @return
-	 */
-	public static List<Record> statisticTrainErrorGroupByItem(Date startDate, Date endDate) {
-		List<Record> result = null;
-		
-		if(startDate == null && endDate == null) {
-			result = Db.find("SELECT count(*) as errtimes, item FROM tbds_event_error group by item order by item asc");
-		} else {
-			if(startDate != null && endDate != null) {
-				result = Db.find("SELECT count(*) as errtimes, item FROM tbds_event_error where event_datetime between ? and ? group by item order by item asc", startDate, endDate);
-			} else if(startDate == null && endDate != null) {
-				result = Db.find("SELECT count(*) as errtimes, item FROM tbds_event_error where event_datetime <= ? group by item order by item asc", endDate);
-			} else if(startDate != null && endDate == null) {
-				result = Db.find("SELECT count(*) as errtimes, item FROM tbds_event_error where event_datetime >= ? group by item order by item asc", startDate);
-			}
-		}
-		
-		return result;
-		
-	}
-	
-	
-	/**
-	 * 按硬件故障元素进行分组统计
-	 * @param startDate
-	 * @param endDate
-	 * @return
-	 */
-	public static List<Record> statisticTrainErrorGroupByElement(Date startDate, Date endDate) {
-		List<Record> result = null;
-		
-		if(startDate == null && endDate == null) {
-			result = Db.find("SELECT count(*) as errtimes, element FROM tbds_event_error group by element order by element asc");
-		} else {
-			if(startDate != null && endDate != null) {
-				result = Db.find("SELECT count(*) as errtimes, element FROM tbds_event_error where event_datetime between ? and ? group by element order by element asc", startDate, endDate);
-			} else if(startDate == null && endDate != null) {
-				result = Db.find("SELECT count(*) as errtimes, element FROM tbds_event_error where event_datetime <= ? group by element order by element asc", endDate);
-			} else if(startDate != null && endDate == null) {
-				result = Db.find("SELECT count(*) as errtimes, element FROM tbds_event_error where event_datetime >= ? group by element order by element asc", startDate);
-			}
-		}
-		
-		return result;
-		
-	}
-	
-	
-	/**
-	 * 按硬件故障元素进行分组统计
-	 * @param startDate
-	 * @param endDate
-	 * @return
-	 */
-	public static List<Record> statisticTrainErrorGroupByErrType(Date startDate, Date endDate) {
-		List<Record> result = null;
-		
-		if(startDate == null && endDate == null) {
-			result = Db.find("SELECT count(*) as errtimes, error_type as errType FROM tbds_event_error group by error_type order by error_type asc");
-		} else {
-			if(startDate != null && endDate != null) {
-				result = Db.find("SELECT count(*) as errtimes, error_type as errType FROM tbds_event_error where event_datetime between ? and ? group by error_type order by error_type asc", startDate, endDate);
-			} else if(startDate == null && endDate != null) {
-				result = Db.find("SELECT count(*) as errtimes, error_type as errType FROM tbds_event_error where event_datetime <= ? group by error_type order by error_type asc", endDate);
-			} else if(startDate != null && endDate == null) {
-				result = Db.find("SELECT count(*) as errtimes, error_type as errType FROM tbds_event_error where event_datetime >= ? group by error_type order by error_type asc", startDate);
-			}
-		}
-		
-		return result;
-		
 	}
 	
 	

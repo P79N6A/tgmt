@@ -39,7 +39,7 @@ public class HomeController extends TbdsBaseController {
     	
     	
     	/*列车故障概览图*/
-    	List<Record> trainErrs = AnalyticsService.statisticTrainErrorGroupByTrainNumber(null, null);
+    	List<Record> trainErrs = AnalyticsService.statisticErrorByTrainNumber(null, null);
     	setAttr("trainNumErrs", JsonKit.toJson(trainErrs));
     	
     	render("index.html");
