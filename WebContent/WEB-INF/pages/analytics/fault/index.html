@@ -1,4 +1,4 @@
-#@layout(title="列车错误频率统计")
+#@layout(title="列车故障概要统计")
 
 #define content()
 
@@ -19,32 +19,53 @@
     <hr>
     
     <div class="am-g">
-    	<div class="am-u-sm-1"></div>
-     	<div class="am-u-sm-11">
- 			<form class="am-form" action="#(CPATH)/analytics/faultsummary" method="post">
- 				<div class="am-u-sm-5">
-		   			<div class="am-input-group date form-datetime-lang" data-date="#(startdate??)">
-		              <input  id="startdate" name="startdate"  value="#(startdate??)" type="text" class="am-form-field" placeholder="起始时间">
-		              <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+        <form class="am-form" action="#(CPATH)/analytics/faultsummary" method="post">
+ 			<div class="am-u-sm-12">
+ 				<div class="am-u-sm-12  am-u-md-3">
+	 				<div class="am-form-group">
+	 					<label for="startdate">起始时间</label>
+			   			<div class="am-input-group date form-datetime-lang" data-date="#(startdate??)">
+			              <input  id="startdate" name="startdate"  value="#(startdate??)" type="text" class="am-form-field" placeholder="起始时间">
+			              <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+			           	</div>
+					</div>
+				</div>
+				
+				<div class="am-u-sm-12  am-u-md-3">
+					<div class="am-form-group">
+						<label for="enddate">结束时间</label>
+			           	<div class="am-input-group date form-datetime-lang" data-date="#(enddate??)">
+			              <input  id="enddate" name="enddate"  value="#(enddate??)" type="text" class="am-form-field" placeholder="结束时间">
+			              <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+			           	</div>
 		           	</div>
 				</div>
-				<div class="am-u-sm-5">
-		           	<div class="am-input-group date form-datetime-lang" data-date="#(enddate??)">
-		              <input  id="enddate" name="enddate"  value="#(enddate??)" type="text" class="am-form-field" placeholder="结束时间">
-		              <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+				
+				<div class="am-u-sm-12  am-u-md-2">
+					<div class="am-form-group">
+						<label for="train">列车号(如: 617)</label>
+			           	<input id="train"  name="train" class="am-form-field" value="#(train??)" placeholder="列车号"/>
 		           	</div>
-	           	</div>
-
+				</div>
+				
+				<div class="am-u-sm-12  am-u-md-2">
+					<div class="am-form-group">
+						<label for="obcu">车载单元(如：A或B)</label>
+			           	<input id="obcu"  name="obcu" class="am-form-field" value="#(obcu??)" placeholder="车载单元"/>
+		           	</div>
+				</div>
 	           	
-	           	<div class="am-u-sm-2">
+	           	<div class="am-u-sm-12 am-u-md-2">
+	           		<label for="searchBtn">&nbsp</label>
 		           	<div class="am-input-group">
 			          <span class="am-input-group-btn">
 			            <input id="searchBtn" class="am-btn am-btn-default" type="submit" value="搜索">搜索</input>
 			          </span>
 			        </div>
 		        </div>
-         	</form>
- 		</div>
+		        
+		     </div>
+         </form>
     </div>
     <hr>
     <div class="am-g">

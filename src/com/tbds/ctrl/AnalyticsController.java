@@ -22,17 +22,24 @@ public class AnalyticsController extends TbdsBaseController {
 		String sDate = getPara("startdate");
 		String eDate = getPara("enddate");
 		
+		String train = getPara("train");
+		String obcu = getPara("obcu");
+		
 		Date startDate = DateUtil.str2date(sDate, format);
 		Date endDate = DateUtil.str2date(eDate, format);
 		
 		//List<Record> trainErrs = AnalyticsService.statisticTrainErrorGroupByTrainNumber(startDate, endDate);
-		List<Record> obcuErrs = AnalyticsService.statisticTrainErrorGroupByTrainOBCU(startDate, endDate);
+		List<Record> obcuErrs = AnalyticsService.statisticTrainErrorGroupByTrainOBCU(startDate, endDate, train, obcu);
 		
 		//setAttr("trainErrs", JsonKit.toJson(trainErrs));
 		setAttr("obcuErrs", JsonKit.toJson(obcuErrs));
+
 		
 		setAttr("startdate", StrUtil.notBlank(sDate) ? sDate : null);
-		setAttr("enddate", StrUtil.notBlank(eDate) ? eDate : null);
+		setAttr("enddate", StrUtil.notBlank(eDate) ? eDate : null);		
+		
+		setAttr("train", StrUtil.notBlank(train) ? train : null);
+		setAttr("obcu", StrUtil.notBlank(obcu) ? obcu : null);
 		
 		render("fault/index.html");
 	}

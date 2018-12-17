@@ -1,7 +1,10 @@
 package com.tbds.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -9,6 +12,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.tbds.model.eo.ErrorEvent;
 import com.tbds.model.eo.ValueEvent;
+import com.tbds.util.StrUtil;
 
 public class AnalyticsService {
 
@@ -20,19 +24,54 @@ public class AnalyticsService {
 	 * @param endDate
 	 * @return
 	 */
-	public static List<Record> statisticTrainErrorGroupByTrainOBCU(Date startDate, Date endDate) {
+	public static List<Record> statisticTrainErrorGroupByTrainOBCU(Date startDate, Date endDate, String train, String obcu) {
 		List<Record> result = null;
-		if(startDate == null && endDate == null) {
-			result = Db.find("SELECT train, obcu, count(*) as errtimes FROM tbds_event_error group by train, obcu order by train asc");
-		} else {
-			if(startDate != null && endDate != null) {
-				result = Db.find("SELECT train, obcu, count(*) as errtimes FROM tbds_event_error where event_datetime between ? and ? group by train, obcu order by train asc", startDate, endDate);
-			} else if(startDate == null && endDate != null) {
-				result = Db.find("SELECT train, obcu, count(*) as errtimes FROM tbds_event_error where event_datetime <= ? group by train, obcu order by train asc", endDate);
-			} else if(startDate != null && endDate == null) {
-				result = Db.find("SELECT train, obcu, count(*) as errtimes FROM tbds_event_error where event_datetime >= ? group by train, obcu order by train asc", startDate);
-			}
+		
+		String selectSql = " SELECT train, obcu, count(*) as errtimes FROM tbds_event_error ";
+		String whereSql = " where 1=1 ";
+		String groupBySql = " group by train, obcu order by train asc ";
+		
+		List<Object> paras = new  ArrayList<Object>();
+		
+		if(startDate != null) {
+			whereSql += " and event_datetime >= ? ";
+			paras.add(startDate);
+			
+		} 
+		
+		if(endDate != null) {
+			whereSql += " and event_datetime <= ? ";
+			paras.add(endDate);
 		}
+		
+		if(StrUtil.notBlank(train)) {
+			whereSql += " and train like concat('%', ?, '%')";
+			paras.add(train);
+		}
+		
+		if(StrUtil.notBlank(obcu)) {
+			whereSql += " and obcu like concat('%', ?, '%')";
+			paras.add(obcu);
+		}
+		
+		String sql = selectSql + whereSql + groupBySql;
+		if(null == paras || paras.isEmpty()) {
+			result = Db.find(sql);
+		} else {
+			if(paras.size() == 1) {
+				result = Db.find(sql, paras.get(0));
+			} else if(paras.size() == 2) {
+				result = Db.find(sql, paras.get(0), paras.get(1));
+			} else if(paras.size() == 3) {
+				result = Db.find(sql, paras.get(0), paras.get(1), paras.get(2));
+			} else if(paras.size() == 4) {
+				result = Db.find(sql, paras.get(0), paras.get(1), paras.get(2), paras.get(3));
+			}
+			
+			//failed as belows: 
+			//result = Db.find(sql, paras);
+		}
+		
 		
 		return result;
 	}
