@@ -243,6 +243,101 @@ public class AnalyticsService {
 		return result;
 	}
 	
+	
+	/**
+	 * 选择性地进行group分组统计
+	 * @param groupByCpm
+	 * @param groupByTrain
+	 * @param groupByObcu
+	 * @param groupByItem
+	 * @param groupByElement
+	 * @param groupByErrorType
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public static List<Record> statisticErrorByManualChosenGroup(boolean groupByCpm, boolean groupByTrain, 
+																boolean groupByObcu, boolean groupByItem, 
+																boolean groupByElement, boolean groupByErrorType,
+																Date startDate, Date endDate) {
+		List<Record> result = null;
+		List<Object> paras = new  ArrayList<Object>();
+		
+		String selectSql = "";
+		String fromSql = " FROM tbds_event_error ";
+		String whereSql = " where 1=1 ";
+		String groupBySql = "";
+		String orderBySql = "";
+		
+		if(groupByCpm || groupByTrain || groupByObcu || groupByItem || groupByElement || groupByErrorType) {
+			selectSql = "SELECT count(*) as errtimes,";
+			groupBySql = " group by ";
+			orderBySql = " order by ";
+			
+			if(groupByCpm) {
+				selectSql += "cpm,";
+				groupBySql += "cpm,";
+				orderBySql += "cpm asc,";
+			}
+			
+			if(groupByTrain) {
+				selectSql += "train,";
+				groupBySql += "train,";
+				orderBySql += "train asc,";
+			}
+			
+			if(groupByObcu) {
+				selectSql += "obcu,";
+				groupBySql += "obcu,";
+				orderBySql += "obcu asc,";
+			}
+			
+			if(groupByItem) {
+				selectSql += "item,";
+				groupBySql += "item,";
+				orderBySql += "item asc,";
+			}
+			
+			if(groupByElement) {
+				selectSql += "element,";
+				groupBySql += "element,";
+				orderBySql += "element asc,";
+			}
+			
+			if(groupByErrorType) {
+				selectSql += "error_type,";
+				groupBySql += "error_type,";
+				orderBySql += "error_type asc,";
+			}
+			
+			if(selectSql.trim().endsWith(",")) {
+				selectSql = selectSql.substring(0, selectSql.lastIndexOf(","));
+			}
+			
+			if(groupBySql.trim().endsWith(",")) {
+				groupBySql = groupBySql.substring(0, groupBySql.lastIndexOf(","));
+			}
+			
+			if(orderBySql.trim().endsWith(",")) {
+				orderBySql = orderBySql.substring(0, orderBySql.lastIndexOf(","));
+			}
+			
+		} else {//若没有进行分组计算，则返回所有记录统计总数?
+			selectSql = " SELECT count(*) as errtimes ";
+		}
+		
+		selectSql = selectSql + fromSql;
+		groupBySql = groupBySql + orderBySql;
+		
+		//System.out.println(selectSql);
+		//System.out.println(whereSql);
+		//System.out.println(groupBySql);
+		
+		result = internalQueryActionWithEventDateTime(selectSql, whereSql, groupBySql, startDate, endDate, null, null, null, null, null);
+		
+		return result;
+	}
+	
 	private static List<Record> internalQueryActionWithEventDateTime(String selectSql, String whereSql, String groupBySql, Date startDate, Date endDate, 
 			String train, String obcu, String item, String element, String errortype) {
 		
@@ -376,6 +471,7 @@ public class AnalyticsService {
 		
 		return result;
 	}
+	
 	
 
 	public static List<ErrorEvent> loadErrorEventData() {

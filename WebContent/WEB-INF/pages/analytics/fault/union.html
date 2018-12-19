@@ -1,0 +1,162 @@
+#@layout(title="故障组合查询统计")
+
+#define content()
+
+<link rel="stylesheet" href="#(CPATH)/assets/css/amazeui.datetimepicker.css"/>
+<script src="#(CPATH)/assets/js/amazeui.datetimepicker.min.js"></script>
+
+<script type="text/javascript" src="#(CPATH)/assets/js/echarts.min.js"></script>
+
+<div class="admin-content">
+
+	<div class="am-cf am-padding">
+		<div class="am-fl am-cf">
+			<strong class="am-text-primary am-text-lg">数据分析</strong> / <small>故障分析</small>
+		</div>
+	</div>
+
+	<hr>
+
+	<div class="am-g">
+		<form class="am-form" action="#(CPATH)/analytics/faultunion"
+			method="post">
+				<div class="am-u-sm-12">
+					<div class="am-u-sm-12  am-u-md-8">
+						<div class="am-u-sm-12">
+							<div class="am-form-group">
+								<label >组合查询条件选择</label>
+								<div class="am-input-group am-btn-group" data-am-button="">
+									<label class="am-btn am-round am-btn-default am-btn-normal #(null!=cpm&&'on'==cpm?'am-active':'')" > 
+										<input name="cpm" type="checkbox"  #(null!=cpm&&'on'==cpm?'checked':'')> 计算处理模块
+									</label> 
+									<span>&nbsp;</span>
+									<label class="am-btn am-round am-btn-default am-btn-normal" #(null!=train&&'on'==train?'am-active':'')" >
+										<input name="train" type="checkbox" #(null!=train&&'on'==train?'checked':'')> 列车号
+									</label> 
+									<span>&nbsp;</span>
+									<label class="am-btn am-round am-btn-default am-btn-normal" #(null!=obcu&&'on'==obcu?'am-active':'')" >
+										<input name="obcu" type="checkbox" #(null!=obcu&&'on'==obcu?'checked':'')> 车载单元
+									</label> 
+									<span>&nbsp;</span>
+									<label class="am-btn am-round am-btn-default am-btn-normal" #(null!=item&&'on'==item?'am-active':'')" >
+										<input name="item" type="checkbox" #(null!=item&&'on'==item?'checked':'')> 组件模块
+									</label> 
+									<span>&nbsp;</span>
+									<label class="am-btn am-round am-btn-default am-btn-normal" #(null!=element&&'on'==element?'am-active':'')" >
+										<input name="element" type="checkbox" #(null!=element&&'on'==element?'checked':'')> 故障元素
+									</label>
+									<span>&nbsp;</span>
+									<label class="am-btn am-round am-btn-default am-btn-normal" #(null!=errortype&&'on'==errortype?'am-active':'')" >
+										<input name="errortype" type="checkbox" #(null!=errortype&&'on'==errortype?'checked':'')> 故障信息
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="am-u-sm-12">
+		 				<div class="am-u-sm-12  am-u-md-4">
+			 				<div class="am-form-group">
+			 					<label for="startdate">起始时间</label>
+					   			<div class="am-input-group date form-datetime-lang" data-date="#(startdate??)">
+					              <input  id="startdate" name="startdate"  value="#(startdate??)" type="text" class="am-form-field" placeholder="起始时间">
+					              <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+					           	</div>
+							</div>
+						</div>
+						
+						<div class="am-u-sm-12  am-u-md-4">
+							<div class="am-form-group">
+								<label for="enddate">结束时间</label>
+					           	<div class="am-input-group date form-datetime-lang" data-date="#(enddate??)">
+					              <input  id="enddate" name="enddate"  value="#(enddate??)" type="text" class="am-form-field" placeholder="结束时间">
+					              <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+					           	</div>
+				           	</div>
+						</div>
+						
+						<div class="am-u-sm-12 am-u-md-4">
+			           		<label for="searchBtn">&nbsp</label>
+				           	<div class="am-input-group">
+					          <span class="am-input-group-btn">
+					            <input id="searchBtn" class="am-btn am-btn-default" type="submit" value="搜索">搜索</input>
+					          </span>
+					        </div>
+				        </div>
+				        
+					</div>
+			</div>
+
+		</form>
+	</div>
+	
+	<hr>
+	
+	<div class="am-g">
+		<div class="am-u-sm-12">
+			<form class="am-form">
+				<table class="am-table am-table-striped am-table-hover table-main">
+					<thead>
+							<tr>
+								#if(null!=cpm&&'on'==cpm)<th>计算处理模块</th>#end
+								#if(null!=train&&'on'==train)<th>列车号</th>#end
+								#if(null!=obcu&&'on'==obcu)<th>车载单元</th>#end
+								#if(null!=item&&'on'==item)<th>组件模块</th>#end
+								#if(null!=element&&'on'==element)<th>故障元素</th>#end
+								#if(null!=errortype&&'on'==errortype)<th>故障信息</th>#end
+								<th>故障统计数量</th>
+							</tr>
+					</thead>
+					<tbody>
+						 #for(x:errsList)
+			 				<tr>
+			 					#if(null!=cpm&&'on'==cpm)<td>#(x.cpm??)</td>#end
+			 					#if(null!=train&&'on'==train)<td>#(x.train??)</td>#end
+			 					#if(null!=obcu&&'on'==obcu)<td>#(x.obcu??)</td>#end
+			 					#if(null!=item&&'on'==item)<td>#(x.item??)</td>#end
+			 					#if(null!=element&&'on'==element)<td>#(x.element??)</td>#end
+			 					#if(null!=errortype&&'on'==errortype)<td>#(x.error_type??)</td>#end
+			 					<td><span class="am-badge am-badge-danger">#(x.errtimes)</span></td>
+			 				</tr>
+			 			#end
+			 			
+					</tbody>
+				</table>
+			</form>
+		</div>
+		
+	</div>
+	
+</div>
+<script type="text/javascript">
+
+var errs = #(errs);
+
+console.log(errs);
+
+
+</script>
+<script type="text/javascript">
+<!--
+(function($){ 
+	// 只需要添加一次 
+	$.fn.datetimepicker.dates['zh-CN'] = { 
+			days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"], 
+			daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"], 
+			daysMin: ["日", "一", "二", "三", "四", "五", "六", "日"], 
+			months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"], 
+			monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"], 
+			today: "今日", 
+			suffix: [], 
+			meridiem: ["上午", "下午"] 
+	}; 
+	$('.form-datetime-lang').datetimepicker(
+			{ 
+				language: 'zh-CN', 
+				format: 'yyyy-mm-dd hh:ii',
+				autoclose: true
+			}); 
+}(jQuery)); 
+//-->
+</script>
+#end
