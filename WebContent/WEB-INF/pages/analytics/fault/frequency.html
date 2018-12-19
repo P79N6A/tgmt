@@ -121,9 +121,22 @@ frequencyOption = {
 	        }
 	    },
 	    title : {
-	        text: '列车故障发生数量统计',
+	        text: '列车故障发生频率',
 	        subtext: '数据来自TGMT平台',
 	        x:'center'
+	    },
+	    toolbox: {
+	        show : true,
+	        orient: 'vertical',
+	        x: 'right',
+	        y: 'center',
+	        feature : {
+	            mark : {show: true},
+	            dataView : {show: true, readOnly: false},
+	            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
 	    },
 	    /*
 	    grid: {
@@ -149,6 +162,7 @@ frequencyOption = {
 	            name:'故障数',
 	            type:'bar',
 	            data: frequencyData,
+	            /*
 	            markLine : {
 	                lineStyle: {
 	                    normal: {
@@ -159,6 +173,48 @@ frequencyOption = {
 	                    [{type : 'min'}, {type : 'max'}]
 	                ]
 	            }
+	        	*/
+	        	markLine: {
+	                itemStyle: {
+	                    normal: { lineStyle: { type: 'dashed', color:'#00f' }, label: { show: true, position:'left' } }
+	                },
+	                data: [
+	                    {
+	                        name: '平均线',
+	                        type: 'average'
+	                    },
+	                    /*
+	                    {
+	                        name: 'Y 轴值为 100 的水平线',
+	                        yAxis: 100
+	                    },
+	                    */
+	                    [
+	                        {
+	                            // 起点和终点的项会共用一个 name
+	                            name: '最小值到最大值',
+	                            type: 'min'
+	                        },
+	                        {
+	                            type: 'max'
+	                        }
+	                    ],
+	                    /*
+	                    [
+	                    	{
+	                        	// 固定起点的 x 像素位置，用于模拟一条指向最大值的水平线
+	                        	yAxis: 'max',
+	                        	x: '90%'
+	                    	}, 
+	                    	{
+	                        	type: 'max'
+	                    	}
+	                    ]
+	                    */
+	                ]
+	            }
+
+	        
 	        }
 	    ]
 	};

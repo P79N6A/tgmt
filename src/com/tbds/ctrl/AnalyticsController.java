@@ -120,16 +120,34 @@ public class AnalyticsController extends TbdsBaseController {
 	}
 	
 	public void faulttimeline() {
-		Date startDate = getParaToDate("startdate");
-		Date endDate = getParaToDate("enddate");
+		String sDate = getPara("startdate");
+		String eDate = getPara("enddate");
 		
-		List<Record> trainErrs = AnalyticsService.statisticErrorByTrainNumber(startDate, endDate);
+		String train = getPara("train");
+		String obcu = getPara("obcu");
 		
+		String item = getPara("item");
+		String element = getPara("element");
+		String errortype = getPara("errortype");
 		
-		setAttr("result", JsonKit.toJson(trainErrs));
+		Date startDate = DateUtil.str2date(sDate, dateLongFormat);
+		Date endDate = DateUtil.str2date(eDate, dateLongFormat);
 		
-		setAttr("startdate", startDate != null ? DateUtil.date2str(startDate) : null);
-		setAttr("enddate", endDate != null ? DateUtil.date2str(endDate) : null);
+		//查询
+		List<Record> hourErrs = AnalyticsService.statisticErrorByHour(startDate, endDate, train, obcu, item, element, errortype);
+		
+		//回传结果到页面
+		setAttr("hourErrs", JsonKit.toJson(hourErrs));
+		
+		//设置参数到页面
+		setAttr("startdate", StrUtil.notBlank(sDate) ? sDate : null);
+		setAttr("enddate", StrUtil.notBlank(eDate) ? eDate : null);		
+		
+		setAttr("train", StrUtil.notBlank(train) ? train : null);
+		setAttr("obcu", StrUtil.notBlank(obcu) ? obcu : null);
+		setAttr("item", StrUtil.notBlank(item) ? item : null);
+		setAttr("element", StrUtil.notBlank(element) ? element : null);
+		setAttr("errortype", StrUtil.notBlank(errortype) ? errortype : null);
 		
 		render("fault/timeline.html");
 	}

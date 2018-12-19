@@ -1,4 +1,4 @@
-#@layout(title="列车故障概要统计")
+#@layout(title="列车故障发生概况")
 
 #define content()
 
@@ -148,13 +148,26 @@ obcuErrsReportOption = {
 	        }
 	    },
 	    title : {
-	        text: '列车故障发生数量统计',
+	        text: '列车故障发生情况统计',
 	        subtext: '数据来自TGMT平台',
 	        x:'center'
 	    },
 	    legend: {
 	    	bottom: 'left',
 	        data:['列车A端','列车B端', '故障总数']
+	    },
+	    toolbox: {
+	        show : true,
+	        orient: 'vertical',
+	        x: 'right',
+	        y: 'center',
+	        feature : {
+	            mark : {show: true},
+	            dataView : {show: true, readOnly: false},
+	            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
 	    },
 	    /*
 	    grid: {

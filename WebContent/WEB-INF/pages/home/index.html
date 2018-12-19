@@ -128,6 +128,17 @@
 					        bottom: 'left',
 					        data: byTrainNumLegendData
 					    },
+					    toolbox: {
+					        show : true,
+					        orient: 'vertical',
+					        x: 'right',
+					        y: 'center',
+					        feature : {
+					            mark : {show: true},
+					            dataView : {show: true, readOnly: false},
+					            saveAsImage : {show: true}
+					        }
+					    },
 					    series : [
 					        {
 					            name: '列车号',

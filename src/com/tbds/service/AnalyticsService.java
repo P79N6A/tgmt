@@ -220,6 +220,29 @@ public class AnalyticsService {
 		return result;
 	}
 	
+	/**
+	 * 根据故障发生的所属小时区域内进行统计，便于发现故障发现哪些时间段上
+	 * @param startDate
+	 * @param endDate
+	 * @param train
+	 * @param obcu
+	 * @param item
+	 * @param element
+	 * @param errortype
+	 * @return
+	 */
+	public static List<Record> statisticErrorByHour(Date startDate, Date endDate, String train, String obcu, String item, String element, String errortype) {
+		List<Record> result = null;
+		
+		String selectSql = " SELECT count(*) as errtimes, HOUR(event_time) as h FROM tbds_event_error ";
+		String whereSql = " where 1=1 ";
+		String groupBySql = " group by h order by h asc ";
+		
+		result = internalQueryActionWithEventDateTime(selectSql, whereSql, groupBySql, startDate, endDate, train, obcu, item, element, errortype);
+		
+		return result;
+	}
+	
 	private static List<Record> internalQueryActionWithEventDateTime(String selectSql, String whereSql, String groupBySql, Date startDate, Date endDate, 
 			String train, String obcu, String item, String element, String errortype) {
 		

@@ -1,4 +1,4 @@
-#@layout(title="列车分类统计")
+#@layout(title="故障分类统计")
 
 #define content()
 
@@ -132,6 +132,19 @@ byObcuOption = {
 	        bottom: 'left',
 	        data: byObcuLegendData
 	    },
+	    toolbox: {
+	        show : true,
+	        orient: 'vertical',
+	        x: 'right',
+	        y: 'center',
+	        feature : {
+	            mark : {show: true},
+	            dataView : {show: true, readOnly: false},
+	            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
+	    },
 	    series : [
 	        {
 	            name: '车载单元',
@@ -183,6 +196,19 @@ byItemOption = {
 	        bottom: 'left',
 	        data: byItemLegendData
 	    },
+	    toolbox: {
+	        show : true,
+	        orient: 'vertical',
+	        x: 'right',
+	        y: 'center',
+	        feature : {
+	            mark : {show: true},
+	            dataView : {show: true, readOnly: false},
+	            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
+	    },
 	    series : [
 	        {
 	            name: '硬件模块',
@@ -230,6 +256,19 @@ byElementOption = {
 	    },
 	    legend: {
 	        data: byElementLegendData
+	    },
+	    toolbox: {
+	        show : true,
+	        orient: 'vertical',
+	        x: 'right',
+	        y: 'center',
+	        feature : {
+	            mark : {show: true},
+	            dataView : {show: true, readOnly: false},
+	            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
 	    },
 	    grid: {
 	        left: '3%',
@@ -301,6 +340,19 @@ byErrTypeOption = {
 	    legend: {
 	        bottom: 'left',
 	        data: byErrTypeLegendData
+	    },
+	    toolbox: {
+	        show : true,
+	        orient: 'vertical',
+	        x: 'right',
+	        y: 'center',
+	        feature : {
+	            mark : {show: true},
+	            dataView : {show: true, readOnly: false},
+	            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
 	    },
 	    series : [
 	        {
