@@ -472,6 +472,107 @@ public class AnalyticsService {
 		return result;
 	}
 	
+	/**
+	 * 统计当天有多少班次列车的日志已入库
+	 * 
+	 */
+	public static long todayPersistTrainCount() {
+		long result = 0;
+		
+		Record resultRecord = Db.findFirst("SELECT count(distinct(train)) as cnts FROM tbds_event_error WHERE event_date = curdate()");
+		if(resultRecord != null) {
+			result = resultRecord.getLong("cnts");
+		}
+		return result;
+	}
+	
+	/**
+	 * 统计当天有多少日志已入库
+	 * 
+	 */
+	public static long todayPersistErrLogCount() {
+		long result = 0;
+		
+		Record resultRecord = Db.findFirst("SELECT count(*) as errtimes FROM tbds_event_error WHERE event_date = curdate()");
+		if(resultRecord != null) {
+			result = resultRecord.getLong("errtimes");
+		}
+		return result;
+	}
+	
+	
+	/**
+	 * 统计当天发生故障数排名前五的列车
+	 * 
+	 */
+	public static List<Record> todayTop5TrainErrs() {
+		List<Record> result = null;
+		
+		result = Db.find("SELECT count(*) as errtimes, train FROM tbds_event_error WHERE event_date = curdate() group by train order by errtimes desc limit 0,5");
+		
+		return result;
+	}
+	
+	/**
+	 * 统计本周发生故障数排名前五的列车
+	 * 
+	 */
+	public static List<Record> currentWeekTop5TrainErrs() {
+		List<Record> result = null;
+		
+		result = Db.find("SELECT count(*) as errtimes, train FROM tbds_event_error WHERE YEARWEEK(date_format(event_date, '%Y-%m-%d')) = YEARWEEK(now()) group by train order by errtimes desc limit 0,5");
+		
+		return result;
+	}
+	
+	/**
+	 * 统计上一周发生故障数排名前五的列车
+	 * 
+	 */
+	public static List<Record> lastWeekTop5TrainErrs() {
+		List<Record> result = null;
+		
+		result = Db.find("SELECT count(*) as errtimes, train FROM tbds_event_error WHERE YEARWEEK(date_format(event_date, '%Y-%m-%d')) = YEARWEEK(now())-1 group by train order by errtimes desc limit 0,5");
+		
+		return result;
+	}
+	
+	/**
+	 * 统计本月发生故障数排名前五的列车
+	 * 
+	 */
+	public static List<Record> currentMonthTop5TrainErrs() {
+		List<Record> result = null;
+		
+		result = Db.find("SELECT count(*) as errtimes, train FROM tbds_event_error WHERE date_format(event_date,'%Y-%m')=date_format(now(),'%Y-%m') group by train order by errtimes desc limit 0,5");
+		
+		return result;
+	}
+	
+	/**
+	 * 统计上一个月发生故障数排名前五的列车
+	 * 
+	 */
+	public static List<Record> lastMonthTop5TrainErrs() {
+		List<Record> result = null;
+		
+		result = Db.find("SELECT count(*) as errtimes, train FROM tbds_event_error WHERE date_format(event_date,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 1 MONTH),'%Y-%m') group by train order by errtimes desc limit 0,5");
+		
+		return result;
+	}
+	
+	/**
+	 * 计算每个列车有多少个部件发生了故障
+	 * 
+	 */
+	public static List<Record> statisticByTrainComponentCatalog() {
+		List<Record> result = null;
+		
+		//select train, count(distinct(cpm)) as cpm_cnts, count(distinct(obcu)) as obcu_cnts, count(distinct(item)) as item_cnts,count(distinct(element)) as element_cnts, count(distinct(error_type)) as errortype_cnts from tbds_event_error group by train order by train asc
+		result = Db.find("select train, count(distinct(cpm)) as cpm_cnts, count(distinct(obcu)) as obcu_cnts, count(distinct(item)) as item_cnts,count(distinct(element)) as element_cnts, count(distinct(error_type)) as errortype_cnts from tbds_event_error group by train order by train asc");
+		
+		return result;
+	}
 	
 
 	public static List<ErrorEvent> loadErrorEventData() {

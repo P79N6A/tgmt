@@ -11,8 +11,41 @@
     </div>
 
     <ul class="am-avg-sm-1 am-avg-md-4 am-margin am-padding am-text-center admin-content-list ">
-      <li><a href="#" class="am-text-success"><span class="am-icon-btn am-icon-train"></span><br/>当前已上报的列车数<br/>2300</a></li>
-      <li><a href="#" class="am-text-secondary"><span class="am-icon-btn am-icon-calendar-times-o"></span><br/>当前上报故障数<br/>3000</a></li>
+      <li>
+      
+      <a href="#" class="am-text-success"><span class="am-icon-btn am-icon-train"></span><br/>今天已入库日志列车计数<br/>#(logTrainCounts)</a>
+       <!-- 
+       <div id="todayLogTrainCounts" style="height:280px"></div>
+       <script type="text/javascript">
+			var todayLogTrainCntsReport = echarts.init(document.getElementById('todayLogTrainCounts'));
+			var logTrainCounts = #(logTrainCounts??)
+			logTrainCountsOption = {
+					title : {
+						text: '今天已入库日志列车计数',
+				        x:'center',
+				        y:'top'
+					},
+				    tooltip : {
+				        formatter: "{a} <br/>{b} : {c}"
+				    },
+				    
+				    series: [
+		                {
+		                    name: '列车数',
+		                    type: 'gauge',
+		                    max:20,
+		                    detail: {formatter:'{value}列'},
+		                    data: [{value: logTrainCounts, name: '列车数'}]
+		                }
+		            ]
+				    
+				};
+			todayLogTrainCntsReport.setOption(logTrainCountsOption);
+		</script> 
+      	-->
+      
+      </li>
+      <li><a href="#" class="am-text-secondary"><span class="am-icon-btn am-icon-calendar-times-o"></span><br/>今天已入库日志计数<br/>#(logErrCounts)</a></li>
       <li><a href="#(CPATH)/mps/status" class="am-text-warning"><span class="am-icon-btn am-icon-wifi"></span><br/>在线MPS<br/>#(mpsStatusMap.get("online"))</a></li>
       <li><a href="#(CPATH)/mps/status" class="am-text-danger"><span class="am-icon-btn am-icon-plug"></span><br/>离线MPS<br/>#(mpsStatusMap.get("offline"))</a></li>
 
@@ -20,87 +53,53 @@
 
     <div class="am-g">
       <div class="am-u-sm-12">
-        <table class="am-table am-table-bd am-table-striped admin-content-table">
-          <thead>
-          <tr>
-            <th>ID</th><th>列车</th><th>子系统</th><th>部件</th><th>时间</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr><td>1</td><td>John Clark</td><td><a href="#">Business management</a></td> <td><span class="am-badge am-badge-success">+20</span></td>
-            <td>
-              <div class="am-dropdown" data-am-dropdown>
-                <button class="am-btn am-btn-default am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-cog"></span> <span class="am-icon-caret-down"></span></button>
-                <ul class="am-dropdown-content">
-                  <li><a href="#">1. 编辑</a></li>
-                  <li><a href="#">2. 下载</a></li>
-                  <li><a href="#">3. 删除</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-          <tr><td>2</td><td>风清扬</td><td><a href="#">公司LOGO设计</a> </td><td><span class="am-badge am-badge-danger">+2</span></td>
-            <td>
-              <div class="am-dropdown" data-am-dropdown>
-                <button class="am-btn am-btn-default am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-cog"></span> <span class="am-icon-caret-down"></span></button>
-                <ul class="am-dropdown-content">
-                  <li><a href="#">1. 编辑</a></li>
-                  <li><a href="#">2. 下载</a></li>
-                  <li><a href="#">3. 删除</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-          <tr><td>3</td><td>詹姆斯</td><td><a href="#">开发一款业务数据软件</a></td><td><span class="am-badge am-badge-warning">+10</span></td>
-            <td>
-              <div class="am-dropdown" data-am-dropdown>
-                <button class="am-btn am-btn-default am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-cog"></span> <span class="am-icon-caret-down"></span></button>
-                <ul class="am-dropdown-content">
-                  <li><a href="#">1. 编辑</a></li>
-                  <li><a href="#">2. 下载</a></li>
-                  <li><a href="#">3. 删除</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-          <tr><td>4</td><td>云适配</td><td><a href="#">适配所有网站</a></td><td><span class="am-badge am-badge-secondary">+50</span></td>
-            <td>
-              <div class="am-dropdown" data-am-dropdown>
-                <button class="am-btn am-btn-default am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-cog"></span> <span class="am-icon-caret-down"></span></button>
-                <ul class="am-dropdown-content">
-                  <li><a href="#">1. 编辑</a></li>
-                  <li><a href="#">2. 下载</a></li>
-                  <li><a href="#">3. 删除</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td>5</td><td>呵呵呵</td>
-            <td><a href="#">基兰会获得BUFF</a></td>
-            <td><span class="am-badge">+22</span></td>
-            <td>
-              <div class="am-dropdown" data-am-dropdown>
-                <button class="am-btn am-btn-default am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-cog"></span> <span class="am-icon-caret-down"></span></button>
-                <ul class="am-dropdown-content">
-                  <li><a href="#">1. 编辑</a></li>
-                  <li><a href="#">2. 下载</a></li>
-                  <li><a href="#">3. 删除</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+      	<div class="am-panel am-panel-default">
+	      	<div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-catalog-counts'}">列车故障组件种类统计<span class="am-icon-chevron-down am-fr" ></span></div>
+	          	<div class="am-panel-bd am-collapse am-in" id="collapse-panel-catalog-counts">
+			        <table class="am-table am-table-bd am-table-striped admin-content-table">
+			          <thead>
+			          <tr>
+			            <th>列车号</th><th>计算模块种类数</th><th>车载单元种类数</th><th>子模块种类数</th><th>元素种类数</th><th>错误提示种类数</th>
+			          </tr>
+			          </thead>
+			          <tbody>
+			         
+			          	<!--  <tr>
+			          	<td>1</td><td>John Clark</td><td><a href="#">Business management</a></td> <td><span class="am-badge am-badge-success">+20</span></td>
+			            <td>
+			              <div class="am-dropdown" data-am-dropdown>
+			                <button class="am-btn am-btn-default am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-cog"></span> <span class="am-icon-caret-down"></span></button>
+			                <ul class="am-dropdown-content">
+			                  <li><a href="#">1. 编辑</a></li>
+			                  <li><a href="#">2. 下载</a></li>
+			                  <li><a href="#">3. 删除</a></li>
+			                </ul>
+			              </div>
+			            </td>
+			            </tr> -->
+			          
+			          #for(x:trainErrCatalog)
+			          	<tr>
+			          		<td>#("T0"+x.train)</td>
+			          		<td>#(x.cpm_cnts)</td>
+			          		<td>#(x.obcu_cnts)</td>
+			          		<td>#(x.item_cnts)</td>
+			          		<td>#(x.element_cnts)</td>
+			          		<td>#(x.errortype_cnts)</td>
+			          	</tr>
+			          #end
+			          </tbody>
+			        </table>
+	        	</div>
+	        </div>
+        </div>
     </div>
 
     <div class="am-g">
       <div class="am-u-md-6">
         <div class="am-panel am-panel-default">
-          <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-1'}">列车故障概况(按列车号统计)<span class="am-icon-chevron-down am-fr" ></span></div>
-          <div class="am-panel-bd am-collapse am-in" id="collapse-panel-1">
+          <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-grp-train-num'}">列车故障概况(按列车号统计)<span class="am-icon-chevron-down am-fr" ></span></div>
+          <div class="am-panel-bd am-collapse am-in" id="collapse-panel-grp-train-num">
             
             
            <div id="trainErrEventGroupByTrainNum" style="height:300px"></div>
@@ -163,45 +162,187 @@
 			 
           </div>
         </div>
+        
+        #if(null!=todayTrainErrs && todayTrainErrs.size()>0)
         <div class="am-panel am-panel-default">
-          <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-2'}">浏览器统计<span class="am-icon-chevron-down am-fr" ></span></div>
-          <div id="collapse-panel-2" class="am-in">
+          <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-today-train-errs'}">今天故障数排名前五的列车<span class="am-icon-chevron-down am-fr" ></span></div>
+          <div id="collapse-panel-today-train-errs" class="am-in">
             <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
               <tbody>
               <tr>
                 <th class="am-text-center">#</th>
-                <th>浏览器</th>
-                <th>访问量</th>
+                <th>列车号</th>
+                <th>故障数</th>
               </tr>
+              #for(x:todayTrainErrs)
               <tr>
-                <td class="am-text-center"><img src="./assets/i/examples/admin-chrome.png" alt=""></td>
-                <td>Google Chrome</td>
-                <td>3,005</td>
+                <td class="am-text-center">#(for.index+1)</td>
+                <td>#("T0" + x.train)</td>
+                <td>
+					#if(for.index==0)
+	                <span class="am-badge am-badge-danger">#(x.errtimes)</span>
+	                #else if(for.index==1)
+	                <span class="am-badge am-badge-warning">#(x.errtimes)</span>
+	                #else if(for.index==2)
+	                <span class="am-badge am-badge-success">#(x.errtimes)</span>
+	                #else if(for.index==3)
+	                <span class="am-badge am-badge-secondary">#(x.errtimes)</span>
+	                #else if(for.index==4)
+	                <span class="am-badge">#(x.errtimes)</span>                
+	                #end
+				</td>
               </tr>
-              <tr>
-                <td class="am-text-center"><img src="./assets/i/examples/admin-firefox.png" alt=""></td>
-                <td>Mozilla Firefox</td>
-                <td>2,505</td>
-              </tr>
-              <tr>
-                <td class="am-text-center"><img src="./assets/i/examples/admin-ie.png" alt=""></td>
-                <td>Internet Explorer</td>
-                <td>1,405</td>
-              </tr>
-              <tr>
-                <td class="am-text-center"><img src="./assets/i/examples/admin-opera.png" alt=""></td>
-                <td>Opera</td>
-                <td>4,005</td>
-              </tr>
-              <tr>
-                <td class="am-text-center"><img src="./assets/i/examples/admin-safari.png" alt=""></td>
-                <td>Safari</td>
-                <td>505</td>
-              </tr>
+              #end
               </tbody>
             </table>
           </div>
         </div>
+        #end
+        
+        #if(null!=currentWeekTrainErrs && currentWeekTrainErrs.size()>0)
+        <div class="am-panel am-panel-default">
+          <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-currentweek-train-errs'}">本周故障数排名前五的列车<span class="am-icon-chevron-down am-fr" ></span></div>
+          <div id="collapse-panel-currentweek-train-errs" class="am-in">
+            <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+              <tbody>
+              <tr>
+                <th class="am-text-center">#</th>
+                <th>列车号</th>
+                <th>故障数</th>
+              </tr>
+              #for(x:currentWeekTrainErrs)
+              <tr>
+                <td class="am-text-center">#(for.index+1)</td>
+                <td>#("T0" + x.train)</td>
+                <td>
+					#if(for.index==0)
+	                <span class="am-badge am-badge-danger">#(x.errtimes)</span>
+	                #else if(for.index==1)
+	                <span class="am-badge am-badge-warning">#(x.errtimes)</span>
+	                #else if(for.index==2)
+	                <span class="am-badge am-badge-success">#(x.errtimes)</span>
+	                #else if(for.index==3)
+	                <span class="am-badge am-badge-secondary">#(x.errtimes)</span>
+	                #else if(for.index==4)
+	                <span class="am-badge">#(x.errtimes)</span>                
+	                #end
+				</td>
+              </tr>
+              #end
+              </tbody>
+            </table>
+          </div>
+        </div>
+        #end
+        
+        #if(null!=lastWeekTrainErrs && lastWeekTrainErrs.size()>0)
+        <div class="am-panel am-panel-default">
+          <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-lastweek-train-errs'}">上周故障数排名前五的列车<span class="am-icon-chevron-down am-fr" ></span></div>
+          <div id="collapse-panel-lastweek-train-errs" class="am-in">
+            <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+              <tbody>
+              <tr>
+                <th class="am-text-center">#</th>
+                <th>列车号</th>
+                <th>故障数</th>
+              </tr>
+              #for(x:lastWeekTrainErrs)
+              <tr>
+                <td class="am-text-center">#(for.index+1)</td>
+                <td>#("T0" + x.train)</td>
+                <td>	
+                	#if(for.index==0)
+	                <span class="am-badge am-badge-danger">#(x.errtimes)</span>
+	                #else if(for.index==1)
+	                <span class="am-badge am-badge-warning">#(x.errtimes)</span>
+	                #else if(for.index==2)
+	                <span class="am-badge am-badge-success">#(x.errtimes)</span>
+	                #else if(for.index==3)
+	                <span class="am-badge am-badge-secondary">#(x.errtimes)</span>
+	                #else if(for.index==4)
+	                <span class="am-badge">#(x.errtimes)</span>                
+	                #end
+	             </td>
+              </tr>
+              #end
+              </tbody>
+            </table>
+          </div>
+        </div>
+        #end
+        
+        #if(null!=currentMonthTrainErrs && currentMonthTrainErrs.size()>0)
+        <div class="am-panel am-panel-default">
+          <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-currentmonth-train-errs'}">本月故障数排名前五的列车<span class="am-icon-chevron-down am-fr" ></span></div>
+          <div id="collapse-panel-currentmonth-train-errs" class="am-in">
+            <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+              <tbody>
+              <tr>
+                <th class="am-text-center">#</th>
+                <th>列车号</th>
+                <th>故障数</th>
+              </tr>
+              #for(x:currentMonthTrainErrs)
+              <tr>
+                <td class="am-text-center">#(for.index+1)</td>
+                <td>#("T0" + x.train)</td>
+                <td>
+					#if(for.index==0)
+	                <span class="am-badge am-badge-danger">#(x.errtimes)</span>
+	                #else if(for.index==1)
+	                <span class="am-badge am-badge-warning">#(x.errtimes)</span>
+	                #else if(for.index==2)
+	                <span class="am-badge am-badge-success">#(x.errtimes)</span>
+	                #else if(for.index==3)
+	                <span class="am-badge am-badge-secondary">#(x.errtimes)</span>
+	                #else if(for.index==4)
+	                <span class="am-badge">#(x.errtimes)</span>                
+	                #end
+				</td>
+              </tr>
+              #end
+              </tbody>
+            </table>
+          </div>
+        </div>
+        #end
+        
+        #if(null!=lastMonthTrainErrs && lastMonthTrainErrs.size()>0)
+        <div class="am-panel am-panel-default">
+          <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-lastmonth-train-errs'}">上月故障数排名前五的列车<span class="am-icon-chevron-down am-fr" ></span></div>
+          <div id="collapse-panel-lastmonth-train-errs" class="am-in">
+            <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+              <tbody>
+              <tr>
+                <th class="am-text-center">#</th>
+                <th>列车号</th>
+                <th>故障数</th>
+              </tr>
+              #for(x:lastMonthTrainErrs)
+              <tr>
+                <td class="am-text-center">#(for.index+1)</td>
+                <td>#("T0" + x.train)</td>
+                <td>
+                #if(for.index==0)
+                <span class="am-badge am-badge-danger">#(x.errtimes)</span>
+                #else if(for.index==1)
+                <span class="am-badge am-badge-warning">#(x.errtimes)</span>
+                #else if(for.index==2)
+                <span class="am-badge am-badge-success">#(x.errtimes)</span>
+                #else if(for.index==3)
+                <span class="am-badge am-badge-secondary">#(x.errtimes)</span>
+                #else if(for.index==4)
+                <span class="am-badge">#(x.errtimes)</span>                
+                #end
+                </td>
+              </tr>
+              #end
+              </tbody>
+            </table>
+          </div>
+        </div>
+        #end
+        
       </div>
 
       <div class="am-u-md-6">

@@ -26,17 +26,42 @@ public class HomeController extends TbdsBaseController {
     }
     
     private void callme() {
-    	/*统计当前列车的数量*/
+    	/*统计当天日志已入库的列车数量*/
+    	long logTrainCounts = AnalyticsService.todayPersistTrainCount();
+    	setAttr("logTrainCounts", logTrainCounts);
+    	
+    	/*统计当天日志已入库的统计数量*/
+    	long logErrCounts = AnalyticsService.todayPersistErrLogCount();
+    	setAttr("logErrCounts", logErrCounts);
+    	
+    	
+    	/*
+    	 * 	统计当前在线的MPS数量
+    	 *	统计当前离线的MPS数量
+    	*/
     	Map<String, Integer> mpsStatusMap = new MpsService().statisticMpsStatus();
     	setAttr("mpsStatusMap", mpsStatusMap);
     	
-    	/*统计当前在线的MPS数量*/
+    	/**
+    	 * 对每个列车的故障组件进行计数
+    	 */
+    	setAttr("trainErrCatalog", AnalyticsService.statisticByTrainComponentCatalog());
     	
-    	/*统计当前离线的MPS数量*/
     	
+    	/*统计今天上报的列车故障Top5*/
+    	setAttr("todayTrainErrs", AnalyticsService.todayTop5TrainErrs());
     	
-    	/*统计今天上报的列车故障*/
+    	///*统计本周上报的列车故障Top5*/
+    	setAttr("currentWeekTrainErrs", AnalyticsService.currentWeekTop5TrainErrs());
     	
+    	///*统计上周上报的列车故障Top5*/
+    	setAttr("lastWeekTrainErrs", AnalyticsService.lastWeekTop5TrainErrs());
+    	
+    	///*统计本月上报的列车故障Top5*/
+    	setAttr("currentMonthTrainErrs", AnalyticsService.currentMonthTop5TrainErrs());
+    	
+    	///*统计上月上报的列车故障Top5*/
+    	setAttr("lastMonthTrainErrs", AnalyticsService.lastMonthTop5TrainErrs());
     	
     	/*列车故障概览图*/
     	List<Record> trainErrs = AnalyticsService.statisticErrorByTrainNumber(null, null);
