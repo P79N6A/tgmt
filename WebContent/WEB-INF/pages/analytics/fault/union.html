@@ -26,12 +26,12 @@
 							<div class="am-form-group">
 								<label >组合查询条件选择</label>
 								<div class="am-input-group am-btn-group" data-am-button="">
-									<label class="am-btn am-round am-btn-default am-btn-normal #(null!=cpm&&'on'==cpm?'am-active':'')" > 
-										<input name="cpm" type="checkbox"  #(null!=cpm&&'on'==cpm?'checked':'')> 计算处理模块
-									</label> 
-									<span>&nbsp;</span>
 									<label class="am-btn am-round am-btn-default am-btn-normal" #(null!=train&&'on'==train?'am-active':'')" >
 										<input name="train" type="checkbox" #(null!=train&&'on'==train?'checked':'')> 列车号
+									</label> 
+									<span>&nbsp;</span>
+									<label class="am-btn am-round am-btn-default am-btn-normal #(null!=cpm&&'on'==cpm?'am-active':'')" > 
+										<input name="cpm" type="checkbox"  #(null!=cpm&&'on'==cpm?'checked':'')> 计算处理模块
 									</label> 
 									<span>&nbsp;</span>
 									<label class="am-btn am-round am-btn-default am-btn-normal" #(null!=obcu&&'on'==obcu?'am-active':'')" >
@@ -98,20 +98,20 @@
 				<table class="am-table am-table-striped am-table-hover table-main">
 					<thead>
 							<tr>
-								#if(null!=cpm&&'on'==cpm)<th>计算处理模块</th>#end
 								#if(null!=train&&'on'==train)<th>列车号</th>#end
+								#if(null!=cpm&&'on'==cpm)<th>计算处理模块</th>#end
 								#if(null!=obcu&&'on'==obcu)<th>车载单元</th>#end
 								#if(null!=item&&'on'==item)<th>组件模块</th>#end
 								#if(null!=element&&'on'==element)<th>故障元素</th>#end
 								#if(null!=errortype&&'on'==errortype)<th>故障信息</th>#end
-								<th>故障统计数量</th>
+								<th>故障统计数量#if(null==cpm&&null==train&&null==obcu&&null==item&&null==element&&null==errortype)(默认查询当前库的所有故障总数)#end</th>
 							</tr>
 					</thead>
 					<tbody>
 						 #for(x:errsList)
 			 				<tr>
-			 					#if(null!=cpm&&'on'==cpm)<td>#(x.cpm??)</td>#end
 			 					#if(null!=train&&'on'==train)<td>#(x.train??)</td>#end
+			 					#if(null!=cpm&&'on'==cpm)<td>#(x.cpm??)</td>#end
 			 					#if(null!=obcu&&'on'==obcu)<td>#(x.obcu??)</td>#end
 			 					#if(null!=item&&'on'==item)<td>#(x.item??)</td>#end
 			 					#if(null!=element&&'on'==element)<td>#(x.element??)</td>#end

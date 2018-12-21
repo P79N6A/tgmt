@@ -34,7 +34,6 @@ public class HomeController extends TbdsBaseController {
     	long logErrCounts = AnalyticsService.todayPersistErrLogCount();
     	setAttr("logErrCounts", logErrCounts);
     	
-    	
     	/*
     	 * 	统计当前在线的MPS数量
     	 *	统计当前离线的MPS数量
@@ -63,9 +62,31 @@ public class HomeController extends TbdsBaseController {
     	///*统计上月上报的列车故障Top5*/
     	setAttr("lastMonthTrainErrs", AnalyticsService.lastMonthTop5TrainErrs());
     	
-    	/*列车故障概览图*/
-    	List<Record> trainErrs = AnalyticsService.statisticErrorByTrainNumber(null, null);
+    	///*统计近6月上报的列车故障Top5*/
+    	setAttr("recentSixMonthsTrainErrs", AnalyticsService.recent6MonthsTop5TrainErrs());
+    	
+    	///*统计近12月上报的列车故障Top5*/
+    	setAttr("recentOneYearTrainErrs",AnalyticsService.recentOneYearTop5TrainErrs());
+    	
+    	/*近两个月列车故障概览图*/
+    	List<Record> trainErrs = AnalyticsService.statisticCurrent2MonthErrorByTrainNumber();
     	setAttr("trainNumErrs", JsonKit.toJson(trainErrs));
+    	
+    	//近两个月列车各种故障模块分类统计的故障数
+    	List<Record> cpmErrs = AnalyticsService.statisticCurrent2MonthCatalogErrorOnCpm();
+    	setAttr("cpmErrs", JsonKit.toJson(cpmErrs));
+    	
+    	List<Record> obcuErrs = AnalyticsService.statisticCurrent2MonthCatalogErrorOnObcu();
+    	setAttr("obcuErrs", JsonKit.toJson(obcuErrs));
+    	
+    	List<Record> itemErrs = AnalyticsService.statisticCurrent2MonthCatalogErrorOnItem();
+    	setAttr("itemErrs", JsonKit.toJson(itemErrs));
+    	
+    	List<Record> elementErrs = AnalyticsService.statisticCurrent2MonthCatalogErrorOnElement();
+    	setAttr("elementErrs", JsonKit.toJson(elementErrs));
+    	
+    	List<Record> errorTypeErrs = AnalyticsService.statisticCurrent2MonthCatalogErrorOnErrorType();
+    	setAttr("errorTypeErrs", JsonKit.toJson(errorTypeErrs));
     	
     	render("index.html");
     }

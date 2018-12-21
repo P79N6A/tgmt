@@ -2,9 +2,7 @@ package com.tbds.service;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -17,6 +15,75 @@ import com.tbds.util.StrUtil;
 public class AnalyticsService {
 
 	private static final Logger log = Logger.getLogger(AnalyticsService.class);
+	
+	/**
+	 * @see 按列车号进行统计近两个月发生故障频率
+	 * @return 统计结果Record列表
+	 */
+	public static List<Record> statisticCurrent2MonthErrorByTrainNumber() {
+		List<Record> result = null; 
+		
+		String selectSql = " SELECT train, count(*) as errtimes FROM tbds_event_error ";
+		String whereSql = " where event_datetime between DATE_SUB(CURDATE(), INTERVAL 1 MONTH) and CURDATE()";
+		String groupBySql = " group by train order by train asc ";
+		
+		result = internalQueryActionWithEventDateTime(selectSql, whereSql, groupBySql, null, null, null, null, null, null, null);
+		
+		return result;
+	}
+	
+	
+	/**
+	 * 统计近俩个月（计算处理模块）的故障种类计数以及对应列车
+	 */
+	public static List<Record> statisticCurrent2MonthCatalogErrorOnCpm() {
+		List<Record> result = null; 
+		String sql = "select count(*) as errtimes, cpm as catalog, train FROM tbds_event_error WHERE event_datetime between DATE_SUB(CURDATE(), INTERVAL 1 MONTH) and CURDATE() group by train, cpm order by train asc, cpm asc";
+		result = Db.find(sql);
+		return result;
+	}
+	
+	/**
+	 * 统计近俩个月（车载单元）的故障种类计数以及对应列车
+	 */
+	public static List<Record> statisticCurrent2MonthCatalogErrorOnObcu() {
+		List<Record> result = null; 
+		String sql = "select count(*) as errtimes, obcu as catalog, train FROM tbds_event_error WHERE event_datetime between DATE_SUB(CURDATE(), INTERVAL 1 MONTH) and CURDATE() group by train, obcu order by train asc, obcu asc";
+		result = Db.find(sql);
+		return result;
+	}
+	
+	/**
+	 * 统计近俩个月（组件）的故障种类计数以及对应列车
+	 */
+	public static List<Record> statisticCurrent2MonthCatalogErrorOnItem() {
+		List<Record> result = null; 
+		String sql = "select count(*) as errtimes, item as catalog, train FROM tbds_event_error WHERE event_datetime between DATE_SUB(CURDATE(), INTERVAL 1 MONTH) and CURDATE() group by train, item order by train asc, item asc";
+		result = Db.find(sql);
+		return result;
+	}
+
+	
+	/**
+	 * 统计近俩个月（元素）的故障种类计数以及对应列车
+	 */
+	public static List<Record> statisticCurrent2MonthCatalogErrorOnElement() {
+		List<Record> result = null; 
+		String sql = "select count(*) as errtimes, element as catalog, train FROM tbds_event_error WHERE event_datetime between DATE_SUB(CURDATE(), INTERVAL 1 MONTH) and CURDATE() group by train, element order by train asc, element asc";
+		result = Db.find(sql);
+		return result;
+	}
+	
+	/**
+	 * 统计近俩个月（故障信息分类）的故障种类计数以及对应列车
+	 */
+	public static List<Record> statisticCurrent2MonthCatalogErrorOnErrorType() {
+		List<Record> result = null; 
+		String sql = "select count(*) as errtimes, error_type as catalog, train FROM tbds_event_error WHERE event_datetime between DATE_SUB(CURDATE(), INTERVAL 1 MONTH) and CURDATE() group by train, error_type order by train asc, error_type asc";
+		result = Db.find(sql);
+		return result;
+	}
+	
 	
 	/**
 	 * @see 按列车号进行统计指定时间段发生故障频率
@@ -562,14 +629,42 @@ public class AnalyticsService {
 	}
 	
 	/**
-	 * 计算每个列车有多少个部件发生了故障
+	 * 统计6个月发生故障数排名前五的列车
+	 * 
+	 */
+	public static List<Record> recent6MonthsTop5TrainErrs() {
+		List<Record> result = null;
+		
+		result = Db.find("SELECT count(*) as errtimes, train FROM tbds_event_error WHERE event_datetime between DATE_SUB(CURDATE(), INTERVAL 5 MONTH) and CURDATE() group by train order by errtimes desc limit 0,5");
+		
+		return result;
+	}
+	
+	/**
+	 * 统计近一年发生故障数排名前五的列车
+	 * 
+	 */
+	public static List<Record> recentOneYearTop5TrainErrs() {
+		List<Record> result = null;
+		
+		result = Db.find("SELECT count(*) as errtimes, train FROM tbds_event_error WHERE event_datetime between DATE_SUB(CURDATE(), INTERVAL 11 MONTH) and CURDATE() group by train order by errtimes desc limit 0,5");
+		
+		return result;
+	}
+	
+	/**
+	 * 计算每个列车近两个月有多少个部件发生了故障
 	 * 
 	 */
 	public static List<Record> statisticByTrainComponentCatalog() {
 		List<Record> result = null;
 		
 		//select train, count(distinct(cpm)) as cpm_cnts, count(distinct(obcu)) as obcu_cnts, count(distinct(item)) as item_cnts,count(distinct(element)) as element_cnts, count(distinct(error_type)) as errortype_cnts from tbds_event_error group by train order by train asc
-		result = Db.find("select train, count(distinct(cpm)) as cpm_cnts, count(distinct(obcu)) as obcu_cnts, count(distinct(item)) as item_cnts,count(distinct(element)) as element_cnts, count(distinct(error_type)) as errortype_cnts from tbds_event_error group by train order by train asc");
+		result = Db.find("select train, count(distinct(cpm)) as cpm_cnts, count(distinct(obcu)) as obcu_cnts, count(distinct(item)) as item_cnts,count(distinct(element)) as element_cnts, count(distinct(error_type)) as errortype_cnts "
+				+ " from tbds_event_error "
+				//+ " where 1=1 and (date_format(event_date,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 1 MONTH),'%Y-%m') or date_format(event_date,'%Y-%m')=date_format(now(),'%Y-%m'))"
+				+ " where event_datetime between DATE_SUB(CURDATE(), INTERVAL 1 MONTH) and CURDATE()"
+				+ " group by train order by train asc");
 		
 		return result;
 	}
