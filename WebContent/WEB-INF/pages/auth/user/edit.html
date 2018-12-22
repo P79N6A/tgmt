@@ -10,7 +10,9 @@
 				href="#(CPATH)/auth/user">用户管理</a> / </strong>  <small>用户信息编辑</small>
 		</div>
 	</div>
-
+	
+	<hr>
+	
 	<div class="am-u-sm-12">
 		<div class="am-panel am-panel-default">
 			<div class="am-panel-hd">
@@ -20,7 +22,7 @@
 				#end
 			</div>
 			<div class="am-panel-bd">
-				<div id="tips-msg"></div>
+				<div id="edit-user-msg"></div>
 				<div class="am-tabs" data-am-tabs>
 					<ul class="am-tabs-nav am-nav am-nav-tabs">
 						<li class="am-active"><a href="#basic-tab">基本信息</a></li>
@@ -117,10 +119,10 @@ function updateuser() {
 		},
 		success: function(resp){
 			if(resp['code']==1){
-          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>' + resp['msg'] + '</p></div>');
+          		$("#edit-user-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>' + resp['msg'] + '</p></div>');
           		return true;
           	} else {
-          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + resp['msg'] + '</p></div>');
+          		$("#edit-user-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + resp['msg'] + '</p></div>');
               	return false;
 			}
 		}
@@ -176,10 +178,10 @@ function changepswd() {
           		$("#old-password").val('');
           		$("#new-one-password").val('');
           		$("#new-dual-password").val('');
-          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>' + resp['msg'] + '</p></div>');
+          		$("#edit-user-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>' + resp['msg'] + '</p></div>');
           		return true;
           	} else {
-          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + resp['msg'] + '</p></div>');
+          		$("#edit-user-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + resp['msg'] + '</p></div>');
               	return false;
 			}
 		}

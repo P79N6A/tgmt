@@ -42,10 +42,10 @@ $('#switch-state').on('switchChange.bootstrapSwitch', function(event, state) {
 		},
 		success: function(rsp){
           	if(rsp['code']==1){
-          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>'+rsp['msg']+'</p></div>');
+          		$("#edit-user-msg").after('<div id="result_msg" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>'+rsp['msg']+'</p></div>');
           		return true;
           	} else {
-          		$("#tips-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>'+rsp['msg']+'</p></div>');
+          		$("#edit-user-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>'+rsp['msg']+'</p></div>');
               	return false;
 			}
 		}

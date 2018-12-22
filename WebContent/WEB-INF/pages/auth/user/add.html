@@ -9,7 +9,7 @@
         <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">权限管理 / <a href="#(CPATH)/auth/user">用户管理</a> / </strong>  <small>添加用户</small></div>
     </div>
 
-    <hr>
+    <hr id="add-user-msg">
 
     <div class="am-g">
         <div class="am-u-sm-10">
@@ -137,7 +137,7 @@ function doSaveAction(username, nickname, email, mobile, gender, birthday, compa
           		location.href = "#(CPATH)/auth/user/edit/" + rsp["id"];
           		return true;
           	} else {
-          		$("#save-newuser-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '！</p></div>');
+          		$("#add-user-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '！</p></div>');
               	return false;
 			}
 		}

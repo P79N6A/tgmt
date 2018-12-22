@@ -5,12 +5,18 @@
  */
 package com.tbds.service;
 
+import com.jfinal.kit.PropKit;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.tbds.model.eo.Mps;
 import com.tbds.model.eo.MpsExt;
 import com.tbds.util.FileUtil;
 import com.tbds.util.StrUtil;
+
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +32,9 @@ public class MpsService {
      * 所有的 dao 对象也放在 Service 中，并且声明为 private，避免 sql 满天飞 sql 只放在业务层，或者放在外部 sql
      * 模板，用模板引擎管理： http://www.jfinal.com/doc/5-13
      */
-    private Mps dao = new Mps().dao();
+    private static Mps dao = new Mps().dao();
+    
+    public static boolean isNeededRegeneratMpsDataFile = false;
     
     /**
      * 获取MPS设备信息，后台分页查询
@@ -34,7 +42,7 @@ public class MpsService {
      * @param pageSize
      * @return
      */
-    public Page<Mps> paginate(int pageNumber, int pageSize) {
+    public static Page<Mps> paginate(int pageNumber, int pageSize) {
         return dao.paginate(pageNumber, pageSize);
     }
     
@@ -47,7 +55,7 @@ public class MpsService {
      * @param keyword
      * @return
      */
-    public Page<Mps> search(int pageNumber, int pageSize, String trainType, String keyword) {
+    public static Page<Mps> search(int pageNumber, int pageSize, String trainType, String keyword) {
     	return dao.search(pageNumber, pageSize, trainType, keyword);
     }
     
@@ -57,8 +65,38 @@ public class MpsService {
      * @param id
      * @return
      */
-    public Mps findById(int id) {
+    public static Mps findById(int id) {
         return dao.findById(id);
+    }
+    
+    /**
+     * 通过fullname判断是否已存在，若存在，则返回true
+     * @param fullname
+     */
+    public static boolean isMpsExist(String fullname) {
+    	boolean alreadyExist = false;
+    	Mps mps = dao.findFirst("select * from tbds_mps where fullname = ?", fullname);
+    	if(mps != null) {
+    		alreadyExist = true;
+    	}
+    	
+        return alreadyExist;
+    }
+    
+    /**
+     * 防止在更新时，更新到成重复的MPS实例
+     * @param fullname
+     * @param existId
+     * @return
+     */
+    public static boolean isMpsExist(String fullname, int existId) {
+    	boolean alreadyExist = false;
+    	Mps mps = dao.findFirst("select * from tbds_mps where fullname = ? and id <> ? ", fullname, existId);
+    	if(mps != null) {
+    		alreadyExist = true;
+    	}
+    	
+        return alreadyExist;
     }
     
     /**
@@ -66,7 +104,7 @@ public class MpsService {
      * @param id
      * @return boolean
      */
-    public boolean deleteById(int id) {
+    public static boolean deleteById(int id) {
         return dao.deleteById(id);
     }
     
@@ -74,16 +112,16 @@ public class MpsService {
      * 获取MPS设备的状态信息，先查询数据库，然后再读取文件（状态信息）
      *  
      **/
-    public List<MpsExt> getMpsListStatus() {
+    public static List<MpsExt> getMpsListStatus() {
         List<Mps> listMps = dao.findAllMps();
         List<MpsExt> mpsList = new ArrayList<MpsExt>();
         Map<String, MpsExt> cluster = new HashMap<String, MpsExt>();
         ArrayList<String> orderKeys = new ArrayList<String>();
         for (Mps mps : listMps) {
             MpsExt currentMpsExt = null;
-            //String trainType = mps.get("train_type");
-
-            String trainName = mps.get("fullname");
+            
+            String trainName = mps.get("desc");
+            
 
             if (cluster.get(trainName) == null) {
                 orderKeys.add(trainName);
@@ -152,7 +190,7 @@ public class MpsService {
      * 统计MPS在线离线的数量
      * @return
      */
-    public Map<String, Integer> statisticMpsStatus() {
+    public static Map<String, Integer> statisticMpsStatus() {
     	Map<String, Integer> result = new HashMap<String, Integer>();
     	
     	List<MpsExt> mpsList = getMpsListStatus();
@@ -184,7 +222,57 @@ public class MpsService {
     	return result;
     }
     
-    
+    /**
+     * 自动生成MPS需要所有数据
+     * 
+     */
+    public static boolean regenerateMpsListDataFile() {
+    	boolean result = false;
+
+    	BufferedWriter buffWriteHandler = null;
+    	PropKit.use(com.tbds.util.Constants.CONFIG_FILE);
+		String mpsPath = PropKit.get(com.tbds.util.Constants.MPS_STATUS_LOG_PATH);
+		String mpsDataFile = mpsPath +"/"+ com.tbds.util.Constants.MPS_SERVER_LIST_FILE_NAME;
+    	
+    	List<Mps> listMps = dao.findAllMps();
+    	
+    	if(listMps != null) {
+    		
+    		if(listMps.size() > 0) {
+    			
+	    		try {
+	    			File mpsFile = new File(mpsDataFile);
+	    			if(mpsFile.exists()) {
+	    				mpsFile.deleteOnExit();
+	    			}
+	    			
+	    			buffWriteHandler = new BufferedWriter(new FileWriter(mpsFile));
+	    			
+	    			for(Mps mps:listMps) {
+	    				String mpsUniqueName = mps.get("fullname");
+	    				String hostIp = mps.get("host_ip");
+	    				buffWriteHandler.write(mpsUniqueName + ":" + hostIp);
+	    				buffWriteHandler.newLine();
+	    			}
+	    			
+	    			result = true;
+	    			
+	    		} catch(IOException exe) {
+	    			System.err.println(exe);
+	    		} finally {
+	    			try {
+	    				if(null != buffWriteHandler) {
+	    					buffWriteHandler.close();
+	    				}
+	    			}catch(Exception e) {
+	    				//ignore
+	    			}
+	    		}
+    		
+    		}
+    	}
+    	return result;
+    }
     
     
 

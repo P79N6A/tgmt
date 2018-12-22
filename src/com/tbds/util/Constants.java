@@ -101,4 +101,15 @@ public class Constants {
      * 标准日期时间格式：yyyy-MM-dd hh:mm:ss
      */
     public static final String STANDARD_DATETIME = STANDARD_DATE + " " + STANDARD_TIME;
+    
+    /**
+     * 隐藏文件mps list data
+     */
+    public static final String MPS_SERVER_LIST_FILE_NAME = ".mpslistdata";
+    
+    /**
+     * 换行符
+     */
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+    
 }

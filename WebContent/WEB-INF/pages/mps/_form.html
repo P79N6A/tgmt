@@ -1,16 +1,17 @@
-<fieldset>
+
 	<legend> #if(mps==null) 新建MPS #else
-		MPS标识：#(mps.train_type??)#(mps.train_num??)#(mps.ab_marker??) #end </legend>
-	<input type="hidden" name="mps.id" value="#(mps.id??)" />
+		车载单元（MPS标识）：#(mps.fullname??) #end </legend>
+	<input type="hidden" id="mps-id" name="mps.id" value="#(mps.id??)" />
 	<div class="am-form-group">
-		<label for="doc-ipt-host-1">主机IP(格式：*.*.*.*, 例如：192.168.0.100)</label>
-		<input type="text" class="" id="doc-ipt-host-1" name="mps.host_ip"
+		<label for="doc-ipt-mps-host">主机IP(格式：*.*.*.*, 例如：192.168.0.100)</label>
+		<input type="text" class="" id="doc-ipt-mps-host" name="mps.host_ip"
 			placeholder="主机IP地址" value="#(mps.host_ip??)" required>
 	</div>
 
 	<div class="am-form-group">
-		<label for="doc-ipt-port-1">端口(例如：22)</label> <input type="text"
-			class="" id="doc-ipt-port-1" name="mps.host_port"
+		<label for="doc-ipt-mps-port">端口(例如：22)</label> 
+		<input type="text"
+			class="" id="doc-ipt-mps-port" name="mps.host_port"
 			placeholder="主机连接端口" value="#(mps.host_port??)" required>
 	</div>
 
@@ -24,56 +25,26 @@
 	</div-->
 
 	<div class="am-form-group">
-		<label for="doc-ipt-num-1">列车号（例如：0221）</label> <input type="text"
-			class="" id="doc-ipt-num-1" name="mps.train_num" placeholder="列车号"
+		<label for="doc-ipt-train-num">列车号（例如：221）</label> 
+		<input type="text"
+			class="" id="doc-ipt-train-num" name="mps.train_num" placeholder="列车号"
 			value="#(mps.train_num??)" required>
 	</div>
 
 	<div class="am-form-group #(abMarkerMsg != null? 'am-form-warning':'')">
-		<div class="am-u-sm-6">
-			<label class="am-radio-inline"> 
-				<input type="radio" value="A" name="mps.ab_marker" #(mps !=null && mps.ab_marker=='A'?'checked':'')>A端
-			</label> 
-			<label class="am-radio-inline"> <input type="radio"
-				value="B" name="mps.ab_marker" #(mps !=null && mps.ab_marker==
-				'B'?'checked':'')>B端
-			</label>
-			#if(abMarkerMsg??)
-			<span class="am-icon-warning">#(abMarkerMsg??)</span>
-			#end
-		</div>
+		<h3>车载单元: </h3>
+		<label class="am-radio-inline"> 
+			<input type="radio" value="A" name="mps.ab_marker" #(mps !=null && mps.ab_marker=='A'?'checked':'')>A端
+		</label> 
+		<label class="am-radio-inline"> <input type="radio"
+			value="B" name="mps.ab_marker" #(mps !=null && mps.ab_marker==
+			'B'?'checked':'')>B端
+		</label>
+		<div id="doc-ipt-abmarker"></div>
+		#if(abMarkerMsg??) 
+		<span class="am-icon-warning">#(abMarkerMsg??)</span>
+		 #end
 	</div>
 
-	<div class="am-form-group">
-		
-		<!-- 
-		<div class="am-u-sm-3">
-			<div class="am-input-group am-input-group-sm">
-				<button class="am-btn am-btn-primary am-btn-lg am-fl am-radius"
-					type="submit">保存</button>
-			</div>
-		</div>
-		<div class="am-u-sm-9">
-			<div class="am-btn-group am-btn-group-xs">
-				<a href="#(CPATH)/mps">
-					<button type="button"
-						class="am-btn am-btn-primary am-btn-lg am-fl am-radius">
-						返回</button>
-				</a>
-			</div>
-		</div>
-		-->
-		
-		<!--begin 提交保存按钮 -->
-		<div class="am-form-group am-margin">
-			<button type="submit" class="am-btn am-btn-primary am-btn-default" >提交保存</button>
-			<button type="button" 
-			class="am-btn am-btn-primary am-btn-default" 
-			onclick="javascript:location.href='#(CPATH)/mps';return false;">返回</button>		
-		</div>
-		<!--end 提交保存按钮 -->
+	
 
-
-	</div>
-
-</fieldset>

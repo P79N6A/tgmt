@@ -16,7 +16,7 @@
 		</div>
 	</div>
 
-	<hr id="user-hr">
+	<hr id="user-index-msg">
 	
 	<div class="am-g">
 		<div class="am-u-sm-6">
@@ -168,7 +168,7 @@ function deleteUser(data) {
       				location.href = "#(CPATH)/auth/user";
                 	return true;
                 } else {
-                	$("#user-hr").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '！</p></div>');
+                	$("#user-index-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '！</p></div>');
                     return false;
       			}
       		}

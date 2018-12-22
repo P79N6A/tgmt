@@ -9,16 +9,108 @@
         <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg"><a href="#(CPATH)/mps">MPS管理</a></strong> / <small>添加MPS信息</small></div>
     </div>
 
-    <hr>
+    <hr id="add-mps-msg">
 
     <div class="am-g">
         <div class="am-u-sm-10">
             <form class="am-form  am-form-horizontal" action="#(CPATH)/mps/save" method="post">
-                #include("_form.html")
+            	<fieldset>
+                	#include("_form.html")
+                	
+                	<div class="am-form-group">
+		
+						<!-- 
+						<div class="am-u-sm-3">
+							<div class="am-input-group am-input-group-sm">
+								<button class="am-btn am-btn-primary am-btn-lg am-fl am-radius"
+									type="submit">保存</button>
+							</div>
+						</div>
+						<div class="am-u-sm-9">
+							<div class="am-btn-group am-btn-group-xs">
+								<a href="#(CPATH)/mps">
+									<button type="button"
+										class="am-btn am-btn-primary am-btn-lg am-fl am-radius">
+										返回</button>
+								</a>
+							</div>
+						</div>
+						-->
+						
+						<!--begin 提交保存按钮 -->
+						<div class="am-form-group am-margin">
+							<button type="button" class="am-btn am-btn-primary am-btn-default" 
+							onclick="savemps()">提交保存</button>
+							
+							<button type="button" 
+							class="am-btn am-btn-primary am-btn-default" 
+							onclick="javascript:location.href='#(CPATH)/mps';return false;">返回</button>		
+						</div>
+						<!--end 提交保存按钮 -->
+			
+			
+					</div>
+                </fieldset>
             </form>
         </div>
     </div>
     
 </div>
 
+<script type="text/javascript">
+<!-- 
+
+function savemps() {
+	
+	$('.am-alert').remove();
+	
+	var host = $("#doc-ipt-mps-host").val();
+	if(host == "") {
+	 	$("#doc-ipt-mps-host").after('<div id="mpsHostNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入MPS主机地址！</p></div>');
+	 	return;
+	}
+
+	var port = $("#doc-ipt-mps-port").val();
+	if(port=="") {
+		$("#doc-ipt-mps-port").after('<div id="mpsPortNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入端口！</p></div>');
+		return;
+	}
+	
+	var trainNum = $("#doc-ipt-train-num").val();
+	if(trainNum=="") {
+		$("#doc-ipt-train-num").after('<div id="trainNumNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入列车号！</p></div>');
+		return;
+	}
+	
+	var abmarker = $('input:radio[name="mps.ab_marker"]:checked').val();
+	if(abmarker==null) {
+		$("#doc-ipt-abmarker").after('<div id="trainObcuNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请选择车载单元！</p></div>');
+		return;
+	}
+	
+	$.ajax({
+		type: "POST",
+		dataType: "json",
+		url: "#(CPATH)/mps/save",
+		data: {
+			'mps.host_ip': host,
+			'mps.host_port': port,
+			'mps.train_num': trainNum,
+			'mps.ab_marker': abmarker
+		},
+		success: function(rsp){
+			if(rsp['code']==1){
+				location.href = "#(CPATH)/mps/edit/" + rsp["id"];
+          		return true;
+          	} else {
+          		$("#add-mps-msg").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '！</p></div>');
+              	return false;
+			}
+		}
+	});
+	
+}
+
+-->
+</script>
 #end
