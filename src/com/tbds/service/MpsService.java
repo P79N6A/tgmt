@@ -131,6 +131,9 @@ public class MpsService {
             } else {
                 currentMpsExt = cluster.get(trainName);
             }
+            
+            String trainNum = mps.get("train_num");
+            currentMpsExt.setTrainNum(trainNum);
 
             String trainPoint = mps.get("ab_marker");
             String ip = mps.get("host_ip");
@@ -274,6 +277,40 @@ public class MpsService {
     	return result;
     }
     
+    /**
+     * 根据trainNum查询MPS详细列表
+     */
+    public static List<Mps> findMpsByTrainNum(String trainNum) {
+    	List<Mps> result = dao.find("select * from tbds_mps where train_num = ?", trainNum);
+    	
+    	if(null != result && result.size() > 0) {
+	    	for(Mps mps : result) {
+	    		
+	    		String trainFullName = mps.get("fullname");
+	    		String stateFilePath = mps.get("client_state_file");
+				
+	            String stateFileName = stateFilePath + "/" + trainFullName + ".state";
+	            //String stateLogFileName = stateFilePath + "/" + trainFullName + ".history";
+	            
+	            //读取状态文件
+	            String stateLine = FileUtil.readFileLastLine(stateFileName);
+	    		
+	            if (StrUtil.notBlank(stateLine)) {
+	                String[] detail = stateLine.split("=");
+	                if (detail.length >= 3) {
+	                    mps.setCheckTime(detail[0]);
+	                    mps.setCheckStatus(Integer.valueOf(detail[1]).intValue());
+	                    mps.setDuration(Long.valueOf(detail[2]).longValue());
+	                }
+	            }
+	    	}
+    	
+    	}
+    	
+    	
+    	return result;
+    	
+    }
     
 
 }

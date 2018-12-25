@@ -7,6 +7,7 @@ package com.tbds.ctrl;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -14,10 +15,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
+import com.jfinal.json.Json;
+import com.jfinal.kit.HttpKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.tbds.ctrl.validator.MpsValidator;
 import com.tbds.model.eo.Mps;
+import com.tbds.model.eo.MpsExt;
 import com.tbds.service.MpsService;
 import com.tbds.util.StrUtil;
 
@@ -93,7 +97,16 @@ public class MpsController extends TbdsBaseController {
 		JSONObject resp = new JSONObject();
 		int code = -1;
 		
+		//Just a test
+		//String json = HttpKit.readData(getRequest());
+		//System.out.println(">>>>>>>>>>" + json);
+		//
+		//Mps mpsTest = Json.getJson().parse(json, Mps.class);
+		//System.out.println(">>>>>>>>>>" + mpsTest.get("train_num"));
+		
 		Mps mps = getModel(Mps.class, "mps");
+		
+		
 		
 		//默认Train Type设置为T
 		String trainType = "T";//mps.get("train_type");
@@ -319,5 +332,29 @@ public class MpsController extends TbdsBaseController {
 //	public void enable() {
 //
 //	}
+	
+	/**
+	 * 根据列车号查询MPS列表详细信息
+	 */
+	public void detail() {
+		String trainNum = getPara(0);
+		
+		if(StrUtil.isBlank(trainNum)) {
+			render("detail.html");
+			return;
+		}
+		
+		List<Mps> mpsDetailList = MpsService.findMpsByTrainNum(trainNum);
+		
+		if(null != mpsDetailList && mpsDetailList.size() > 0) {
+			trainNum = mpsDetailList.get(0).getStr("desc");
+		}
+		
+		setAttr("trainNum", trainNum);
+		setAttr("mpsDetailList", mpsDetailList);
+		
+		render("detail.html");
+	}
+	
 
 }

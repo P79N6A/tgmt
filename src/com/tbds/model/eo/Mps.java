@@ -20,7 +20,7 @@ public class Mps extends Model<Mps> {
     public static final Mps dao = new Mps();
     public static final String TABLE_NAME = "tbds_mps";
     public static final String PRIMARY_KEY = "id";
-
+    
     public Page<Mps> paginate(int pageNumber, int pageSize) {
         return paginate(pageNumber, pageSize, "select * ", "from " + TABLE_NAME + " order by " + PRIMARY_KEY + " asc");
     }
@@ -87,4 +87,33 @@ public class Mps extends Model<Mps> {
     public int updateMpsStatus(String trainNum, String abMarker, int status) {
         return Db.update("update " + TABLE_NAME + " set status=? where train_num=? and ab_marker=?", status, trainNum, abMarker);
     }
+    
+    public String getCheckTime() {
+		return checkTime;
+	}
+
+	public void setCheckTime(String checkTime) {
+		this.checkTime = checkTime;
+	}
+
+	public int getCheckStatus() {
+		return checkStatus;
+	}
+
+	public void setCheckStatus(int checkStatus) {
+		this.checkStatus = checkStatus;
+	}
+
+	public long getDuration() {
+		return duration;
+	}
+
+	public void setDuration(long duration) {
+		this.duration = duration;
+	}
+
+	private String checkTime = null;
+    private int checkStatus = 0;
+    private long duration = 0L;
+    
 }

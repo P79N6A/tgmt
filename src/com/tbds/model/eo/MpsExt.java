@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 public class MpsExt implements Serializable {
     private String trainName = null;
+    private String trainNum = null;
     private String aPointIP = null;
     private String bPointIP = null;
     private String aPointPort = null;
@@ -32,7 +33,15 @@ public class MpsExt implements Serializable {
         this.trainName = trainName;
     }
 
-    public String getAPointIP() {
+    public String getTrainNum() {
+		return trainNum;
+	}
+
+	public void setTrainNum(String trainNum) {
+		this.trainNum = trainNum;
+	}
+
+	public String getAPointIP() {
         return aPointIP;
     }
 

@@ -1,0 +1,52 @@
+#@layout(title="MPS详细信息")
+
+#define content()
+
+
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg"><a href="#(CPATH)/mps">MPS管理</a></strong> / <small>MPS详细信息</small></div>
+    </div>
+
+    <hr id="detail-mps-msg">
+
+    <div class="am-g">
+        <div class="am-u-sm-12">
+        	
+        	<div class="am-panel am-panel-default">
+          		<div class="am-panel-hd am-cf am-text-lg" data-am-collapse="{target: '#collapse-panel-train-detail-list'}">当前列车(<strong>#(trainNum)</strong>)MPS列表<span class="am-icon-chevron-down am-fr" ></span></div>
+          		<div class="am-panel-bd am-collapse am-in" id="collapse-panel-train-detail-list">
+        			<table class="am-table am-table-striped am-table-hover table-main">
+        				<tbody>
+			              <tr>
+			                <th>车载单元</th>
+			                <th>MPS服务器地址</th>
+			                <th>MPS服务器端口</th>
+			                <th>检查状态</th>
+			                <th>检查时间</th>
+			                <th>状态持续时长</th>
+			              </tr>
+			              #for(x:mpsDetailList)
+			              	<tr>
+			              		<td>#(x.ab_marker=='A'?'A单元' : 'B单元')</td>
+			              		<td>#(x.host_ip)</td>
+			              		<td>#(x.host_port)</td>
+			              		<td><span class="am-badge #(x.checkStatus == 1?'am-badge-success':'am-badge-danger')">#(x.checkStatus == 1 ? '在线' : '离线')</span></td>
+			              		<td>#(x.checkTime)</td>
+			              		<td>#(x.duration < 60 ? x.duration + '秒' : (x.duration < 3600 ? x.duration/60 + '分' : x.duration/3600 + '小时')  )</td>
+			              		
+			              	</tr>
+			              #end
+        				</tbody>
+        			</table>
+        			
+        		</div>
+        	</div>
+        </div>
+    </div>
+    
+    
+</div>
+
+#end

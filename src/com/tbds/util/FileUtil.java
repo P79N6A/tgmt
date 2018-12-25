@@ -24,6 +24,11 @@ public class FileUtil {
         String lastLine = null;
         
         try {
+        	
+        	if(!fileHanlder.exists()) {//文件不存在
+        		return lastLine;
+        	}
+        	
             buffReader = new BufferedReader(new FileReader(fileHanlder));
             int lineNum = 1;
             String tempLine = null;
