@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="#(CPATH)/assets/css/codemirror.css">
+<script src="#(CPATH)/assets/js/codemirror.js"></script>
+<style>
+.CodeMirror {
+  border: 1px solid #eee;
+  height: 500px;/*auto*/
+}
+</style>
+
+
+<textarea id="xmlCode" name="xmlCode"></textarea>
+
+
+<script>
+
+var editor = CodeMirror.fromTextArea(document.getElementById("xmlCode"), {
+	  mode: "text/xml",
+	  lineNumbers: true
+	});
+
+$(function() {
+	$.ajax({
+		url: "#(CPATH)/scheduler/loadTemplateXml",
+		type: "POST",
+		data: {
+			"templateId":#(jobTemplate.id)
+		},
+		dataType: "json",
+		success: function(rsp){
+			if(rsp["code"]==1){
+				editor.getDoc().setValue(rsp['xml']);
+				return true;
+          	} else {
+          		$("#edit-jobtemplate-msg").after('<div id="updateErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '</p></div>');
+          		return false;
+			}
+		}
+	});
+});
+
+
+
+
+
+</script>

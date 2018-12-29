@@ -152,8 +152,7 @@ public class MpsController extends TbdsBaseController {
 		mps.set("status", 1);
 		
 
-		PropKit.use(com.tbds.util.Constants.CONFIG_FILE);
-		String statusPath = PropKit.get(com.tbds.util.Constants.MPS_STATUS_LOG_PATH);
+		String statusPath = MpsService.getMpsStatusLogPath();
 		mps.set("client_state_file", statusPath);
 		mps.set("client_state_log", statusPath);
 

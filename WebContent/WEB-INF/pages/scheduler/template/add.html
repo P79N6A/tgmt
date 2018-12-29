@@ -1,0 +1,103 @@
+#@layout(title="添加Scheduler Job模板")
+
+#define content()
+
+<script type="text/javascript" src="#(CPATH)/assets/js/jquery.form.min.js"></script> 
+
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">Scheduler管理</strong> / <small>Job模板管理</small></div>
+    </div>
+
+    <hr>
+    
+    <div class="am-g">
+    	<div class="am-u-sm-12">
+            <form id="add-new-jobtemplate-form" enctype="multipart/form-data" 
+            method="POST" action="#(CPATH)/scheduler/savejobtemplate"
+            class="am-form am-form-horizontal">
+            	<fieldset>
+	    			#include("_basic_form.html")
+	    			
+	    			<!--begin 提交保存按钮 -->
+					<div class="am-form-group am-margin">
+						<button type="submit" 
+							class="am-btn am-btn-primary am-btn-default">保存</button>
+						<button type="button" 
+						class="am-btn am-btn-primary am-btn-default" 
+						onclick="javascript:location.href='#(CPATH)/scheduler/template';return false;">返回</button>		
+					</div>
+    			</fieldset>
+    		</form>
+    	</div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+function checkBeforeSaveJobTemplate() {
+	$('.am-alert').remove();
+	
+	var templateName = $("#jobTemplate-name").val();
+	if(templateName == "") {
+	 	$("#jobTemplate-name").after('<div id="templateNameNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入模板名称！</p></div>');
+	 	return false;
+	}
+	
+	var templateType = $("#template-type").val();
+	if(templateType=="") {
+		$("#template-type").after('<div id="templateTypeNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请选择模板类型！</p></div>');
+		return false;
+	}
+	
+	var templateApplication = $("#template-application").val();
+	if(templateApplication=="") {
+		$("#template-application").after('<div id="templateApplicationNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入模板用途类别！</p></div>');
+		return false;
+	}
+	
+	var templateFiles = $("#job-template-file").val();
+	if(templateFiles=="" || templateFiles.length==0) {
+		$("#job-template-file").after('<div id="templateFilesNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请指定本地需要上传模板文件！</p></div>');
+		return false;
+	}
+	
+	return true;
+}
+
+function responseResultfunction(rsp){
+	if(rsp["code"]==1){//新用户名可用
+		location.href = "#(CPATH)/scheduler/edittemplate/" + rsp["id"];
+		return true;
+  	} else {
+  		$("#save-jobtemplate-msg").after('<div id="templateSaveFailedErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '</p></div>');
+  		return false;
+	}
+}
+
+$(document).ready(function() { 
+    var options = { 
+        //target:        '#output1',   // target element(s) to be updated with server response 
+        beforeSubmit:  checkBeforeSaveJobTemplate,  // pre-submit callback 
+        success:       responseResultfunction,  // post-submit callback 
+        dataType: 'json',
+        // other available options: 
+        //url:       url         // override for form's 'action' attribute 
+        //type:      type        // 'get' or 'post', override for form's 'method' attribute 
+        //dataType:  null        // 'xml', 'script', or 'json' (expected server response type) 
+        //clearForm: true        // clear all form fields after successful submit 
+        //resetForm: true        // reset the form after successful submit 
+ 
+        // $.ajax options can be used here too, for example: 
+        timeout:   3000 
+    }; 
+ 
+    // bind form using 'ajaxForm' 
+    $('#add-new-jobtemplate-form').ajaxForm(options); 
+}); 
+
+</script>
+
+#end

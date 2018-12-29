@@ -77,9 +77,26 @@ $(function(){
 		
 		$(openMenu).collapse('open');
 		
-	} else if(currentPath.indexOf("/auth") != -1) {
+	}else if(currentPath.indexOf("/scheduler") != -1) {
 		
 		$("#md40").collapse('open');
+		
+		if(currentPath.indexOf("/scheduler/template") != -1) {
+			
+			$("#job-template-mnt").addClass("am-text-danger");
+			
+		}  else if(currentPath.indexOf("/scheduler/manage") != -1) {
+			
+			$("#job-mnt").addClass("am-text-danger");
+			
+		} else if(currentPath.indexOf("/scheduler/") != -1) {
+			
+			$("#flow-profile").addClass("am-text-danger");
+			
+		}
+	} else if(currentPath.indexOf("/auth") != -1) {
+		
+		$("#md45").collapse('open');
 		
 		if(currentPath.indexOf("/auth/user") != -1) {
 			

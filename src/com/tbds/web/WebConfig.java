@@ -27,6 +27,7 @@ import com.tbds.model.util.ModelCacheManager;
 import com.tbds.web.sharekit.PermissionKits;
 import com.tbds.ctrl.*;
 import com.tbds.model.eo.ErrorEvent;
+import com.tbds.model.eo.JobTemplate;
 import com.tbds.model.eo.Permission;
 import com.tbds.model.eo.Role;
 import com.tbds.model.eo.Transfer;
@@ -66,9 +67,13 @@ public class WebConfig extends JFinalConfig {
 		// me.setUrlParaSeparator("-");
 		// 下面不再使用FreeMarker，改用Enjoy模板，具体查看下面configEngine方法
 		// me.setViewType(ViewType.FREE_MARKER);
-
+		
+		// 文件upload根路径
+		me.setBaseUploadPath(getProperty(com.tbds.util.Constants.BASE_UPLOAD_FILE_PATH));
+		
 		// 文件download根路径
-		me.setBaseDownloadPath("/filebrowser/download");
+		//me.setBaseDownloadPath("/filebrowser/download");
+		me.setBaseDownloadPath(getProperty(com.tbds.util.Constants.BASE_DOWNLOAD_FILE_PATH));
 
 	}
 
@@ -103,6 +108,12 @@ public class WebConfig extends JFinalConfig {
 		 * 个人信息修改（包括基本信息以及密码重置）
 		 */
 		me.add("/profile", UserProfileController.class);
+		
+		/*
+		 * 定时任务管理
+		 * */
+		me.add("/scheduler", JobController.class);
+		
 		
 		/**
 		 * Event Error + Value Controller
@@ -140,6 +151,12 @@ public class WebConfig extends JFinalConfig {
 		 */
 		arp.addMapping("tbds_event_error", "id", ErrorEvent.class);
 		arp.addMapping("tbds_event_value", "id", ValueEvent.class);
+		
+		/**
+		 * Job Template
+		 */
+		arp.addMapping("tbds_job_template", "id", JobTemplate.class);
+		
 
 		// 构建表与Model的关系，具体请参考Model工程中DbManager类
 		DbManager.initModelMapping(arp);

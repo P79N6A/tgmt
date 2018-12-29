@@ -112,4 +112,24 @@ public class Constants {
      */
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
     
+    /**
+     * scheduler job template path key field
+     */
+    public static final String SCHEDULER_JOB_TEMPLATE_PATH = "schedulerJobTemplatePath";
+    
+    /**
+     * scheduler job file path
+     */
+    public static final String SCHEDULER_JOB_FILE_PATH = "schedulerJobFilePath";
+    
+    /**
+	 * #文件上传大小限制 10 * 1024 * 1024 = 10M
+	 */
+	public static final int TEMPLATE_MAX_POST_SIZE = 10485760;
+	
+	public static final String BASE_UPLOAD_FILE_PATH = "baseUploadFilePath";
+	
+	public static final String BASE_DOWNLOAD_FILE_PATH = "baseDownloadFilePath";
+    
+    
 }

@@ -1,0 +1,44 @@
+	#if(jobTemplate==null) 
+	<legend>新增Job模板 </legend><span id="save-jobtemplate-msg"></span>
+	#end
+	<input type="hidden" id="jobTemplateId" name="jobTemplate.id" value="#(jobTemplate.id??)" />
+	
+	<div class="am-form-group">
+		<label for="jobTemplate-name">模板名称(*): </label> 
+		<input type="text" class="" id="jobTemplate-name" name="templateName" placeholder="模板名称" value="#(jobTemplate.templateName??)">
+	</div>
+	
+	<div class="am-form-group">
+		<label for="template-type">模板类型(*):</label> 
+		<select id="template-type" name="templateType">
+			<option value="">--请选择模板类型--</option>
+			<option value="job" #(null!=jobTemplate && jobTemplate.templateType == 'job'?'selected':'') >job</option>
+			<option value="job_chain" #(null!=jobTemplate && jobTemplate.templateType == 'job_chain'?'selected':'') >job_chain</option>
+			<option value="job_chain_order" #(null!=jobTemplate && jobTemplate.templateType == 'job_chain_order'?'selected':'') >job_chain_order</option>
+		</select>
+	</div>
+	
+	<div class="am-form-group">
+		<label for="template-application">用途类别(*):</label> 
+		<select id="template-application" name="templateApplication">
+			<option value="">--请选择模板的用途类别--</option>
+			<option value="collectdata" #(null!=jobTemplate && jobTemplate.templateApplication == 'collectdata'?'selected':'') >收集数据</option>
+			<option value="receive_backupdata" #(null!=jobTemplate && jobTemplate.templateApplication == 'backupdata'?'selected':'') >接收与备份数据</option>
+			<option value="decodedata" #(null!=jobTemplate && jobTemplate.templateApplication == 'backupdata'?'selected':'') >解码数据</option>
+		</select>
+	</div>
+	
+	#if(jobTemplate==null)
+	<div class="am-form-group">
+	  <label for="job-template-file">模板文件(*):</label> 	
+      <input name="templateFile" type="file" id="job-template-file">
+      <p class="am-form-help">请选择要上传的模板文件(.xml格式)...</p>
+    </div>
+	#end
+	
+	<div class="am-form-group">
+		<label for="template-description">模板描述: </label> 
+		<textarea name="templateDescription" class="" rows="5" id="template-description">#(jobTemplate.description??)</textarea>
+	</div>
+	
+	

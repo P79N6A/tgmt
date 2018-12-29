@@ -7,7 +7,6 @@ package com.tbds.service;
 
 import com.jfinal.plugin.activerecord.Page;
 import com.tbds.model.eo.TransferedFile;
-
 /**
  *
  * @author JQIAO
@@ -185,4 +184,6 @@ public class JobSchedulerService {
         
         return ret;
     }
+     
+    
 }

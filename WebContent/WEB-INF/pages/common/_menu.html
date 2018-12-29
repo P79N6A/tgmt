@@ -124,14 +124,40 @@
 	    </li>
     #end
     
-    
-    #if(hasPermission(_tbds_logon_user_obj_, '/auth'))
+    #if(hasPermission(_tbds_logon_user_obj_, '/scheduler'))
 	    <li class="admin-parent"><a class="am-cf am-collapsed"
 	                                data-am-collapse="{parent:'#sidebar',target: '#md40'}"><span
-	                class="am-icon-users am-icon-fw"></span> 权限管理<span
+	                class="am-icon-users am-icon-calendar-check-o"></span> Scheduler管理<span
 	                class="am-icon-angle-right am-fr am-margin-right"></span>
 	        </a>
 	        <ul class="am-list admin-sidebar-sub am-collapse" id="md40"
+	            style="height: 0px;">
+	            <li><a href="#(CPATH)/scheduler/" class="am-cf">
+	            	<span class="am-icon-server"></span> 
+	            	<span id="flow-profile">Flow概览</span>
+	            	</a>
+	            </li>
+	            <li><a href="#(CPATH)/scheduler/manage" class="am-cf">
+	            		<span class="am-icon-calendar-plus-o"></span>
+	                	<span id="job-mnt">Job管理</span>
+	                </a>
+	            </li>
+	            <li><a href="#(CPATH)/scheduler/template" class="am-cf">
+	            	<span class="am-icon-th-large"></span> 
+	                <span id="job-template-mnt">Job模板</span>
+	                </a>
+	            </li>
+	        </ul>
+	    </li>
+	#end
+    
+    #if(hasPermission(_tbds_logon_user_obj_, '/auth'))
+	    <li class="admin-parent"><a class="am-cf am-collapsed"
+	                                data-am-collapse="{parent:'#sidebar',target: '#md45'}"><span
+	                class="am-icon-users am-icon-fw"></span> 权限管理<span
+	                class="am-icon-angle-right am-fr am-margin-right"></span>
+	        </a>
+	        <ul class="am-list admin-sidebar-sub am-collapse" id="md45"
 	            style="height: 0px;">
 	            <li><a href="#(CPATH)/auth/user" class="am-cf">
 	            	<span class="am-icon-user-plus"></span> 

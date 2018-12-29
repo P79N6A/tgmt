@@ -32,25 +32,12 @@ LIMIT 0, 1000
 
 -- Date: 2018-11-26 16:05
 */
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (1,'T0223','T0223A','127.0.0.1','2222','T','0223','A',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (2,'T0223','T0223B','192.168.0.100','2222','T','0223','B',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (3,'T0224','T0224A','172.17.0.1','2222','T','0224','A',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (4,'T0224','T0224B','172.17.0.2','2222','T','0224','B',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (5,'T0225','T0225A','172.17.0.3','2222','T','0225','A',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (6,'T0225','T0225B','172.17.0.4','2222','T','0225','B',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (7,'T0226','T0226A','192.168.0.101','2222','T','0226','A',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (8,'T0226','T0226B','192.168.0.102','2222','T','0226','B',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (9,'T0227','T0227A','192.168.0.103','2222','T','0227','A',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (10,'T0227','T0227B','192.168.0.104','2222','T','0227','B',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (11,'T0228','T0228A','192.168.0.105','2222','T','0228','A',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (12,'T0228','T0228B','192.168.0.106','2222','T','0228','B',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (13,'T0229','T0229A','192.168.0.107','2222','T','0229','A',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (14,'T0229','T0229B','192.168.0.108','2222','T','0229','B',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (15,'T0230','T0230A','192.168.0.109','2222','T','0230','A',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (16,'ATP_0230','ATP_0230B','192.168.0.110','2222','T','0230','B',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (17,'ATP_0231','ATP_0231A','192.168.0.111','2222','T','0231','A',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (18,'ATP_0231','ATP_0231B','192.168.0.112','2222','T','0231','B',1,'C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log','C:/Users/totan/Documents/NetBeansProjects/tbdsweb/log');
-
+INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (1,'T0617A','T0617','10.72.0.1','22','T','617','A',1,'/home/nagios/zt/data/mps/log','/home/nagios/zt/data/mps/log');
+INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (2,'T0617B','T0617','10.72.1.1','22','T','617','B',1,'/home/nagios/zt/data/mps/log','/home/nagios/zt/data/mps/log');
+INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (3,'T0613A','T0613','10.10.10.10','22','T','613','A',1,'/home/nagios/zt/data/mps/log','/home/nagios/zt/data/mps/log');
+INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (4,'T0613B','T0613','10.10.10.11','22','T','613','B',1,'/home/nagios/zt/data/mps/log','/home/nagios/zt/data/mps/log');
+INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (5,'T0641A','T0641','10.10.10.12','22','T','641','A',1,'/home/nagios/zt/data/mps/log','/home/nagios/zt/data/mps/log');
+INSERT INTO `tbds_mps` (`id`,`fullname`,`desc`,`host_ip`,`host_port`,`train_type`,`train_num`,`ab_marker`,`status`,`client_state_file`,`client_state_log`) VALUES (6,'T0641B','T0641','10.10.10.13','22','T','641','B',1,'/home/nagios/zt/data/mps/log','/home/nagios/zt/data/mps/log');
 
 DROP TABLE IF EXISTS `tbds_role`;
 CREATE TABLE `tbds_role` (
@@ -62,8 +49,11 @@ CREATE TABLE `tbds_role` (
   `modified` DATETIME NULL,
   PRIMARY KEY (`id`));
 
-INSERT INTO `tbds_role` (`id`,`name`,`description`,`flag`,`created`,`modified`) VALUES (1,'superadmin role','own all permissions.','0','2018-12-04 22:18:57','2018-12-04 22:19:47');
-  
+INSERT INTO `tbds_role` (`id`,`name`,`description`,`flag`,`created`,`modified`) VALUES (1,'超级管理员','该角色拥有系统的默认所有功能。','0','2018-12-04 22:18:57','2018-12-04 22:19:47');
+INSERT INTO `tbds_role` (`id`,`name`,`description`,`flag`,`created`,`modified`) VALUES (2,'设备管理员','该角色的用户拥有设备管理的权限，包括查看设备的状态以及相关设备故障日志等信息。','1','2018-12-04 22:18:57','2018-12-04 22:36:50');
+INSERT INTO `tbds_role` (`id`,`name`,`description`,`flag`,`created`,`modified`) VALUES (4,'数据管理员','该管理员主要负责监控数据传输情况，以及数据的浏览等。','1','2018-12-08 19:53:33','2018-12-08 19:53:33');
+INSERT INTO `tbds_role` (`id`,`name`,`description`,`flag`,`created`,`modified`) VALUES (5,'分析管理员','该角色主要负责浏览日常分析与高级分析的功能，并做相关的处理分析工作。','1','2018-12-08 19:55:36','2018-12-08 19:55:36');
+INSERT INTO `tbds_role` (`id`,`name`,`description`,`flag`,`created`,`modified`) VALUES (6,'权限管理员','该角色主要负责本系统的权限管理。','1','2018-12-08 19:56:07','2018-12-08 19:56:07');
   
   drop table `tbds_permission`;
   CREATE TABLE `tbds_permission` (
@@ -115,6 +105,16 @@ CREATE TABLE `tbds_user_role_mapping` (
   `role_id` int(11) unsigned NOT NULL COMMENT '角色ID',
   PRIMARY KEY (`user_id`,`role_id`)
 );
+
+CREATE TABLE `tbds_job_template` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `template_name` VARCHAR(255) NOT NULL,
+  `template_type` VARCHAR(255) NULL,
+  `template_application` VARCHAR(255) NULL,
+  `file_path` VARCHAR(500) NULL,
+  `description` VARCHAR(1000) NULL,
+  PRIMARY KEY (`id`, `template_name`),
+  UNIQUE INDEX `template_name_UNIQUE` (`template_name` ASC));
 
 DROP TABLE IF EXISTS `tbds_event_error`;
 CREATE TABLE `tbds_event_error` (

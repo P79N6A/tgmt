@@ -34,7 +34,16 @@ public class MpsService {
      */
     private static Mps dao = new Mps().dao();
     
+    /**
+     * 用于控制页面是否需要显示“生成MPS文件列表”
+     */
     public static boolean isNeededRegeneratMpsDataFile = false;
+    
+    public static String getMpsStatusLogPath() {
+    	PropKit.use(com.tbds.util.Constants.CONFIG_FILE);
+    	String statusPath = PropKit.get(com.tbds.util.Constants.MPS_STATUS_LOG_PATH);
+    	return statusPath;
+    }
     
     /**
      * 获取MPS设备信息，后台分页查询
