@@ -21,7 +21,7 @@
 				<div class="am-panel-bd">
 					#if(jobTemplate!=null)
     				<div id="edit-jobtemplate-msg"></div>
-					<div class="am-tabs" data-am-tabs>
+					<div id="doc-my-tabs" class="am-tabs" data-am-tabs>
 						<ul class="am-tabs-nav am-nav am-nav-tabs">
 							<li class="am-active"><a href="#basic-tab">基本信息</a></li>
 							<li><a href="#upload-attachment-tab">模板文件</a></li>
@@ -90,9 +90,9 @@
 										
 										<!--begin 提交保存按钮 -->
 										<div class="am-form-group am-margin">
-	      									<button type="submit" 
+	      									<button type="button" 
 	      										class="am-btn am-btn-primary am-btn-default" 
-	      										onclick="">保存XML文件</button>
+	      										onclick="saveTemplateAttachment()">保存XML文件</button>
 	      									<button type="button" 
 	      									class="am-btn am-btn-primary am-btn-default" 
 	      									onclick="javascript:location.href='#(CPATH)/scheduler/template';return false;">返回</button>		
@@ -198,6 +198,39 @@ $(document).ready(function() {
     // bind form using 'ajaxForm' 
     $('#override-template-file-form').ajaxForm(options); 
 }); 
+
+function saveTemplateAttachment() {
+	$('.am-alert').remove();
+	
+	var hasChangedMark = $("#hasStar");
+	
+	if(null != hasChangedMark && $(hasChangedMark).text() == "*") {
+		$.ajax({
+			url: "#(CPATH)/scheduler/saveTemplateAttachment",
+			type: "POST",
+			data: {
+				'templateId': #(jobTemplate.id),
+				'xmlContent': editor.getValue()
+			},
+			dataType: "json",
+			success: function(rsp){
+				if(rsp["code"]==1){
+					$("#hasChangedTips").html("");//重置
+					$("#edit-jobtemplate-msg").after('<div id="result" class="am-alert am-alert-success" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '</p></div>');
+					return true;
+	          	} else {
+	          		$("#edit-jobtemplate-msg").after('<div id="updateErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '</p></div>');
+	          		return false;
+				}
+			}
+		});
+	} else {
+		$("#edit-jobtemplate-msg").after('<div id="updateErr" class="am-alert am-alert-warn" data-am-alert><button type="button" class="am-close">&times;</button><p>没有任何修改，无需更新！</p></div>');
+  		return false;
+	}
+	
+
+}
 
 
 </script>

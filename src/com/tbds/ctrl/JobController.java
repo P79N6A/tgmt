@@ -194,10 +194,10 @@ public class JobController extends TbdsBaseController {
 		renderJson(resp);
 	}
 	
-	
+	/**
+	 * 加载模板XML到前端进行在线编辑
+	 */
 	public void loadTemplateXml() {
-		//String xml= HttpKit.readData(getRequest());
-		
 		JSONObject resp = new JSONObject();
 		
 		Long id = getParaToLong("templateId");
@@ -210,6 +210,28 @@ public class JobController extends TbdsBaseController {
 		}
 		
 		resp = JobManagementService.loadingTemplateAttachment(id);
+		renderJson(resp);
+		
+	}
+	
+	/**
+	 * 处理页面提交上来的xml内容信息
+	 */
+	public void saveTemplateAttachment() {
+		//String xml= HttpKit.readData(getRequest());
+		JSONObject resp = new JSONObject();
+		Long id = getParaToLong("templateId");
+		String xml = getPara("xmlContent");
+		
+		if(id == null || id == 0) {
+			resp.put("code", -1);
+			resp.put("msg", "保存模板xml失败，请检查！");
+			renderJson(resp);
+			return;
+		}
+		
+		resp = JobManagementService.saveTemplateAttachmentByText(id, xml);
+		
 		renderJson(resp);
 		
 	}

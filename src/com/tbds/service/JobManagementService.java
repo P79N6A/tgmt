@@ -1,8 +1,20 @@
 package com.tbds.service;
 
 import java.io.File;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.kit.PropKit;
@@ -363,10 +375,45 @@ public class JobManagementService {
 	 * @param templateId
 	 * @return
 	 */
-	public static JSONObject saveTemplateAttachmentByText(long templateId) {
+	public static JSONObject saveTemplateAttachmentByText(long templateId, String xmlContent) {
 		JSONObject resp = new JSONObject();
 		
+		JobTemplate jt = findTemplateById(templateId);
 		
+		if(jt == null) {
+			resp.put("code", -1);
+			resp.put("msg", "更新模板xml内容失败，请检查！");
+			return resp;
+		}
+		
+		String absoluteFilePath = jt.getFilePath();
+		File xmlFile = new File(absoluteFilePath);
+		
+		//将字符串写入到xml文件中
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
+        DocumentBuilder builder;  
+        try  
+        {  
+            builder = factory.newDocumentBuilder();
+            //将xml转换成document
+            Document xmlDocument = builder.parse(new InputSource( new StringReader(xmlContent))); 
+            
+            //TransformerFactory实例
+            TransformerFactory tFactory = TransformerFactory.newInstance();
+            Transformer transformer = tFactory.newTransformer();
+            //修改xml编码
+            //transformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+            DOMSource source = new DOMSource(xmlDocument);
+            StreamResult result = new StreamResult(xmlFile);
+            transformer.transform(source, result);//写入xml文件
+            resp.put("code", 1);
+            resp.put("msg", "成功保存模板xml文件！");
+            
+        } catch (Exception e) {  
+            e.printStackTrace();  
+            resp.put("code", 0);
+            resp.put("msg", "保存模板xml文件出现异常，请检查！");
+        }
 		
 		return resp;
 	}
