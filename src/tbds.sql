@@ -106,15 +106,54 @@ CREATE TABLE `tbds_user_role_mapping` (
   PRIMARY KEY (`user_id`,`role_id`)
 );
 
+/**
+ * 存放scheduler job template信息的数据表
+ **/
 CREATE TABLE `tbds_job_template` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `template_name` VARCHAR(255) NOT NULL,
+  `template_name` VARCHAR(255) NULL,
   `template_type` VARCHAR(255) NULL,
   `template_application` VARCHAR(255) NULL,
   `file_path` VARCHAR(500) NULL,
   `description` VARCHAR(1000) NULL,
-  PRIMARY KEY (`id`, `template_name`),
-  UNIQUE INDEX `template_name_UNIQUE` (`template_name` ASC));
+  PRIMARY KEY (`id`)
+);
+
+/**
+ * 	表：tbds_server
+ *	字段：id,name,host,port,catalog([mps,]das,fss,dbs),description
+ */
+CREATE TABLE `tbds_server` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NULL,
+  `host` VARCHAR(100) NULL,
+  `port` INT NULL,
+  `catalog` VARCHAR(45) NULL COMMENT '[mps,]das,fss,dbs',
+  `description` VARCHAR(500) NULL,
+  PRIMARY KEY (`id`));
+  
+/**	表：tbds_link
+ *	字段：id,
+ *		source_id, source_name, source_host, source_port, source_type, 
+ *		target_id, target_name, target_host, target_port, target_type, catalog, status（是否禁用：0：禁用，1：激活（一旦激活，就表示job等相关xml已生成））
+ */
+CREATE TABLE `tbds_link` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `source_id` INT NULL,
+  `source_name` VARCHAR(500) NULL,
+  `source_host` VARCHAR(100) NULL,
+  `source_port` INT NULL,
+  `source_type` VARCHAR(100) NULL,
+  `target_id` INT NULL,
+  `target_name` VARCHAR(500) NULL,
+  `target_host` VARCHAR(100) NULL,
+  `target_port` INT NULL,
+  `target_type` VARCHAR(100) NULL,
+  `catalog` VARCHAR(255) NULL,
+  `status` INT NULL COMMENT '0:disabled,1:generated job xml and activated',
+  PRIMARY KEY (`id`));
+
+  
 
 DROP TABLE IF EXISTS `tbds_event_error`;
 CREATE TABLE `tbds_event_error` (

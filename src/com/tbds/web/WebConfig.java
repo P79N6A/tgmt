@@ -30,6 +30,8 @@ import com.tbds.model.eo.ErrorEvent;
 import com.tbds.model.eo.JobTemplate;
 import com.tbds.model.eo.Permission;
 import com.tbds.model.eo.Role;
+import com.tbds.model.eo.Server;
+import com.tbds.model.eo.ServerLink;
 import com.tbds.model.eo.Transfer;
 import com.tbds.model.eo.TransferedFile;
 import com.tbds.model.eo.User;
@@ -156,6 +158,16 @@ public class WebConfig extends JFinalConfig {
 		 * Job Template
 		 */
 		arp.addMapping("tbds_job_template", "id", JobTemplate.class);
+		
+		/**
+		 * Server Management
+		 */
+		arp.addMapping("tbds_server", "id", Server.class);
+		
+		/**
+		 * Server Links Management
+		 */
+		arp.addMapping("tbds_link", "id", ServerLink.class);
 		
 
 		// 构建表与Model的关系，具体请参考Model工程中DbManager类

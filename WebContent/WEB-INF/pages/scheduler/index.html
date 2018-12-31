@@ -2,9 +2,6 @@
 
 #define content()
 
-<link rel="stylesheet" href="#(CPATH)/assets/css/amazeui.datetimepicker.css"/>
-<script src="#(CPATH)/assets/js/amazeui.datetimepicker.min.js"></script>
-
 <script type="text/javascript" src="#(CPATH)/assets/js/echarts.min.js"></script>
 
 
@@ -109,7 +106,7 @@ var	option = {
 	            itemStyle: {
 	            	color: '#000'				// 关系图节点标记的颜色
 	            },
-	            category: "database"         // 数据项所在类目的 index。
+	            category: "dbs"         // 数据项所在类目的 index。
 	        }, 
 	        {
 	            name: "数据分析服务器",
@@ -119,7 +116,7 @@ var	option = {
 	            itemStyle: {
 	            	color: '#0000ff'
 	            },
-	            category: "parseserver"
+	            category: "das"
 	        }, 
 	        {
 	            name: "文件调度服务器",
@@ -129,7 +126,7 @@ var	option = {
 	            itemStyle: {
 	            	color: '#ff0000'
 	            },
-	            category: "fileserver"
+	            category: "fss"
 	        }, 
 	        {
 	            name: "T0614A",
@@ -188,13 +185,13 @@ var	option = {
 	        ],
 	        categories: [
 		        {  // 节点分类的类目，可选。如果节点有分类的话可以通过 data[i].category 指定每个节点的类目，类目的样式会被应用到节点样式上。图例也可以基于categories名字展现和筛选。
-		            name: "database"  // 类目名称，用于和 legend 对应以及格式化 tooltip 的内容。
+		            name: "dbs"  // 类目名称，用于和 legend 对应以及格式化 tooltip 的内容。
 		        }, 
 		        {
-		            name: "parseserver"
+		            name: "das"
 		        }, 
 		        {
-		            name: "fileserver"
+		            name: "fss"
 		        }, 
 		        {
 		            name: "mps"

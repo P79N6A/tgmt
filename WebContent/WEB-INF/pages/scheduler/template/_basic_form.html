@@ -22,9 +22,9 @@
 		<label for="template-application">用途类别(*):</label> 
 		<select id="template-application" name="templateApplication">
 			<option value="">--请选择模板的用途类别--</option>
-			<option value="collectdata" #(null!=jobTemplate && jobTemplate.templateApplication == 'collectdata'?'selected':'') >收集数据</option>
-			<option value="receive_backupdata" #(null!=jobTemplate && jobTemplate.templateApplication == 'backupdata'?'selected':'') >接收与备份数据</option>
-			<option value="decodedata" #(null!=jobTemplate && jobTemplate.templateApplication == 'backupdata'?'selected':'') >解码数据</option>
+			<option value="mps_fss" #(null!=jobTemplate && jobTemplate.templateApplication == 'collectdata'?'selected':'') >收集数据</option>
+			<option value="fss_das" #(null!=jobTemplate && jobTemplate.templateApplication == 'backupdata'?'selected':'') >接收与备份数据</option>
+			<option value="das_dbs" #(null!=jobTemplate && jobTemplate.templateApplication == 'backupdata'?'selected':'') >解码数据</option>
 		</select>
 	</div>
 	

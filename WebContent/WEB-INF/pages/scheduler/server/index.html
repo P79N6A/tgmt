@@ -1,0 +1,164 @@
+#@layout(title="Server信息列表") 
+
+
+#define content()
+
+#set(append = "")
+#if(qServerType??)
+  #set(append = append + "?qServerType=" + qServerType)
+#end
+#if(qKeyword??)
+  #set(append = append + "&qKeyword=" + qKeyword)
+#end
+
+<div class="admin-content">
+
+	<div class="am-cf am-padding">
+		<div class="am-fl am-cf">
+			<strong class="am-text-primary am-text-lg">Server管理</strong> / <small>Server配置</small>
+		</div>
+	</div>
+
+	<hr id="hr">
+	
+	<div class="am-g">
+		<div class="am-u-sm-4">
+			<div class="am-btn-toolbar">
+				<div class="am-btn-group">
+					<button type="button" class="am-btn am-btn-default"
+					onclick="javascript:window.location.href='#(CPATH)/scheduler/addserver';return false;">
+						<span class="am-icon-plus"></span> 新增
+					</button>
+				</div>
+			</div>
+		</div>
+		
+		<div class="am-u-sm-8">
+			<form class="am-form" action="#(CPATH)/scheduler/server" method="post">
+				<div class="am-u-sm-6">
+						<div class="am-form-group">
+							<select id="filter-server-type" name="qServerType">
+								<option value="all" #(qServerType =='all'||qServerType==''||qServerType==null?'selected':'') >所有类别</option>
+								<option value="fss" #(qServerType == 'fss'?'selected':'') >文件调度服务</option>
+								<option value="das" #(qServerType == 'das'?'selected':'') >数据分析服务</option>
+								<option value="dbs" #(qServerType == 'dbs'?'selected':'') >中央库服务</option>
+							</select>
+						</div>
+				</div>
+				<div class="am-u-sm-6">
+					<div class="am-input-group">
+						<input type="text" class="am-form-field" name="qKeyword" value="#(qKeyword??)"> <span
+							class="am-input-group-btn">
+							<button class="am-btn am-btn-default" type="submit">搜索</button>
+						</span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div class="am-g">
+		<div class="am-u-sm-12">
+			<form class="am-form">
+				<table class="am-table am-table-striped am-table-hover table-main">
+					<thead>
+						<tr>
+							<!-- <th class="table-check"><input type="checkbox" /></th> -->
+							<!-- <th class="table-id">ID</th>  -->
+							<th class="table-title">服务名称</th>
+							<th class="">类别</th>
+							<th class="">主机IP</th>
+							<th class="">端口</th>
+							<th class="table-set">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						#if(jobServerPage??)
+								#for(x : jobServerPage.getList())
+									<tr>
+										<td>#(x.name)</td>
+										<td class="am-text-xs">#(x.catalog=='fss'?'文件调度服务':(x.catalog=='das'?'数据分析服务':(x.catalog=='dbs'?'中央库服务':'&nbsp;')))</td>
+										<td class="am-text-xs">#(x.host)</td>
+										<td class="am-text-xs">#(x.port)</td>
+										<td>
+											<div class="am-dropdown" data-am-dropdown>
+								                <button class="am-btn am-btn-default am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-cog"></span> <span class="am-icon-caret-down"></span></button>
+								                <ul class="am-dropdown-content">
+								                  <li><a href="#" onclick="javascript:window.location.href='#(CPATH)/scheduler/editserver/#(x.id)';return false;">编辑</a></li>
+								                  <li>
+								                  	<a href="#" 
+								                  		onclick="javascript:deleteJobServer({'id':#(x.id), 'serverName':'#(x.name)', 'catalog':'#(x.catalog)', 'host':'#(x.host)', 'port': #(x.port)})">
+								                  		删除
+								                  	</a>
+								                  	</li>
+								                </ul>
+								            </div>
+										</td>
+									</tr>
+								#end
+							#end
+					</tbody>
+				</table>
+				#if(jobServerPage??)
+					#@paginate(jobServerPage.pageNumber, jobServerPage.totalPage, CPATH+"/scheduler/server",jobServerPage.totalRow)
+				#end
+				<hr />
+				<p>注：Sever服务信息请勿随便删除，否则将无法进行Scheduler job管理</p>
+			</form>
+		</div>
+	</div>
+	
+	
+</div>
+
+<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">Server服务删除操作</div>
+    <div class="am-modal-bd">
+             你，确定要删除这条记录 "<span id="will-be-del-item" class="am-text-warning"></span>" 吗？
+    </div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+      <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+function deleteJobServer(data) {
+	$(".am-alert").remove();
+	$("#will-be-del-item").html(data['serverName'] + "(" + data['host'] + ":" + data['port'] + ")");
+	$('#my-confirm').modal({
+        relatedTarget: data,
+        onConfirm: function(options) {
+          var data = this.relatedTarget;
+          $.ajax({
+      		type: "POST",
+      		dataType: "json",
+      		url: "#(CPATH)/scheduler/deletejobserver",
+      		data: {
+      			'serverId': data['id']
+      		},
+      		success: function(rsp){
+      			if(rsp['code']==1){
+      				location.href = "#(CPATH)/scheduler/server";
+                	return true;
+                } else {
+                	$("#hr").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '！</p></div>');
+                    return false;
+      			}
+      		}
+      	});
+          
+        },
+        // closeOnConfirm: false,
+        onCancel: function() {
+          //do nothing
+        }
+	});
+}
+
+</script>
+
+#end

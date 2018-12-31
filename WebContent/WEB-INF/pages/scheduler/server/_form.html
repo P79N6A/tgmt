@@ -1,0 +1,48 @@
+
+	<legend> 	
+		#if(jobServer==null) 
+			添加Server 
+		#else
+			修改Server
+		#end 
+	</legend>
+	<input type="hidden" id="server-id" name="server.id" value="#(jobServer.id??)" />
+	
+	<div class="am-form-group">
+		<label for="serverName">服务名称</label> 
+		<input type="text"
+			class="" id="serverName" name="server.name" placeholder="服务名称"
+			value="#(jobServer.name??)" required>
+	</div>
+	
+	<div class="am-form-group">
+		<label for="serverHost">服务地址(IP或域名)</label>
+		<input type="text" class="" id="serverHost" name="server.host"
+			placeholder="服务地址" value="#(jobServer.host??)" required>
+	</div>
+
+	<div class="am-form-group">
+		<label for="serverPort">服务端口(例如：22)</label> 
+		<input type="text"
+			class="" id="serverPort" name="server.port"
+			placeholder="服务端口" value="#(jobServer.port??)" required>
+	</div>
+
+	<div class="am-form-group">
+		<label for="serverType">类型</label> <select id="serverType"
+			name="server。catalog">
+			<option value="">--请选择服务类别--</option>
+			<option value="fss" #(jobServer!=null && jobServer.catalog=='fss'?'selected':'') >文件调度服务</option>
+			<option value="das" #(jobServer!=null && jobServer.catalog=='das'?'selected':'') >数据分析服务</option>
+			<option value="dbs" #(jobServer!=null && jobServer.catalog=='dbs'?'selected':'') >中央库服务</option>
+		</select>
+		<span class="am-form-caret"></span>
+	</div>
+
+	<div class="am-form-group">
+		<label for="serverDesc">服务描述: </label> 
+		<textarea name="server.description" class="" rows="5" id="serverDesc">#(jobServer.description??)</textarea>
+	</div>
+
+	
+

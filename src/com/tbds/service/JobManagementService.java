@@ -22,6 +22,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
 import com.tbds.model.eo.JobTemplate;
+import com.tbds.model.eo.Server;
 import com.tbds.util.FileUtil;
 import com.tbds.util.StrUtil;
 
@@ -72,14 +73,16 @@ public class JobManagementService {
 		}
 		
 		if(StrUtil.notBlank(keyword)) {
-			whereSql += " and template_name like concat('%', ?, '%')";
+			whereSql += " and ( ";
+			whereSql += " or template_name like concat('%', ?, '%')";
 			paras.add(keyword);
 			
-			whereSql += " and description like concat('%', ?, '%')";
+			whereSql += " or description like concat('%', ?, '%')";
 			paras.add(keyword);
 			
-			whereSql += " and file_path like concat('%', ?, '%')";
+			whereSql += " or file_path like concat('%', ?, '%')";
 			paras.add(keyword);
+			whereSql += " ) ";
 		}
 		
 		String from_whereSql = " from tbds_job_template " + whereSql + " order by id asc" ;
@@ -113,6 +116,26 @@ public class JobManagementService {
 	}
 	
 	/**
+	 * 出现错误时，需要删除已上传的临时文件
+	 * @param templateFile
+	 * @return
+	 */
+	public static boolean removeTempUploadFile(UploadFile templateFile) {
+		boolean isRemoved = false;
+		String uploadFilePath = templateFile.getUploadPath();
+		String uploadFileName = templateFile.getFileName();
+		//String originalUploadFileName = templateFile.getOriginalFileName();
+		
+		File originalTemplateFile = new File(uploadFilePath + "/" + uploadFileName);
+		if(!originalTemplateFile.exists()) {
+			isRemoved = true;
+		} else {
+			isRemoved = originalTemplateFile.delete();
+		}
+		return isRemoved;
+	} 
+	
+	/**
 	 * 保存模板 + 附件
 	 * @param name
 	 * @param type
@@ -140,6 +163,9 @@ public class JobManagementService {
 		//检查上传源文件是否存在，不存在，则报错！
 		File originalTemplateFile = new File(uploadFilePath + "/" + uploadFileName);
 		if(!originalTemplateFile.exists()) {
+			//业务异常，同时需要删除已上传的文件
+			removeTempUploadFile(templateFile);
+			
 			resp.put("code", -1);
 			resp.put("msg", "模板xml文件找不到，请检查！");
 			return resp;
@@ -151,6 +177,9 @@ public class JobManagementService {
 		boolean moveFile = originalTemplateFile.renameTo(new File(absoluteTemplateNewFilePath));
 		
 		if(!moveFile) {
+			//业务异常，同时需要删除已上传的文件
+			removeTempUploadFile(templateFile);
+			
 			resp.put("code", 0);
 			resp.put("msg", "生成模板正式xml文件失败，请检查！");
 			return resp;
@@ -169,6 +198,9 @@ public class JobManagementService {
 			resp.put("code", 1);
 			resp.put("msg", "模板保存成功！");
 		} else {
+			//业务异常，同时需要删除已上传的文件
+			removeTempUploadFile(templateFile);
+			
 			resp.put("code", 0);
 			resp.put("msg", "模板保存失败，请检查！");
 		}
@@ -259,6 +291,9 @@ public class JobManagementService {
 		JobTemplate jt = findTemplateById(id);
 		
 		if(jt == null) {
+			//业务异常，同时需要删除已上传的文件
+			removeTempUploadFile(templateFile);
+			
 			resp.put("code", -1);
 			resp.put("msg", "更新模板xml文件失败！");
 			return resp;
@@ -428,7 +463,23 @@ public class JobManagementService {
 		
 		JobTemplate jt = findTemplateById(templateId);
 		if(jt != null) {
-			boolean flag = jt.delete();
+			
+			String filePath = jt.getFilePath();
+			
+			File templateFile = new File(filePath);
+			
+			//记得删除记录的同时，需要删除对应的模板文件
+			boolean flag = Db.tx(() -> {
+				
+				if(templateFile.exists()) {
+					templateFile.delete();
+				}
+				
+				jt.delete();
+				
+				return true;
+			});
+			
 			
 			if(flag) {
 				resp.put("code", 1);
@@ -442,8 +493,160 @@ public class JobManagementService {
 		}
 		
 		return resp;
+	}
+	
+	
+	private static Page<Server> execSearchServer(int pageNumber, int pageSize, 
+			String serverType, String keyword) {
 		
+		Page<Server> result = null;
 		
+		List<Object> paras = new  ArrayList<Object>();
+		
+		String whereSql = " where 1=1 ";
+		
+		if(StrUtil.notBlank(serverType) && !"all".equalsIgnoreCase(serverType)) {
+			whereSql += " and catalog = ? ";
+			paras.add(serverType);
+		} 
+		
+		if(StrUtil.notBlank(keyword)) {
+			whereSql += " and ( ";
+			whereSql += " name like concat('%', ?, '%')";
+			paras.add(keyword);
+			
+			whereSql += " or host like concat('%', ?, '%')";
+			paras.add(keyword);
+			
+			whereSql += " or port like concat('%', ?, '%')";
+			paras.add(keyword);
+			
+			whereSql += " or description like concat('%', ?, '%')";
+			paras.add(keyword);
+			whereSql += " ) ";
+			
+		}
+		
+		String from_whereSql = " from tbds_server " + whereSql + " order by id asc" ;
+		
+		if(null == paras || paras.isEmpty()) {
+			result = Server.dao.paginate(pageNumber, pageSize, "select *", from_whereSql);
+		} else {
+			if(paras.size() == 1) {
+				result = Server.dao.paginate(pageNumber, pageSize, "select *", from_whereSql, paras.get(0));
+			} else if(paras.size() == 2) {
+				result = Server.dao.paginate(pageNumber, pageSize, "select *", from_whereSql, paras.get(0), paras.get(1));
+			} else if(paras.size() == 3) {
+				result = Server.dao.paginate(pageNumber, pageSize, "select *", from_whereSql, paras.get(0), paras.get(1), paras.get(2));
+			} else if(paras.size() == 4) {
+				result = Server.dao.paginate(pageNumber, pageSize, "select *", from_whereSql, paras.get(0), paras.get(1), paras.get(2), paras.get(3));
+			} else if(paras.size() == 5) {
+				result = Server.dao.paginate(pageNumber, pageSize, "select *", from_whereSql, paras.get(0), paras.get(1), paras.get(2), paras.get(3), paras.get(4));
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 查找Server By ID
+	 * @param serverId
+	 * @return
+	 */
+	public static Server findServerById(long serverId) {
+		return Server.dao.findById(serverId);
+	}
+	
+	/**
+	 * 查询Server
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return
+	 */
+	public static Page<Server> serverPaginate(int pageNumber, int pageSize, String serverType, String keyword) {
+		return execSearchServer(pageNumber, pageSize, serverType, keyword);
+	}
+	
+	public static JSONObject saveJobServer(String name, String host, int port, String catalog, String description) {
+		JSONObject resp = new JSONObject();
+		
+		Server dao = new Server();
+		dao.setName(name);
+		dao.setHost(host);
+		dao.setPort(port);
+		dao.setCatalog(catalog);
+		dao.setDescription(description);
+		
+		boolean flag = dao.save();
+		if(flag) {
+			resp.put("id", dao.getId());
+			resp.put("code", 1);
+			resp.put("msg", "添加Server成功！");
+		} else {
+			resp.put("code", 0);
+			resp.put("msg", "添加Server失败，请检查！");
+		}
+		return resp;
+		
+	}
+	
+	public static JSONObject updateJobServer(Long id, String name, String host, int port, String catalog, String description) {
+		JSONObject resp = new JSONObject();
+		
+		if(id > 0) {
+			
+			Server jobSerer = findServerById(id);
+			
+			if(jobSerer == null) {
+				resp.put("code", -1);
+				resp.put("msg", "更新失败,找不到对应的Server服务！");
+				return resp;
+			}
+			
+			jobSerer.setName(name);
+			jobSerer.setHost(host);
+			jobSerer.setPort(port);
+			jobSerer.setCatalog(catalog);
+			jobSerer.setDescription(description);
+			
+			boolean flag = jobSerer.update();
+			
+			if(flag) {
+				resp.put("code", 1);
+				resp.put("msg", "更新Server成功");
+			} else {
+				resp.put("code", 0);
+				resp.put("msg", "更新Server失败,请检查！");
+			}
+			
+		} else {
+			resp.put("code", 0);
+			resp.put("msg", "更新失败,找不到对应的Server服务！");
+		}
+		
+		return resp;
+		
+	}
+	
+	public static JSONObject deleteServerById(long serverId) {
+		JSONObject resp = new JSONObject();
+		
+		Server jobServer = findServerById(serverId);
+		if(jobServer != null) {
+			boolean flag = jobServer.delete();
+			
+			if(flag) {
+				resp.put("code", 1);
+				resp.put("msg", "删除Server服务成功！");
+				return resp;
+			}
+			
+		} else {
+			resp.put("code", -1);
+			resp.put("msg", "删除Server服务失败！");
+		}
+		
+		return resp;
 	}
 
 	public static boolean generateMpsJobFromTemplateXml(String type) {

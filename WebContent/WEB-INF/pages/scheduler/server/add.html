@@ -1,0 +1,94 @@
+#@layout(title="添加Server服务")
+
+#define content()
+
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg"><a href="#(CPATH)/mps">Server管理</a></strong> / <small>添加Server信息</small></div>
+    </div>
+
+    <hr id="add-mps-msg">
+
+    <div class="am-g">
+        <div class="am-u-sm-10">
+            <form class="am-form  am-form-horizontal" action="#(CPATH)/scheduler/saveserver" method="post">
+            	<fieldset>
+            	
+            		#include("_form.html")
+                	
+                	<div class="am-form-group">
+						<!--begin 提交保存按钮 -->
+						<div class="am-form-group am-margin">
+							<button type="button" class="am-btn am-btn-primary am-btn-default" 
+							onclick="saveServer()">提交保存</button>
+							
+							<button type="button" 
+							class="am-btn am-btn-primary am-btn-default" 
+							onclick="javascript:location.href='#(CPATH)/scheduler/server';return false;">返回</button>		
+						</div>
+						<!--end 提交保存按钮 -->
+					</div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+<script type="text/javascript">
+
+function saveServer() {
+	
+	$('.am-alert').remove();
+	
+	var name = $("#serverName").val();
+	if(name == "") {
+	 	$("#serverName").after('<div id="serverHostNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入服务名称！</p></div>');
+	 	return;
+	}
+
+	var host = $("#serverHost").val();
+	if(host=="") {
+		$("#serverHost").after('<div id="serverHostNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入服务地址！</p></div>');
+		return;
+	}
+	
+	var port = $("#serverPort").val();
+	if(port=="") {
+		$("#serverPort").after('<div id="serverPortNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请输入服务端口！</p></div>');
+		return;
+	}
+	
+	var type = $("#serverType").val();
+	if(type=="") {
+		$("#serverType").after('<div id="serverCatalogNullErr" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>请选择服务类别！</p></div>');
+		return;
+	}
+	
+	$.ajax({
+		type: "POST",
+		dataType: "json",
+		url: "#(CPATH)/scheduler/savejobserver",
+		data: {
+			'name': name,
+			'host': host,
+			'port': port,
+			'catalog': type,
+			'description': $("#serverDesc").val()
+		},
+		success: function(rsp){
+			if(rsp['code']==1){
+				location.href = "#(CPATH)/scheduler/editserver/" + rsp["id"];
+          		return true;
+          	} else {
+          		$("#hr").after('<div id="result_msg" class="am-alert am-alert-danger" data-am-alert><button type="button" class="am-close">&times;</button><p>' + rsp['msg'] + '！</p></div>');
+              	return false;
+			}
+		}
+	});
+	
+}
+</script>
+
+#end

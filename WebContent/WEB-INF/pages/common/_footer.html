@@ -81,7 +81,11 @@ $(function(){
 		
 		$("#md40").collapse('open');
 		
-		if(currentPath.indexOf("template") != -1) {
+		if(currentPath.indexOf("server") != -1) {
+			
+			$("#job-server-mnt").addClass("am-text-danger");
+			
+		} else if(currentPath.indexOf("template") != -1) {
 			
 			$("#job-template-mnt").addClass("am-text-danger");
 			

@@ -64,15 +64,18 @@ public class JobController extends TbdsBaseController {
 	public void savejobtemplate() {
 		JSONObject resp = new JSONObject();		
 		
-		UploadFile ufile = this.getFile("templateFile");
-		if(null == ufile || StrUtil.isBlank(ufile.getOriginalFileName())) {
+		UploadFile templateFile = this.getFile("templateFile");
+		if(null == templateFile || StrUtil.isBlank(templateFile.getOriginalFileName())) {
 			resp.put("code", -1);
 			resp.put("msg", "缺少模板文件，请上传模板xml文件！");
 			renderJson(resp);
 			return;
 		} else {
-			String originalFileName = ufile.getOriginalFileName();
+			String originalFileName = templateFile.getOriginalFileName();
 			if(!FileUtil.isXmlByFileExtension(originalFileName)) {
+				//此处需要删除已上传的文件
+				JobManagementService.removeTempUploadFile(templateFile);
+				
 				resp.put("code", -1);
 				resp.put("msg", "模板文件必需为xml文件！");
 				renderJson(resp);
@@ -86,7 +89,7 @@ public class JobController extends TbdsBaseController {
 		String templateDescription = getPara("templateDescription");
 		
 		//执行保存操作
-		resp = JobManagementService.saveTemplateWithAttachment(templateName, templateType, templateApplication, templateDescription, ufile);		
+		resp = JobManagementService.saveTemplateWithAttachment(templateName, templateType, templateApplication, templateDescription, templateFile);		
 		
 		renderJson(resp);
 	}
@@ -96,8 +99,6 @@ public class JobController extends TbdsBaseController {
 		if(templateId != null && templateId > 0) {
 			String downloadFileName = JobManagementService.getTemplateAttachmentFilePath(templateId);
 			if(StrUtil.notBlank(downloadFileName)) {
-				//System.out.println(">>>>>>>>>>>>>>>>>" + downloadFileName);
-				
 				File downloadFile = new File(downloadFileName);
 				
 				if(downloadFile.exists()) {//渲染文件
@@ -117,16 +118,21 @@ public class JobController extends TbdsBaseController {
 	public void overrideTemplateAttachment() {
 		JSONObject resp = new JSONObject();
 		
+		UploadFile templateFile = this.getFile("templateFile");
 		Long templateId = this.getParaToLong("templateId");
 		
 		if(templateId == null || templateId == 0) {
+			
+			//此处需要删除已上传的文件
+			JobManagementService.removeTempUploadFile(templateFile);
+			
 			resp.put("code", -1);
 			resp.put("msg", "缺少模板信息，更新模板xml文件失败！");
 			renderJson(resp);
 			return;
 		}
 		
-		UploadFile templateFile = this.getFile("templateFile");
+		
 		if(null == templateFile || StrUtil.isBlank(templateFile.getOriginalFileName())) {
 			resp.put("code", -1);
 			resp.put("msg", "缺少模板文件，请上传模板xml文件！");
@@ -135,6 +141,9 @@ public class JobController extends TbdsBaseController {
 		} else {
 			String originalFileName = templateFile.getOriginalFileName();
 			if(!FileUtil.isXmlByFileExtension(originalFileName)) {
+				//此处需要删除已上传的文件
+				JobManagementService.removeTempUploadFile(templateFile);
+				
 				resp.put("code", -1);
 				resp.put("msg", "模板文件必需为xml文件！");
 				renderJson(resp);
@@ -236,4 +245,106 @@ public class JobController extends TbdsBaseController {
 		
 	}
 	
+	/**
+	 * Server Index Page
+	 */
+	public void server() {
+		int currentPageIndex = getParaToInt(0, 1);
+		
+		String qServerType = getPara("qServerType");
+		String keyword = getPara("qKeyword");
+		
+		if (StrUtil.notBlank(keyword) || StrUtil.notBlank(qServerType)) {
+			// 处理keyword传入：解码处理（中文keyword）
+			if (StrUtil.notBlank(keyword)) {
+				try {
+					keyword = URLDecoder.decode(keyword, "UTF-8");
+				} catch (UnsupportedEncodingException ex) {
+					System.err.println(ex.getMessage());
+				}
+			}
+			// 通过keyword进一步搜索查询
+			setAttr("jobServerPage", JobManagementService.serverPaginate(currentPageIndex, 10, qServerType, keyword));
+			
+			setAttr("qServerType", qServerType);
+			setAttr("qKeyword", keyword);
+
+		} else {
+			setAttr("jobServerPage", JobManagementService.serverPaginate(currentPageIndex, 10, null, null));
+		}
+		
+		render("server/index.html");
+	}
+	
+	
+	public void addserver() {
+		render("server/add.html");
+	}
+	
+	public void savejobserver() {
+		JSONObject resp = new JSONObject();
+		
+		String name = getPara("name");
+		String host = getPara("host");
+		Integer port = getParaToInt("port");
+		String catalog = getPara("catalog");
+		String description = getPara("description");
+		
+		if(StrUtil.isBlank(name) || StrUtil.isBlank(host) || StrUtil.isBlank(catalog) || port<=0 || port == null) {
+			resp.put("code", -1);
+			resp.put("msg", "缺少必填项，请检查！");
+			renderJson(resp);
+			return;
+		}
+		
+		//更新操作结果渲染返回
+		resp = JobManagementService.saveJobServer(name, host, port, catalog, description);
+		renderJson(resp);
+	}
+	
+	public void updatejobserver() {
+		JSONObject resp = new JSONObject();
+		
+		Long id = getParaToLong("id");
+		String name = getPara("name");
+		String host = getPara("host");
+		Integer port = getParaToInt("port");
+		String catalog = getPara("catalog");
+		String description = getPara("description");
+		
+		if(id == null || id <= 0 || StrUtil.isBlank(name) || StrUtil.isBlank(host) || StrUtil.isBlank(catalog) || port<=0 || port == null) {
+			resp.put("code", -1);
+			resp.put("msg", "缺少必填项，请检查！");
+			renderJson(resp);
+			return;
+		}
+		
+		//更新操作结果渲染返回
+		resp = JobManagementService.saveJobServer(name, host, port, catalog, description);
+		renderJson(resp);
+	}
+	
+	public void editserver() {
+		Long id = getParaToLong();
+		if(id != null && id > 0) {
+			setAttr("jobServer", JobManagementService.findServerById(id));
+		}
+		render("server/edit.html");
+	}
+	
+	public void deletejobserver() {
+		JSONObject resp = new JSONObject();
+		Long id = getParaToLong("serverId");
+		
+		if(id == null || id == 0) {
+			resp.put("code", -1);
+			resp.put("msg", "操作失败，请检查！");
+			renderJson(resp);
+			return;
+		}
+		
+		//执行查询并删除操作
+		resp = JobManagementService.deleteServerById(id);
+		renderJson(resp);
+	}
 }
