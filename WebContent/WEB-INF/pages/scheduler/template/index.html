@@ -42,6 +42,7 @@
 							<option value="all" #(qTemplateType =='all'||qRoleType==null?'':'selected') >所有模板类型</option>
 							<option value="job" #(qTemplateType == 'job'?'selected':'') >job</option>
 							<option value="job_chain" #(qTemplateType == 'job_chain'?'selected':'') >job_chain</option>
+							<option value="config" #(qTemplateType == 'config'?'selected':'') >job_chain_config</option>
 							<option value="job_chain_order" #(qTemplateType == 'job_chain_order'?'selected':'') >job_chain_order</option>
 						</select>
 					</div>
@@ -49,10 +50,13 @@
 				<div class="am-u-sm-3">
 					<div class="am-form-group">
 						<select id="template-application" name="qTemplateApplication">
-							<option value="all" #(qTemplateApplication =='all'||qTemplateApplication==null?'':'selected') >所有用途类别</option>
-							<option value="mps_fss" #(qTemplateApplication == 'mps_fss'?'selected':'') >收集数据</option>
-							<option value="fss_das" #(qTemplateApplication == 'fss_das'?'selected':'') >接收与备份数据</option>
-							<option value="das_dbs" #(qTemplateApplication == 'das_dbs'?'selected':'') >解码数据</option>
+							<option value="all" #(qTemplateApplication =='all'||qTemplateApplication==null?'':'selected') >所有操作类别</option>
+							<option value="@mps" #(qTemplateApplication == '@mps'?'selected':'') >@MPS</option>
+							<option value="mps2fss" #(qTemplateApplication == 'mps2fss'?'selected':'') >MPS-2-FSS</option>
+							<option value="@fss" #(qTemplateApplication == 'fss'?'selected':'') >@FSS</option>
+							<option value="fss2das" #(qTemplateApplication == 'fss2das'?'selected':'') >FSS-2-DAS</option>
+							<option value="@das" #(qTemplateApplication == '@das'?'selected':'') >@DAS</option>
+							<option value="das2dbs" #(qTemplateApplication == 'das_dbs'?'selected':'') >DAS-2-DBS</option>
 						</select>
 					</div>
 				</div>
@@ -78,7 +82,7 @@
 							<tr>
 								<th class="table-title">模板名称</th>
 								<th class="am-hide-sm-only">模板类型</th>
-								<th class="am-hide-sm-only">用途类别</th>
+								<th class="am-hide-sm-only">操作类别</th>
 								<th class="am-hide-sm-only">文件地址</th>
 								<th class="am-hide-sm-only">说明</th>
 								<th class="table-set">操作</th>
@@ -89,8 +93,22 @@
 								#for(x : jobTemplatePage.getList())
 									<tr>
 										<td>#(x.templateName)</td>
-										<td class="am-text-xs">#(x.templateType)</td>
-										<td class="am-text-xs">#(x.templateApplication=='mps_fss'?'收集数据':(x.templateApplication=='fss_das'?'接收与备份数据':(x.templateApplication=='das_dbs'?'解码数据':'&nbsp;')))</td>
+										<td class="am-text-xs">#(x.templateType=='config'?'job_chain_config':x.templateType)</td>
+										<td class="am-text-xs">
+											#if(x.templateApplication=='@mps')
+												@MPS
+											#else if(x.templateApplication=='mps2fss')
+												MPS-2-FSS
+											#else if(x.templateApplication=='@fss')
+												@FSS
+											#else if(x.templateApplication=='fss2das')
+												FSS-2-DAS
+											#else if(x.templateApplication=='@das')
+												@DAS
+											#else if(x.templateApplication=='@das2dbs')
+												DAS-2-DBS
+											#end
+										</td>
 										<td class="am-text-xs">#(x.relativeFilePath)</td>
 										<td class="am-text-xs">#(x.description)</td>
 										<td>
@@ -117,7 +135,7 @@
 						jobTemplatePage.totalRow)
 					#end
 					<hr />
-					<p class="am-text-xs">注：模板中需要替换的字段值，请以"{{}}"括起来</p>
+					<span class="am-text-xs">注：模板中需要替换的字段值，请以"{{xxx}}"括起来</span>
 										
 			</div>
     </div>

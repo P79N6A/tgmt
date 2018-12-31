@@ -35,14 +35,14 @@ public class JobController extends TbdsBaseController {
 				}
 			}
 			// 通过keyword进一步搜索查询
-			setAttr("jobTemplatePage", JobManagementService.templatePaginate(currentPageIndex, 10, qTemplateType, qTemplateApplication, keyword));
+			setAttr("jobTemplatePage", JobManagementService.templatePaginate(currentPageIndex, 12, qTemplateType, qTemplateApplication, keyword));
 			
 			setAttr("qTemplateType", qTemplateType);
 			setAttr("qTemplateApplication", qTemplateApplication);
 			setAttr("qKeyword", keyword);
 
 		} else {
-			setAttr("jobTemplatePage", JobManagementService.templatePaginate(currentPageIndex, 10));
+			setAttr("jobTemplatePage", JobManagementService.templatePaginate(currentPageIndex, 12));
 		}
 		render("template/index.html");
 	}
@@ -246,7 +246,7 @@ public class JobController extends TbdsBaseController {
 	}
 	
 	/**
-	 * Server Index Page
+	 * Server管理首页
 	 */
 	public void server() {
 		int currentPageIndex = getParaToInt(0, 1);
@@ -276,11 +276,16 @@ public class JobController extends TbdsBaseController {
 		render("server/index.html");
 	}
 	
-	
+	/**
+	 * 	添加Server
+	 */
 	public void addserver() {
 		render("server/add.html");
 	}
 	
+	/**
+	 *	 保存新添加的Server服务信息
+	 */
 	public void savejobserver() {
 		JSONObject resp = new JSONObject();
 		
@@ -302,6 +307,9 @@ public class JobController extends TbdsBaseController {
 		renderJson(resp);
 	}
 	
+	/**
+	 * 	更新Server服务信息
+	 */
 	public void updatejobserver() {
 		JSONObject resp = new JSONObject();
 		
@@ -324,6 +332,9 @@ public class JobController extends TbdsBaseController {
 		renderJson(resp);
 	}
 	
+	/**
+	 * 	编辑Server服务
+	 */
 	public void editserver() {
 		Long id = getParaToLong();
 		if(id != null && id > 0) {
@@ -332,6 +343,9 @@ public class JobController extends TbdsBaseController {
 		render("server/edit.html");
 	}
 	
+	/**
+	 * Server服务删除操作
+	 */
 	public void deletejobserver() {
 		JSONObject resp = new JSONObject();
 		Long id = getParaToLong("serverId");
@@ -347,4 +361,15 @@ public class JobController extends TbdsBaseController {
 		resp = JobManagementService.deleteServerById(id);
 		renderJson(resp);
 	}
+	
+	/**
+	 * Job管理
+	 */
+	public void job() {
+		
+		
+		render("job/index.html");
+	}
+	
+	
 }

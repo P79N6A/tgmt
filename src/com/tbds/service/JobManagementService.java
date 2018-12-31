@@ -172,7 +172,8 @@ public class JobManagementService {
 		}
 		
 		//移动xml文件到指定目录
-		String templateNewFileName = type + "_" +  name + "." + type + ".xml";
+		
+		String templateNewFileName = ("config".equals(type)?"job_chain":type) + "_" +  name + "." + type + ".xml";
 		String absoluteTemplateNewFilePath = templateFolderPath + "/" + templateNewFileName;
 		boolean moveFile = originalTemplateFile.renameTo(new File(absoluteTemplateNewFilePath));
 		
@@ -240,7 +241,7 @@ public class JobManagementService {
 			}
 			
 			String templateFolderPath = getTemplateFileStoredPath();
-			String templateNewFileName = type + "_" +  name + "." + type + ".xml";
+			String templateNewFileName = ("config".equals(type)?"job_chain":type) + "_" +  name + "." + type + ".xml";
 			String absoluteTemplateNewFilePath = templateFolderPath + "/" + templateNewFileName;
 			
 			//重新命名xml文件

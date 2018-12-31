@@ -14,17 +14,22 @@
 			<option value="">--请选择模板类型--</option>
 			<option value="job" #(null!=jobTemplate && jobTemplate.templateType == 'job'?'selected':'') >job</option>
 			<option value="job_chain" #(null!=jobTemplate && jobTemplate.templateType == 'job_chain'?'selected':'') >job_chain</option>
+			<option value="config" #(null!=jobTemplate && jobTemplate.templateType == 'config'?'selected':'') >job_chain_config</option>
 			<option value="job_chain_order" #(null!=jobTemplate && jobTemplate.templateType == 'job_chain_order'?'selected':'') >job_chain_order</option>
 		</select>
 	</div>
 	
 	<div class="am-form-group">
-		<label for="template-application">用途类别(*):</label> 
+		<label for="template-application">操作类别(*):</label> 
 		<select id="template-application" name="templateApplication">
-			<option value="">--请选择模板的用途类别--</option>
-			<option value="mps_fss" #(null!=jobTemplate && jobTemplate.templateApplication == 'collectdata'?'selected':'') >收集数据</option>
-			<option value="fss_das" #(null!=jobTemplate && jobTemplate.templateApplication == 'backupdata'?'selected':'') >接收与备份数据</option>
-			<option value="das_dbs" #(null!=jobTemplate && jobTemplate.templateApplication == 'backupdata'?'selected':'') >解码数据</option>
+			<option value="">--请选择模板的操作类别--</option>
+			<option value="@mps" #(null!=jobTemplate && jobTemplate.templateApplication == '@mps'?'selected':'') >@MPS</option>
+			<option value="mps2fss" #(null!=jobTemplate && jobTemplate.templateApplication == 'mps2fss'?'selected':'') >MPS-to-FSS</option>
+			<option value="@fss" #(null!=jobTemplate && jobTemplate.templateApplication == '@fss'?'selected':'') >@FSS</option>
+			<option value="fss2das" #(null!=jobTemplate && jobTemplate.templateApplication == 'fss2das'?'selected':'') >FSS-to-DAS</option>
+			<option value="@das" #(null!=jobTemplate && jobTemplate.templateApplication == '@das'?'selected':'') >@DAS</option>
+			<option value="das2dbs" #(null!=jobTemplate && jobTemplate.templateApplication == 'das2dbs'?'selected':'') >DAS-to-DBS</option>
+			
 		</select>
 	</div>
 	
