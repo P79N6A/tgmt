@@ -160,8 +160,8 @@ CREATE TABLE `tbds_job` (
   `job_chain_file` varchar(1000) DEFAULT NULL,
   `job_chain_order_file` varchar(1000) DEFAULT NULL,
   `job_chain_config_file` varchar(1000) DEFAULT NULL,
-  `job_depend_file1` varchar(1000) DEFAULT NULL,
-  `job_depend_file2` varchar(1000) DEFAULT NULL,
+  `job_depend_script_file` varchar(1000) DEFAULT NULL,
+  `job_depend_process_cls_file` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 

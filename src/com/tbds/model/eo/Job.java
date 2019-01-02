@@ -96,21 +96,21 @@ public class Job extends Model<Job> {
 	public java.lang.String getJobChainConfigFile() {
 		return getStr("job_chain_config_file");
 	}
-	//job依赖的文件1
-	public void setJobDenpendFile1(java.lang.String jobDependFile1) {
-		set("job_depend_file1", jobDependFile1);
+	//job依赖的文件script
+	public void setJobDependScriptFile(java.lang.String jobDependScriptFile) {
+		set("job_depend_script_file", jobDependScriptFile);
 	}
 	
-	public java.lang.String getJobDenpendFile1() {
-		return getStr("job_depend_file1");
+	public java.lang.String getJobDependScriptFile() {
+		return getStr("job_depend_script_file");
 	}
-	//job依赖的文件2
-	public void setJobDenpendFile2(java.lang.String jobDependFile2) {
-		set("job_depend_file2", jobDependFile2);
+	//job依赖的文件process class
+	public void setJobDependProcessClassFile(java.lang.String jobDependProcessClass) {
+		set("job_depend_process_cls_file", jobDependProcessClass);
 	}
 	
-	public java.lang.String getJobDenpendFile2() {
-		return getStr("job_depend_file2");
+	public java.lang.String getJobDependProcessClassFile() {
+		return getStr("job_depend_process_cls_file");
 	}
 	
 	
