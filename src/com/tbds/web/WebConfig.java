@@ -31,7 +31,7 @@ import com.tbds.model.eo.JobTemplate;
 import com.tbds.model.eo.Permission;
 import com.tbds.model.eo.Role;
 import com.tbds.model.eo.Server;
-import com.tbds.model.eo.ServerLink;
+import com.tbds.model.eo.Job;
 import com.tbds.model.eo.Transfer;
 import com.tbds.model.eo.TransferedFile;
 import com.tbds.model.eo.User;
@@ -167,7 +167,7 @@ public class WebConfig extends JFinalConfig {
 		/**
 		 * Server Links Management
 		 */
-		arp.addMapping("tbds_link", "id", ServerLink.class);
+		arp.addMapping("tbds_job", "id", Job.class);
 		
 
 		// 构建表与Model的关系，具体请参考Model工程中DbManager类

@@ -132,26 +132,38 @@ CREATE TABLE `tbds_server` (
   `description` VARCHAR(500) NULL,
   PRIMARY KEY (`id`));
   
-/**	表：tbds_link
+/**	表：tbds_job
  *	字段：id,
  *		source_id, source_name, source_host, source_port, source_type, 
  *		target_id, target_name, target_host, target_port, target_type, catalog, status（是否禁用：0：禁用，1：激活（一旦激活，就表示job等相关xml已生成））
  */
-CREATE TABLE `tbds_link` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `source_id` INT NULL,
-  `source_name` VARCHAR(500) NULL,
-  `source_host` VARCHAR(100) NULL,
-  `source_port` INT NULL,
-  `source_type` VARCHAR(100) NULL,
-  `target_id` INT NULL,
-  `target_name` VARCHAR(500) NULL,
-  `target_host` VARCHAR(100) NULL,
-  `target_port` INT NULL,
-  `target_type` VARCHAR(100) NULL,
-  `catalog` VARCHAR(255) NULL,
-  `status` INT NULL COMMENT '0:disabled,1:generated job xml and activated',
-  PRIMARY KEY (`id`));
+CREATE TABLE `tbds_job` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `job_name` varchar(255) DEFAULT NULL,
+  `opr_type` varchar(100) DEFAULT NULL,
+  `status` int(1) DEFAULT NULL COMMENT '0:disabled,1:generated job xml and activated',
+  `description` varchar(500) DEFAULT NULL,
+  `source_id` int(11) DEFAULT NULL,
+  `source_name` varchar(500) DEFAULT NULL,
+  `source_host` varchar(100) DEFAULT NULL,
+  `source_port` int(11) DEFAULT NULL,
+  `source_type` varchar(100) DEFAULT NULL,
+  `target_id` int(11) DEFAULT NULL,
+  `target_name` varchar(500) DEFAULT NULL,
+  `target_host` varchar(100) DEFAULT NULL,
+  `target_port` int(11) DEFAULT NULL,
+  `target_type` varchar(100) DEFAULT NULL,
+  `catalog` varchar(255) DEFAULT NULL,
+  `is_on_template` int(1) DEFAULT NULL,
+  `on_template_name` varchar(500) DEFAULT NULL,
+  `job_file` varchar(1000) DEFAULT NULL,
+  `job_chain_file` varchar(1000) DEFAULT NULL,
+  `job_chain_order_file` varchar(1000) DEFAULT NULL,
+  `job_chain_config_file` varchar(1000) DEFAULT NULL,
+  `job_depend_file1` varchar(1000) DEFAULT NULL,
+  `job_depend_file2` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
 
   
 

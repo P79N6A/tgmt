@@ -11,11 +11,94 @@
 		</div>
 	</div>
 
+	<hr id="separate">
+	
+	<div class="am-g">
+		<div class="am-u-sm-12">
+				<button class="am-btn am-btn-primary am-round" title="添加在MPS运行的Job">
+				  <i class="am-icon-plus-circle"></i>
+				  	@MPS Job
+				</button>
+				
+				<button class="am-btn am-btn-primary am-round" title="添加从MPS传输到FSS运行的Job">
+				  <i class="am-icon-plus-circle "></i>
+				  	MPS-to-FSS Job
+				</button>
+				
+				<button class="am-btn am-btn-primary am-round" title="添加在FSS运行的Job">
+				  <i class="am-icon-plus-circle"></i>
+				  	@FSS Job
+				</button>
+				
+				<button class="am-btn am-btn-primary am-round" title="添加从FSS传输到DAS运行的Job">
+				  <i class="am-icon-plus-circle"></i>
+				  	FSS-to-DAS Job
+				</button>
+				
+				<button class="am-btn am-btn-primary am-round" title="添加在DAS运行的Job">
+				  <i class="am-icon-plus-circle"></i>
+				  	@DAS Job
+				</button>
+				
+				<button class="am-btn am-btn-primary am-round" title="添加从DAS到DBS运行的Job">
+				  <i class="am-icon-plus-circle"></i>
+				  	DAS-to-DBS Job
+				</button>
+		</div>
+		
+	</div>
+	
 	<hr id="hr">
 	
+	<div class="am-g">
+		<div class="am-u-sm-12">
+			<form class="am-form" action="#(CPATH)/scheduler/job" method="post">
+				<div class="am-u-sm-6">
+						<div class="am-form-group">
+							<select id="template-application" name="qTemplateApplication">
+								<option value="all" #(qTemplateApplication =='all'||qTemplateApplication==null?'':'selected') >所有操作类别</option>
+								<option value="@mps" #(qTemplateApplication == '@mps'?'selected':'') >@MPS</option>
+								<option value="mps2fss" #(qTemplateApplication == 'mps2fss'?'selected':'') >MPS-2-FSS</option>
+								<option value="@fss" #(qTemplateApplication == 'fss'?'selected':'') >@FSS</option>
+								<option value="fss2das" #(qTemplateApplication == 'fss2das'?'selected':'') >FSS-2-DAS</option>
+								<option value="@das" #(qTemplateApplication == '@das'?'selected':'') >@DAS</option>
+								<option value="das2dbs" #(qTemplateApplication == 'das_dbs'?'selected':'') >DAS-2-DBS</option>
+							</select>
+						</div>
+				</div>
+				<div class="am-u-sm-6">
+					<div class="am-input-group">
+						<input type="text" class="am-form-field" name="qKeyword" value="#(qKeyword??)"> <span
+							class="am-input-group-btn">
+							<button class="am-btn am-btn-default" type="submit">搜索</button>
+						</span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 	
-
-
+	<div class="am-g">
+		<div class="am-u-sm-12">
+			<form class="am-form">
+				<table class="am-table am-table-striped am-table-hover table-main">
+					<thead>
+						<tr>
+							<!-- <th class="table-check"><input type="checkbox" /></th> -->
+							<!-- <th class="table-id">ID</th>  -->
+							<th class="table-title">Job名称</th>
+							<th class="">操作类别</th>
+							<th class="">Job状态</th>
+							<th class="">Job描述</th>
+							<th class="table-set">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</form>
+		</div>
+	</div>
 
 </div>
 
